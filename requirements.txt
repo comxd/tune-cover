@@ -1,0 +1,13 @@
+# TuneCover - Dependencies
+
+# GUI Framework
+PySide6>=6.5.0
+
+# Audio file handling
+mutagen>=1.47.0
+
+# HTTP requests
+requests>=2.28.0
+
+# Image manipulation (optional, but recommended for better OGG/Opus support)
+Pillow>=10.0.0

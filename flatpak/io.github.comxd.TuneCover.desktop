@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=TuneCover
+Comment=Fetch and embed album artwork in your music library
+Exec=tunecover
+Icon=io.github.comxd.TuneCover
+Terminal=false
+Type=Application
+Categories=AudioVideo;Audio;Music;
+Keywords=music;cover;album;artwork;tag;tunecover;
+StartupWMClass=tunecover

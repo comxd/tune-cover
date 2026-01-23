@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect x="8" y="8" width="112" height="112" rx="12" fill="#2d2d2d"/>
+
+  <!-- Vinyl record -->
+  <circle cx="64" cy="64" r="44" fill="#1a1a1a"/>
+  <circle cx="64" cy="64" r="40" fill="#333" stroke="#444" stroke-width="1"/>
+  <circle cx="64" cy="64" r="32" fill="#333" stroke="#444" stroke-width="0.5"/>
+  <circle cx="64" cy="64" r="24" fill="#333" stroke="#444" stroke-width="0.5"/>
+  <circle cx="64" cy="64" r="16" fill="#333" stroke="#444" stroke-width="0.5"/>
+
+  <!-- Center label -->
+  <circle cx="64" cy="64" r="14" fill="#e74c3c"/>
+  <circle cx="64" cy="64" r="3" fill="#1a1a1a"/>
+
+  <!-- Image icon overlay -->
+  <rect x="76" y="76" width="36" height="36" rx="4" fill="#3498db"/>
+  <circle cx="86" cy="86" r="4" fill="white"/>
+  <polygon points="78,108 94,92 100,98 108,88 108,108" fill="white" opacity="0.9"/>
+
+  <!-- Plus sign -->
+  <rect x="100" y="78" width="10" height="3" rx="1" fill="white"/>
+  <rect x="103" y="75" width="3" height="10" rx="1" fill="white"/>
+</svg>
