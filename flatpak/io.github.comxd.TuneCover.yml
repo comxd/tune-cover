@@ -1,0 +1,137 @@
+# TuneCover Flatpak Manifest
+#
+# Architecture: x86_64 only (requires glibc 2.34+)
+# Note: This manifest uses manylinux_2_34 x86_64 wheels for PySide6.
+#       ARM64/aarch64 is not currently supported. Contributions welcome!
+#
+# Build: flatpak-builder --force-clean build-dir io.github.comxd.TuneCover.yml
+# Test:  flatpak-builder --run build-dir io.github.comxd.TuneCover.yml tunecover
+#
+# Updating Python dependencies:
+#   1. Update versions in flatpak/requirements-flatpak.txt
+#   2. Run: uv run req2flatpak --requirements-file flatpak/requirements-flatpak.txt \
+#           --target-platforms 312-x86_64 --yaml
+#   3. Replace the python3-dependencies module sources with the output
+
+app-id: io.github.comxd.TuneCover
+runtime: org.kde.Platform
+runtime-version: '6.9'
+sdk: org.kde.Sdk
+command: tunecover
+
+finish-args:
+  # X11 + Wayland display
+  - --share=ipc
+  - --socket=x11
+  - --socket=fallback-x11
+  - --socket=wayland
+  # OpenGL for Qt rendering
+  - --device=dri
+  # Network for API calls (MusicBrainz, Discogs, Last.fm)
+  - --share=network
+  # Full filesystem access for music files (users may have music anywhere)
+  - --filesystem=host
+  # App config directory (XDG compliant)
+  - --filesystem=xdg-config/tunecover:create
+
+cleanup:
+  - /include
+  - /lib/pkgconfig
+  - /share/man
+  - '*.la'
+  - '*.a'
+
+modules:
+  # Chromaprint - audio fingerprinting library (required for pyacoustid)
+  # Same approach as MusicBrainz Picard: https://github.com/flathub/org.musicbrainz.Picard
+  - name: chromaprint
+    buildsystem: cmake-ninja
+    builddir: true
+    config-opts:
+      - -DCMAKE_BUILD_TYPE:STRING=Release
+      - -DBUILD_TOOLS:BOOL=ON
+      - -DBUILD_TESTS:BOOL=OFF
+    sources:
+      - type: archive
+        url: https://github.com/acoustid/chromaprint/releases/download/v1.6.0/chromaprint-1.6.0.tar.gz
+        sha256: 9d33482e56a1389a37a0d6742c376139fa43e3b8a63d29003222b93db2cb40da
+    cleanup:
+      - /include
+      - /lib/cmake
+      - /lib/pkgconfig
+
+  # Python dependencies - generated with req2flatpak
+  # To regenerate: uv run req2flatpak --requirements-file flatpak/requirements-flatpak.txt --target-platforms 312-x86_64 --yaml
+  - name: python3-dependencies
+    buildsystem: simple
+    build-commands:
+      - pip3 install --verbose --exists-action=i --no-index --find-links="file://${PWD}"
+        --prefix=${FLATPAK_DEST} --no-build-isolation certifi charset-normalizer idna urllib3
+        requests mutagen pillow pyyaml music-metadata-filter shiboken6 pyside6-essentials
+        pyside6-addons pyside6 audioread pyacoustid
+    sources:
+      - type: file
+        url: https://files.pythonhosted.org/packages/7e/16/fbe8e1e185a45042f7cd3a282def5bb8d95bb69ab9e9ef6a5368aa17e426/audioread-3.1.0-py3-none-any.whl
+        sha256: b30d1df6c5d3de5dcef0fb0e256f6ea17bdcf5f979408df0297d8a408e2971b4
+      - type: file
+        url: https://files.pythonhosted.org/packages/e6/ad/3cc14f097111b4de0040c83a525973216457bbeeb63739ef1ed275c1c021/certifi-2026.1.4-py3-none-any.whl
+        sha256: 9943707519e4add1115f44c2bc244f782c0249876bf51b6599fee1ffbedd685c
+      - type: file
+        url: https://files.pythonhosted.org/packages/c0/10/d20b513afe03acc89ec33948320a5544d31f21b05368436d580dec4e234d/charset_normalizer-3.4.4-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl
+        sha256: 11d694519d7f29d6cd09f6ac70028dba10f92f6cdd059096db198c283794ac86
+        only-arches: [x86_64]
+      - type: file
+        url: https://files.pythonhosted.org/packages/0e/61/66938bbb5fc52dbdf84594873d5b51fb1f7c7794e9c0f5bd885f30bc507b/idna-3.11-py3-none-any.whl
+        sha256: 771a87f49d9defaf64091e6e6fe9c18d4833f140bd19464795bc32d966ca37ea
+      - type: file
+        url: https://files.pythonhosted.org/packages/4e/1a/d029653405e17d5b898f7b3e11516413303b4638a9d4e2df5115ef1f919e/music_metadata_filter-3.0.0-py3-none-any.whl
+        sha256: 410e633b9881ef05181233badf39b1beca2460d9d3e496c2b7c07ae40444370b
+      - type: file
+        url: https://files.pythonhosted.org/packages/b0/7a/620f945b96be1f6ee357d211d5bf74ab1b7fe72a9f1525aafbfe3aee6875/mutagen-1.47.0-py3-none-any.whl
+        sha256: edd96f50c5907a9539d8e5bba7245f62c9f520aef333d13392a79a4f70aca719
+      - type: file
+        url: https://files.pythonhosted.org/packages/11/8f/48d0b77ab2200374c66d344459b8958c86693be99526450e7aee714e03e4/pillow-12.1.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl
+        sha256: a6dfc2af5b082b635af6e08e0d1f9f1c4e04d17d4e2ca0ef96131e85eda6eb17
+        only-arches: [x86_64]
+      - type: file
+        url: https://files.pythonhosted.org/packages/1e/c7/48a17b6a75888cf760a95f677cec5fe68fd00edf9072df14071008d9b2c0/pyacoustid-1.3.0.tar.gz
+        sha256: 5f4f487191c19ebb908270b1b7b5297f132da332b1568b96a914574c079ed177
+      - type: file
+        url: https://files.pythonhosted.org/packages/66/eb/54afe242a25d1c33b04ecd8321a549d9efb7b89eef7690eed92e98ba1dc9/pyside6-6.10.1-cp39-abi3-manylinux_2_34_x86_64.whl
+        sha256: 4053bf51ba2c2cb20e1005edd469997976a02cec009f7c46356a0b65c137f1fa
+        only-arches: [x86_64]
+      - type: file
+        url: https://files.pythonhosted.org/packages/94/3b/3ed951c570a15570706a89d39bfd4eaaffdf16d5c2dca17e82fc3ec8aaa6/pyside6_addons-6.10.1-cp39-abi3-manylinux_2_34_x86_64.whl
+        sha256: 330c229b58d30083a7b99ed22e118eb4f4126408429816a4044ccd0438ae81b4
+        only-arches: [x86_64]
+      - type: file
+        url: https://files.pythonhosted.org/packages/5f/8e/b69ba7fa0c701f3f4136b50460441697ec49ee6ea35c229eb2a5ee4b5952/pyside6_essentials-6.10.1-cp39-abi3-manylinux_2_34_x86_64.whl
+        sha256: e9ccbfb58c03911a0bce1f2198605b02d4b5ca6276bfc0cbcf7c6f6393ffb856
+        only-arches: [x86_64]
+      - type: file
+        url: https://files.pythonhosted.org/packages/8b/9d/b3589d3877982d4f2329302ef98a8026e7f4443c765c46cfecc8858c6b4b/pyyaml-6.0.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl
+        sha256: ba1cc08a7ccde2d2ec775841541641e4548226580ab850948cbfda66a1befcdc
+        only-arches: [x86_64]
+      - type: file
+        url: https://files.pythonhosted.org/packages/1e/db/4254e3eabe8020b458f1a747140d32277ec7a271daf1d235b70dc0b4e6e3/requests-2.32.5-py3-none-any.whl
+        sha256: 2462f94637a34fd532264295e186976db0f5d453d1cdd31473c85a6a161affb6
+      - type: file
+        url: https://files.pythonhosted.org/packages/56/ba/b50c1a44b3c4643f482afbf1a0ea58f393827307100389ce29404f9ad3b0/shiboken6-6.10.1-cp39-abi3-manylinux_2_34_x86_64.whl
+        sha256: f4221a52dfb81f24a0d20cc4f8981cb6edd810d5a9fb28287ce10d342573a0e4
+        only-arches: [x86_64]
+      - type: file
+        url: https://files.pythonhosted.org/packages/39/08/aaaad47bc4e9dc8c725e68f9d04865dbcb2052843ff09c97b08904852d84/urllib3-2.6.3-py3-none-any.whl
+        sha256: bf272323e553dfb2e87d9bfd225ca7b0f467b919d7bbd355436d3fd37cb0acd4
+
+  # Main application
+  - name: tunecover
+    buildsystem: simple
+    build-commands:
+      - pip3 install --verbose --exists-action=i --no-index --find-links="file://${PWD}"
+        --prefix=${FLATPAK_DEST} --no-build-isolation --no-deps .
+      - install -Dm644 resources/icons/app-icon.svg ${FLATPAK_DEST}/share/icons/hicolor/scalable/apps/${FLATPAK_ID}.svg
+      - install -Dm644 flatpak/${FLATPAK_ID}.desktop ${FLATPAK_DEST}/share/applications/${FLATPAK_ID}.desktop
+      - install -Dm644 flatpak/${FLATPAK_ID}.metainfo.xml ${FLATPAK_DEST}/share/metainfo/${FLATPAK_ID}.metainfo.xml
+    sources:
+      - type: dir
+        path: ..

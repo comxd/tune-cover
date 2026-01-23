@@ -1,0 +1,29 @@
+# Flatpak Python dependencies (pinned versions from uv.lock)
+#
+# To update:
+#   1. Run: uv lock (to update uv.lock)
+#   2. Extract versions: uv pip freeze | grep -E '^(certifi|charset|idna|urllib3|requests|mutagen|pillow|pyyaml|music|shiboken6|pyside6|audioread|pyacoustid)'
+#   3. Update this file with new versions
+#   4. Generate manifest: uv run req2flatpak --requirements-file flatpak/requirements-flatpak.txt --target-platforms 312-x86_64 --yaml
+#   5. Replace python3-dependencies sources in io.github.comxd.TuneCover.yml
+
+# Core dependencies (from pyproject.toml)
+certifi==2026.1.4
+charset-normalizer==3.4.4
+idna==3.11
+urllib3==2.6.3
+requests==2.32.5
+mutagen==1.47.0
+pillow==12.1.0
+pyyaml==6.0.3
+music-metadata-filter==3.0.0
+
+# PySide6 (Qt6 bindings)
+shiboken6==6.10.1
+pyside6-essentials==6.10.1
+pyside6-addons==6.10.1
+pyside6==6.10.1
+
+# Audio fingerprinting
+audioread==3.1.0
+pyacoustid==1.3.0

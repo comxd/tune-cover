@@ -1,0 +1,331 @@
+name: Build Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      create_release:
+        description: 'Create a GitHub release'
+        required: false
+        default: 'false'
+        type: boolean
+
+# Default: no permissions. Grant only what's needed per-job.
+permissions: {}
+
+jobs:
+  # ===========================================================================
+  # Linux: Flatpak build
+  # ===========================================================================
+  build-linux-flatpak:
+    runs-on: ubuntu-latest
+    steps:
+      # All actions pinned to SHA for security (supply chain protection)
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+
+      - name: Install Flatpak and flatpak-builder
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y flatpak flatpak-builder
+
+      - name: Add Flathub repository
+        run: |
+          sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+
+      # Cache Flatpak runtimes to avoid downloading ~1.5GB each time
+      - name: Cache Flatpak runtimes
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: ~/.local/share/flatpak
+          key: flatpak-kde-6.8-${{ runner.os }}-${{ hashFiles('flatpak/io.github.comxd.TuneCover.yml') }}
+          restore-keys: |
+            flatpak-kde-6.8-${{ runner.os }}-
+
+      - name: Install KDE Platform runtime
+        run: |
+          flatpak install -y --user flathub org.kde.Platform//6.8 org.kde.Sdk//6.8 || echo "::warning::KDE runtime installation failed, may already be cached"
+
+      - name: Build Flatpak
+        run: |
+          cd flatpak
+          flatpak-builder --force-clean --user --repo=repo build-dir io.github.comxd.TuneCover.yml
+
+      - name: Create Flatpak bundle
+        run: |
+          cd flatpak
+          flatpak build-bundle repo TuneCover-linux-x86_64.flatpak io.github.comxd.TuneCover
+
+      - name: Upload Flatpak artifact
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: TuneCover-linux-flatpak
+          path: flatpak/TuneCover-linux-x86_64.flatpak
+
+  # ===========================================================================
+  # Windows: PyInstaller build
+  # ===========================================================================
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@d4b2f3b6ecc6e67c4457f6d3e41ec42d3d0fcb86 # v5
+        with:
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
+
+      - name: Set up Python
+        run: uv python install 3.12
+
+      - name: Install dependencies
+        run: |
+          uv sync --frozen
+          uv pip install pyinstaller
+
+      # Download and install chromaprint for audio fingerprinting
+      - name: Install Chromaprint
+        shell: pwsh
+        run: |
+          $chromaprintUrl = "https://github.com/acoustid/chromaprint/releases/download/v1.6.0/chromaprint-fpcalc-1.6.0-windows-x86_64.zip"
+          Invoke-WebRequest -Uri $chromaprintUrl -OutFile chromaprint.zip
+          Expand-Archive -Path chromaprint.zip -DestinationPath chromaprint
+          Copy-Item chromaprint/chromaprint-fpcalc-1.6.0-windows-x86_64/fpcalc.exe -Destination packaging/
+          # Also get the DLL for bundling (optional, continue if fails)
+          $dllUrl = "https://github.com/acoustid/chromaprint/releases/download/v1.6.0/chromaprint-library-1.6.0-windows-x86_64.zip"
+          try {
+            Invoke-WebRequest -Uri $dllUrl -OutFile chromaprint-lib.zip
+            Expand-Archive -Path chromaprint-lib.zip -DestinationPath chromaprint-lib
+            Copy-Item chromaprint-lib/chromaprint-library-1.6.0-windows-x86_64/chromaprint.dll -Destination packaging/
+          } catch {
+            Write-Host "Warning: chromaprint.dll download failed. Audio fingerprinting may not work."
+          }
+
+      - name: Compile translations
+        run: uv run pybabel compile -d src/i18n/locales
+
+      - name: Build with PyInstaller
+        run: |
+          cd packaging
+          uv run pyinstaller tunecover.spec
+
+      - name: Create ZIP archive
+        shell: pwsh
+        run: |
+          Compress-Archive -Path packaging/dist/TuneCover -DestinationPath TuneCover-windows-x86_64.zip
+
+      - name: Upload Windows artifact
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: TuneCover-windows
+          path: TuneCover-windows-x86_64.zip
+
+  # ===========================================================================
+  # macOS Intel: PyInstaller build
+  # ===========================================================================
+  build-macos-intel:
+    runs-on: macos-13  # Intel runner (x86_64)
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@d4b2f3b6ecc6e67c4457f6d3e41ec42d3d0fcb86 # v5
+        with:
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
+
+      - name: Set up Python
+        run: uv python install 3.12
+
+      - name: Install dependencies
+        run: |
+          uv sync --frozen
+          uv pip install pyinstaller
+
+      # Install chromaprint for audio fingerprinting
+      - name: Install Chromaprint
+        run: brew install chromaprint
+
+      - name: Compile translations
+        run: uv run pybabel compile -d src/i18n/locales
+
+      - name: Generate macOS icon (ICNS)
+        run: ./packaging/generate-macos-icns.sh
+
+      - name: Build with PyInstaller
+        run: |
+          cd packaging
+          uv run pyinstaller tunecover-macos.spec
+
+      # Upload the .app bundle for Universal Binary creation
+      - name: Upload macOS Intel app bundle
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: TuneCover-macos-intel-app
+          path: packaging/dist/TuneCover.app
+
+  # ===========================================================================
+  # macOS Apple Silicon: PyInstaller build
+  # ===========================================================================
+  build-macos-arm:
+    runs-on: macos-latest  # Apple Silicon runner (arm64)
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@d4b2f3b6ecc6e67c4457f6d3e41ec42d3d0fcb86 # v5
+        with:
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
+
+      - name: Set up Python
+        run: uv python install 3.12
+
+      - name: Install dependencies
+        run: |
+          uv sync --frozen
+          uv pip install pyinstaller
+
+      # Install chromaprint for audio fingerprinting
+      - name: Install Chromaprint
+        run: brew install chromaprint
+
+      - name: Compile translations
+        run: uv run pybabel compile -d src/i18n/locales
+
+      - name: Generate macOS icon (ICNS)
+        run: ./packaging/generate-macos-icns.sh
+
+      - name: Build with PyInstaller
+        run: |
+          cd packaging
+          uv run pyinstaller tunecover-macos.spec
+
+      # Upload the .app bundle for Universal Binary creation
+      - name: Upload macOS ARM app bundle
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: TuneCover-macos-arm-app
+          path: packaging/dist/TuneCover.app
+
+  # ===========================================================================
+  # macOS: Create Universal Binary from Intel + ARM builds
+  # ===========================================================================
+  build-macos-universal:
+    needs: [build-macos-intel, build-macos-arm]
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+
+      - name: Download Intel app bundle
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: TuneCover-macos-intel-app
+          path: intel-app/TuneCover.app
+
+      - name: Download ARM app bundle
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: TuneCover-macos-arm-app
+          path: arm-app/TuneCover.app
+
+      - name: Create Universal Binary
+        run: |
+          echo "=== Creating Universal Binary ==="
+
+          # Use ARM app as base (it will be modified in place)
+          cp -R arm-app/TuneCover.app universal-app/
+
+          # Find all Mach-O binaries in the ARM app and merge with Intel counterparts
+          find universal-app/TuneCover.app -type f | while read -r arm_file; do
+            # Get relative path
+            rel_path="${arm_file#universal-app/TuneCover.app/}"
+            intel_file="intel-app/TuneCover.app/${rel_path}"
+
+            # Skip if Intel counterpart doesn't exist
+            if [[ ! -f "$intel_file" ]]; then
+              continue
+            fi
+
+            # Check if it's a Mach-O binary
+            if file "$arm_file" | grep -q "Mach-O"; then
+              echo "Combining: $rel_path"
+              # Create universal binary with lipo
+              lipo -create "$intel_file" "$arm_file" -output "${arm_file}.universal" 2>/dev/null || {
+                # If lipo fails (e.g., already universal or incompatible), keep the original
+                echo "  Skipping (lipo failed): $rel_path"
+                continue
+              }
+              mv "${arm_file}.universal" "$arm_file"
+            fi
+          done
+
+          echo "=== Universal Binary created ==="
+
+      - name: Verify Universal Binary
+        run: |
+          # Check main executable
+          echo "Main executable architectures:"
+          lipo -info universal-app/TuneCover.app/Contents/MacOS/TuneCover || echo "Could not check main executable"
+
+          # Count universal binaries
+          universal_count=$(find universal-app/TuneCover.app -type f -exec sh -c 'file "$1" | grep -q "universal binary"' _ {} \; -print | wc -l)
+          echo "Universal binaries created: $universal_count"
+
+      - name: Create Universal DMG
+        run: |
+          hdiutil create -volname "TuneCover" \
+            -srcfolder universal-app/TuneCover.app \
+            -ov -format UDZO \
+            TuneCover-macos-universal.dmg
+
+      - name: Upload Universal DMG
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: TuneCover-macos-universal
+          path: TuneCover-macos-universal.dmg
+
+  # ===========================================================================
+  # Create GitHub Release (on tag push)
+  # ===========================================================================
+  create-release:
+    needs: [build-linux-flatpak, build-windows, build-macos-universal]
+    runs-on: ubuntu-latest
+    # Only this job needs write permissions for creating releases
+    permissions:
+      contents: write
+    if: startsWith(github.ref, 'refs/tags/v')
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          path: artifacts
+
+      - name: List artifacts
+        run: find artifacts -type f -name "*.flatpak" -o -name "*.zip" -o -name "*.dmg"
+
+      - name: Extract version from tag
+        id: version
+        run: |
+          # GITHUB_REF is a trusted context variable (git tag ref), safe to use
+          TAG_REF="${GITHUB_REF}"
+          VERSION="${TAG_REF#refs/tags/v}"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+        env:
+          GITHUB_REF: ${{ github.ref }}
+
+      - name: Create Release
+        uses: softprops/action-gh-release@a06a81a03ee405af7f2048a818ed3f03bbf83c7b # v2
+        with:
+          name: TuneCover v${{ steps.version.outputs.version }}
+          draft: true
+          prerelease: false
+          generate_release_notes: true
+          files: |
+            artifacts/TuneCover-linux-flatpak/TuneCover-linux-x86_64.flatpak
+            artifacts/TuneCover-windows/TuneCover-windows-x86_64.zip
+            artifacts/TuneCover-macos-universal/TuneCover-macos-universal.dmg

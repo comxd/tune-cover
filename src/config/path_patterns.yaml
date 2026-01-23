@@ -1,0 +1,51 @@
+# Path patterns for extracting metadata from folder structure
+# Used when audio files have missing or empty tags
+#
+# Format: Each pattern uses Python regex with named groups:
+#   (?P<artist>...) - Artist name
+#   (?P<album>...)  - Album name
+#   (?P<year>...)   - Release year (4 digits)
+#
+# Patterns are tried in order - first match wins
+# The path matched is the album folder path relative to the music library root
+
+patterns:
+  # Artist/Year - Album
+  # Example: Pink Floyd/1973 - The Dark Side of the Moon
+  - pattern: "(?P<artist>[^/]+)/(?P<year>\\d{4})\\s*-\\s*(?P<album>.+?)/?$"
+    description: "Artist/Year - Album"
+
+  # Artist/Album (Year)
+  # Example: Pink Floyd/The Dark Side of the Moon (1973)
+  - pattern: "(?P<artist>[^/]+)/(?P<album>.+?)\\s*\\((?P<year>\\d{4})\\)/?$"
+    description: "Artist/Album (Year)"
+
+  # Artist/Album [Year]
+  # Example: Pink Floyd/The Dark Side of the Moon [1973]
+  - pattern: "(?P<artist>[^/]+)/(?P<album>.+?)\\s*\\[(?P<year>\\d{4})\\]/?$"
+    description: "Artist/Album [Year]"
+
+  # Artist - Album (Year) [flat structure]
+  # Example: Pink Floyd - The Dark Side of the Moon (1973)
+  - pattern: "(?P<artist>[^/]+)\\s*-\\s*(?P<album>.+?)\\s*\\((?P<year>\\d{4})\\)/?$"
+    description: "Artist - Album (Year)"
+
+  # Artist - Album [Year] [flat structure]
+  # Example: Pink Floyd - The Dark Side of the Moon [1973]
+  - pattern: "(?P<artist>[^/]+)\\s*-\\s*(?P<album>.+?)\\s*\\[(?P<year>\\d{4})\\]/?$"
+    description: "Artist - Album [Year]"
+
+  # Year - Artist - Album
+  # Example: 1973 - Pink Floyd - The Dark Side of the Moon
+  - pattern: "(?P<year>\\d{4})\\s*-\\s*(?P<artist>[^/]+?)\\s*-\\s*(?P<album>.+?)/?$"
+    description: "Year - Artist - Album"
+
+  # Artist/Album (no year) - must be last as it's the most permissive
+  # Example: Pink Floyd/The Dark Side of the Moon
+  - pattern: "(?P<artist>[^/]+)/(?P<album>[^/]+)/?$"
+    description: "Artist/Album"
+
+  # Artist - Album (no year, flat structure) - very permissive
+  # Example: Pink Floyd - The Dark Side of the Moon
+  - pattern: "(?P<artist>[^-/]+)\\s*-\\s*(?P<album>[^/]+)/?$"
+    description: "Artist - Album"

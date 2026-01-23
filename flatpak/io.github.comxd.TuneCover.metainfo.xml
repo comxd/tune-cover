@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.comxd.TuneCover</id>
+  <name>TuneCover</name>
+  <summary>Fetch and embed album artwork in your music library</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <developer id="io.github.comxd">
+    <name>David DIVERRES</name>
+  </developer>
+
+  <description>
+    <p>
+      TuneCover is a tool for identifying and fetching missing album
+      artwork from your music library. It searches MusicBrainz and Cover Art
+      Archive to find matching covers and can embed them directly into your
+      audio files.
+    </p>
+    <p>Features:</p>
+    <ul>
+      <li>Scan your music library to find albums without cover art</li>
+      <li>Search multiple sources: MusicBrainz, Discogs, Last.fm</li>
+      <li>Embed covers in audio files (MP3, FLAC, OGG, M4A)</li>
+      <li>Save cover images to album folders</li>
+      <li>Batch processing for large libraries</li>
+      <li>Both GUI and CLI interfaces</li>
+    </ul>
+  </description>
+
+  <launchable type="desktop-id">io.github.comxd.TuneCover.desktop</launchable>
+
+  <screenshots>
+    <screenshot type="default">
+      <caption>Main window showing album library</caption>
+      <image>https://raw.githubusercontent.com/comxd/tunecover/main/screenshots/main.png</image>
+    </screenshot>
+  </screenshots>
+
+  <url type="homepage">https://github.com/comxd/tunecover</url>
+  <url type="bugtracker">https://github.com/comxd/tunecover/issues</url>
+
+  <provides>
+    <binary>tunecover</binary>
+  </provides>
+
+  <releases>
+    <release version="0.0.1" date="2026-02-01">
+      <description>
+        <p>Initial pre-release</p>
+      </description>
+    </release>
+  </releases>
+
+  <content_rating type="oars-1.1"/>
+</component>

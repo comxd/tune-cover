@@ -1,0 +1,3390 @@
+# TuneCover - Italiano Translation
+# Copyright (C) 2024-2026 TuneCover Team
+# This file is distributed under the same license as the tunecover
+# package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: tunecover 0.0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-01 18:16+0100\n"
+"PO-Revision-Date: 2026-01-26 22:35+0100\n"
+"Last-Translator: TuneCover Team\n"
+"Language: it\n"
+"Language-Team: Italiano\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: src/cli/commands.py:67
+msgid "cli.description"
+msgstr "TuneCover - Recupera e integra le copertine degli album."
+
+#: src/cli/commands.py:69
+msgid "cli.epilog"
+msgstr ""
+"cli.epilogEsempi:\n"
+"  %(prog)s                              # Avvia l'interfaccia grafica\n"
+"  %(prog)s gui                          # Avvia esplicitamente la GUI\n"
+"  %(prog)s scan ~/Music                 # Scansiona e mostra il riepilogo"
+"\n"
+"  %(prog)s scan ~/Music -o report.json  # Scansiona ed esporta in JSON\n"
+"  %(prog)s fetch report.json --auto     # Recupera automaticamente le "
+"copertine"
+
+#: src/cli/commands.py:72
+msgid "cli.verbose_help"
+msgstr "Modalità dettagliata (log di debug)"
+
+#: src/cli/commands.py:73
+msgid "cli.log_file_help"
+msgstr "File di log"
+
+#: src/cli/commands.py:75
+msgid "cli.commands_help"
+msgstr "Comandi disponibili"
+
+#: src/cli/commands.py:78
+msgid "cli.gui_help"
+msgstr "Avvia l'interfaccia grafica"
+
+#: src/cli/commands.py:83
+msgid "cli.scan_help"
+msgstr "Scansiona una libreria musicale"
+
+#: src/cli/commands.py:85
+msgid "cli.scan_epilog"
+msgstr ""
+"cli.scan_epilogEsempi:\n"
+"  %(prog)s ~/Music\n"
+"  %(prog)s ~/Music --output ~/report.json\n"
+"  %(prog)s ~/Music --format csv --output ~/report.csv\n"
+"  %(prog)s ~/Music --exclude Podcasts Audiobooks"
+
+#: src/cli/commands.py:87
+msgid "cli.music_dir_help"
+msgstr "Percorso della libreria musicale"
+
+#: src/cli/commands.py:88
+msgid "cli.output_help"
+msgstr "File di output (predefinito: solo visualizzazione terminale)"
+
+#: src/cli/commands.py:90
+msgid "cli.format_help"
+msgstr "Formato report (predefinito: json)"
+
+#: src/cli/commands.py:92
+msgid "cli.quiet_help"
+msgstr "Modalità silenziosa (nessun progresso)"
+
+#: src/cli/commands.py:94
+msgid "cli.exclude_help"
+msgstr "Pattern di cartelle da escludere"
+
+#: src/cli/commands.py:100
+msgid "cli.fetch_help"
+msgstr "Recupera le copertine mancanti"
+
+#: src/cli/commands.py:102
+msgid "cli.fetch_epilog"
+msgstr ""
+"cli.fetch_epilogEsempi:\n"
+"  %(prog)s report.json                  # Modalità interattiva\n"
+"  %(prog)s report.json --auto           # Modalità automatica\n"
+"  %(prog)s report.json --auto --embed   # Auto + integrazione\n"
+"  %(prog)s report.json --dry-run        # Simulazione"
+
+#: src/cli/commands.py:104
+msgid "cli.report_help"
+msgstr "File report JSON generato dalla scansione"
+
+#: src/cli/commands.py:105
+msgid "cli.auto_help"
+msgstr "Modalità automatica (solo corrispondenze perfette)"
+
+#: src/cli/commands.py:112
+msgid "cli.min_score_help"
+msgstr "Punteggio minimo per modalità auto (predefinito: 95, intervallo: 0-100)"
+
+#: src/cli/commands.py:114
+msgid "cli.embed_help"
+msgstr "Integra le copertine nei file audio"
+
+#: src/cli/commands.py:115
+msgid "cli.dry_run_help"
+msgstr "Simulazione senza modifiche"
+
+#: src/cli/commands.py:116
+msgid "cli.log_help"
+msgstr "File di log dei risultati"
+
+#: src/cli/commands.py:117
+msgid "cli.start_from_help"
+msgstr "Indice di partenza (per riprendere)"
+
+#: src/cli/commands.py:131
+msgid "cli.unknown_command"
+msgstr "Comando sconosciuto: {command}"
+
+#: src/cli/commands.py:173
+msgid "cli.pyside6_not_installed"
+msgstr "Errore: PySide6 non è installato."
+
+#: src/cli/commands.py:174
+msgid "cli.pyside6_install_hint"
+msgstr "Installalo con: pip install PySide6"
+
+#: src/cli/commands.py:175
+msgid "cli.detail"
+msgstr "Dettaglio: {detail}"
+
+#: src/cli/commands.py:184
+msgid "cli.error_folder_not_exist"
+msgstr "Errore: La cartella '{folder}' non esiste."
+
+#: src/cli/commands.py:188
+msgid "cli.error_not_a_folder"
+msgstr "Errore: '{path}' non è una cartella."
+
+#: src/cli/commands.py:191
+msgid "cli.scanning_library"
+msgstr "Scansione della libreria: {path}"
+
+#: src/cli/commands.py:193
+msgid "cli.excluded_folders"
+msgstr "Cartelle escluse: {folders}"
+
+#: src/cli/commands.py:196
+msgid "cli.progress"
+msgstr "Progresso"
+
+#: src/cli/commands.py:215
+msgid "cli.report_generated"
+msgstr "File report JSON generato dalla scansione"
+
+#: src/cli/commands.py:217
+msgid "cli.error_write_report"
+msgstr "Errore: Impossibile scrivere il report in {path}: {error}"
+
+#: src/cli/commands.py:226
+msgid "cli.error_file_not_exist"
+msgstr "Errore: Il file '{file}' non esiste."
+
+#: src/cli/commands.py:230
+msgid "cli.loading_report"
+msgstr "Caricamento del report: {file}"
+
+#: src/cli/commands.py:235
+msgid "cli.error_invalid_json"
+msgstr "Errore: Il file '{file}' non è un JSON valido: {error}"
+
+#: src/cli/commands.py:238
+msgid "cli.error_read_file"
+msgstr "Errore: Impossibile leggere il file '{file}': {error}"
+
+#: src/cli/commands.py:243
+msgid "cli.no_albums_without_cover"
+msgstr "Nessun album senza copertina nel report."
+
+#: src/cli/commands.py:246
+msgid "cli.albums_to_process"
+msgstr "Album SENZA copertina"
+
+#: src/cli/commands.py:249
+msgid "cli.auto_mode_enabled"
+msgstr "Modalità automatica attivata (punteggio min: {min_score}%)"
+
+#: src/cli/commands.py:251
+msgid "cli.interactive_mode"
+msgstr "Modalità interattiva: conferma richiesta per ogni album"
+
+#: src/cli/commands.py:254
+msgid "cli.dry_run_warning"
+msgstr "⚠️  Modalità simulazione: nessuna modifica verrà effettuata"
+
+#: src/cli/commands.py:257
+msgid "cli.embed_enabled"
+msgstr "Le copertine verranno integrate nei file audio"
+
+#: src/cli/commands.py:262
+msgid "cli.error_start_from_negative"
+msgstr "Errore: --start-from deve essere >= 0 (ricevuto: {value})"
+
+#: src/cli/commands.py:265
+msgid "cli.error_start_from_exceeds"
+msgstr "Errore: --start-from ({value}) supera il numero di album ({total})"
+
+#: src/cli/commands.py:269 src/cli/commands.py:515
+msgid "cli.press_enter_to_continue"
+msgstr "Premi Invio per continuare..."
+
+#: src/cli/commands.py:272
+msgid "cli.non_interactive_mode"
+msgstr "Modalità interattiva: conferma richiesta per ogni album"
+
+#: src/cli/commands.py:301
+msgid "cli.interrupted_by_user"
+msgstr "Saltato dall'utente"
+
+#: src/cli/commands.py:314
+msgid "cli.log_saved"
+msgstr "File di log dei risultati"
+
+#: src/cli/commands.py:358
+msgid "cli.invalid_path"
+msgstr "Percorso non valido: {error}"
+
+#: src/cli/commands.py:383
+msgid "cli.auto_mbid_no_cover"
+msgstr "Modalità auto: MBID valido ma nessuna copertina disponibile"
+
+#: src/cli/commands.py:392
+msgid "cli.auto_no_metadata"
+msgstr "Modalità auto: Nessun metadato artista/album"
+
+#: src/cli/commands.py:400
+msgid "cli.auto_no_results"
+msgstr "Modalità auto: Nessun risultato MusicBrainz"
+
+#: src/cli/commands.py:420
+msgid "cli.auto_no_match"
+msgstr ""
+"cli.auto_no_matchModalità auto: Nessuna corrispondenza sufficiente "
+"(punteggio min={min_score}%)"
+
+#: src/cli/commands.py:426
+msgid "cli.no_metadata"
+msgstr "Nessun metadato artista/album"
+
+#: src/cli/commands.py:434
+msgid "cli.no_musicbrainz_results"
+msgstr "Nessun risultato MusicBrainz"
+
+#: src/cli/commands.py:448
+msgid "cli.quit_requested"
+msgstr "Uscita richiesta dall'utente"
+
+#: src/cli/commands.py:451
+msgid "cli.skipped_by_user"
+msgstr "Saltato dall'utente"
+
+#: src/cli/commands.py:463
+msgid "cli.no_cover_available"
+msgstr "Nessuna copertina disponibile"
+
+#: src/cli/commands.py:469
+msgid "cli.dry_run_cover_found"
+msgstr "[DRY-RUN] Copertina trovata: {artist} - {album}"
+
+#: src/cli/commands.py:479
+msgid "cli.download_failed"
+msgstr "Download della copertina fallito"
+
+#: src/cli/commands.py:491
+msgid "cli.cover_fetched"
+msgstr "Copertina recuperata: {artist} - {album}"
+
+#: src/cli/commands.py:506
+msgid "cli.local_album"
+msgstr "Album sconosciuto"
+
+#: src/cli/commands.py:507
+msgid "cli.artist"
+msgstr "Artista sconosciuto"
+
+#: src/cli/commands.py:507 src/cli/commands.py:508 src/cli/commands.py:509
+msgid "cli.unknown"
+msgstr "Album sconosciuto"
+
+#: src/cli/commands.py:508
+msgid "cli.album"
+msgstr "Album sconosciuto"
+
+#: src/cli/commands.py:509
+msgid "cli.year"
+msgstr "Svuota"
+
+#: src/cli/commands.py:510
+msgid "cli.path"
+msgstr "Percorso non valido: {error}"
+
+#: src/cli/commands.py:513
+msgid "cli.no_results_musicbrainz"
+msgstr "Nessun risultato MusicBrainz"
+
+#: src/cli/commands.py:518
+msgid "cli.musicbrainz_results"
+msgstr "Nessun risultato MusicBrainz"
+
+#: src/cli/commands.py:520
+msgid "cli.has_cover"
+msgstr "Album SENZA copertina"
+
+#: src/cli/commands.py:520
+msgid "cli.no_cover"
+msgstr "Senza copertina disp."
+
+#: src/cli/commands.py:524
+msgid "cli.skip_album"
+msgstr "Album sconosciuto"
+
+#: src/cli/commands.py:525
+msgid "cli.quit_processing"
+msgstr "Uscita richiesta dall'utente"
+
+#: src/cli/commands.py:529
+msgid "cli.your_choice"
+msgstr "Scelta non valida."
+
+#: src/cli/commands.py:532
+msgid "cli.non_interactive_skipped"
+msgstr "Modalità interattiva: conferma richiesta per ogni album"
+
+#: src/cli/commands.py:545
+msgid "cli.invalid_choice"
+msgstr "Scelta non valida."
+
+#: src/cli/commands.py:547
+msgid "cli.invalid_input"
+msgstr "Input non valido."
+
+#: src/cli/commands.py:575
+msgid "cli.error_save_log"
+msgstr "Errore: Impossibile salvare il log in {path}: {error}"
+
+#: src/cli/formatters.py:52
+msgid "cli.albums_scanned"
+msgstr "Album scansionati"
+
+#: src/cli/formatters.py:53
+msgid "cli.albums_with_full_cover"
+msgstr "Album con copertina completa"
+
+#: src/cli/formatters.py:54
+msgid "cli.albums_embedded_only"
+msgstr "Album con solo integrata"
+
+#: src/cli/formatters.py:55
+msgid "cli.albums_folder_only"
+msgstr "Album con solo file"
+
+#: src/cli/formatters.py:56
+msgid "cli.albums_without_cover"
+msgstr "Album SENZA copertina"
+
+#: src/cli/formatters.py:59
+msgid "cli.scan_summary_title"
+msgstr "RIEPILOGO SCANSIONE"
+
+#: src/cli/formatters.py:70
+msgid "cli.examples_missing_cover"
+msgstr "Esempi di album senza copertina"
+
+#: src/cli/formatters.py:73
+msgid "cli.unknown_artist"
+msgstr "Artista sconosciuto"
+
+#: src/cli/formatters.py:74
+msgid "cli.unknown_album"
+msgstr "Album sconosciuto"
+
+#: src/cli/formatters.py:77
+msgid "cli.and_n_others"
+msgstr "e altri {count}"
+
+#: src/cli/formatters.py:118
+msgid "cli.error_write_json"
+msgstr "Errore nella scrittura del file JSON: {error}"
+
+#: src/cli/formatters.py:161
+msgid "cli.error_write_csv"
+msgstr "Errore nella scrittura del file CSV: {error}"
+
+#: src/cli/formatters.py:187
+msgid "cli.covers_fetched"
+msgstr "Copertine recuperate"
+
+#: src/cli/formatters.py:188
+msgid "cli.albums_skipped"
+msgstr "Album saltati"
+
+#: src/cli/formatters.py:189
+msgid "cli.no_match_count"
+msgstr ""
+"cli.no_match_countSenza corrispondenzaModalità auto: Nessuna "
+"corrispondenza sufficiente (punteggio min={min_score}%)"
+
+#: src/cli/formatters.py:190
+msgid "cli.no_cover_count"
+msgstr "Senza copertina disp."
+
+#: src/cli/formatters.py:191
+msgid "cli.errors_count"
+msgstr "Errori"
+
+#: src/cli/formatters.py:194
+msgid "cli.processing_summary_title"
+msgstr "RIEPILOGO ELABORAZIONE"
+
+#: src/core/cover_save_strategy.py:42
+msgid "embed in tags"
+msgstr "integra nei tag"
+
+#: src/core/cover_save_strategy.py:44
+#, python-brace-format
+msgid "save as {filename}"
+msgstr "salva come {filename}"
+
+#: src/core/cover_save_strategy.py:45
+msgid "no action"
+msgstr "nessuna azione"
+
+#: src/core/cover_save_strategy.py:128
+msgid "single file entry"
+msgstr "file singolo"
+
+#: src/core/cover_save_strategy.py:128 src/core/cover_save_strategy.py:159
+msgid "embed option disabled"
+msgstr "opzione integrazione disattivata"
+
+#: src/core/cover_save_strategy.py:133
+msgid "shared folder (would affect other files)"
+msgstr "cartella condivisa (influenzerebbe altri file)"
+
+#: src/core/cover_save_strategy.py:138 src/core/cover_save_strategy.py:164
+msgid "option enabled"
+msgstr "opzione attivata"
+
+#: src/core/cover_save_strategy.py:138 src/core/cover_save_strategy.py:164
+msgid "option disabled"
+msgstr "opzione disattivata"
+
+#: src/core/cover_save_strategy.py:152
+msgid "'always embed' option enabled"
+msgstr "opzione 'integra sempre' attivata"
+
+#: src/core/cover_save_strategy.py:155
+msgid "single audio file"
+msgstr "file audio singolo"
+
+#: src/core/cover_save_strategy.py:157
+#, python-brace-format
+msgid "multi-file album ({count} files)"
+msgstr "album multi-file ({count} file)"
+
+#: src/core/cover_save_strategy.py:170
+#, python-brace-format
+msgid "Embed: {reason}"
+msgstr "Integrazione: {reason}"
+
+#: src/core/cover_save_strategy.py:172
+#, python-brace-format
+msgid "External file: {reason}"
+msgstr "File esterno: {reason}"
+
+#: src/core/cover_save_strategy.py:175
+#, python-brace-format
+msgid "No external: {reason}"
+msgstr "Nessun esterno: {reason}"
+
+#: src/core/cover_save_strategy.py:177
+msgid "No option enabled"
+msgstr "Nessuna opzione attivata"
+
+#: src/core/cover_save_strategy.py:204 src/ui/preferences.py:785
+msgid ""
+"At least one save option must be enabled:\n"
+"- Embed in audio tags, OR\n"
+"- Save external file"
+msgstr ""
+"Almeno un'opzione di salvataggio deve essere abilitata:\n"
+"- Integra nei tag audio, OPPURE\n"
+"- Salva file esterno"
+
+#: src/core/models.py:232 src/ui/fingerprint_dialog.py:233
+#: src/ui/library_view.py:320 src/ui/library_view.py:789
+#: src/ui/widgets/album_card.py:186 src/ui/widgets/album_card.py:277
+msgid "Unknown artist"
+msgstr "Artista sconosciuto"
+
+#: src/core/models.py:233 src/ui/fingerprint_dialog.py:261
+#: src/ui/library_view.py:321 src/ui/library_view.py:790
+#: src/ui/widgets/album_card.py:182 src/ui/widgets/album_card.py:276
+msgid "Unknown album"
+msgstr "Album sconosciuto"
+
+#: src/ui/album_detail.py:154
+msgid "No result"
+msgstr "Nessun risultato"
+
+#: src/ui/album_detail.py:167
+msgid "No sufficient match"
+msgstr "Nessuna corrispondenza sufficiente"
+
+#: src/ui/album_detail.py:173 src/ui/dialogs/cover_zoom_dialog.py:519
+msgid "No cover available"
+msgstr "Nessuna copertina disponibile"
+
+#: src/ui/album_detail.py:179
+msgid "Download error"
+msgstr "Errore di scaricamento"
+
+#: src/ui/album_detail.py:212 src/ui/dialogs/batch_download_dialog.py:186
+msgid "Cover applied"
+msgstr "Copertina applicata"
+
+#: src/ui/album_detail.py:300
+msgid "Batch actions"
+msgstr "Azioni"
+
+#: src/ui/album_detail.py:303
+msgid "Auto download covers"
+msgstr "Scarica automaticamente le copertine..."
+
+#: src/ui/album_detail.py:307
+msgid "Remove covers"
+msgstr "Rimuovi copertina"
+
+#: src/ui/album_detail.py:316 src/ui/album_detail.py:400
+#: src/ui/album_detail.py:545 src/ui/album_detail.py:1053
+#: src/ui/dialogs/cover_comparison.py:297
+#: src/ui/dialogs/cover_comparison.py:397
+#: src/ui/dialogs/cover_zoom_dialog.py:385
+msgid "Audio tags"
+msgstr "Tag audio"
+
+#: src/ui/album_detail.py:320 src/ui/album_detail.py:426
+#: src/ui/album_detail.py:550 src/ui/album_detail.py:1072
+#: src/ui/widgets/album_card.py:297 src/ui/widgets/album_card.py:439
+msgid "File"
+msgstr "File"
+
+#: src/ui/album_detail.py:328 src/ui/album_detail.py:563
+#: src/ui/album_detail.py:1445 src/ui/album_detail.py:1554
+msgid "Delete from source"
+msgstr "Elimina dalla fonte"
+
+#: src/ui/album_detail.py:331
+msgid "Delete covers from their matched source for each album"
+msgstr "Elimina le copertine dalla fonte corrispondente per ogni album"
+
+#: src/ui/album_detail.py:341 src/ui/album_detail.py:610
+msgid "Processing in progress"
+msgstr "Elaborazione in corso"
+
+#: src/ui/album_detail.py:350 src/ui/album_detail.py:619
+#: src/ui/dialogs/acoustid_save_dialog.py:181
+#: src/ui/dialogs/batch_acoustid_dialog.py:323
+#: src/ui/dialogs/batch_download_dialog.py:411
+#: src/ui/dialogs/cover_comparison.py:364 src/ui/fingerprint_dialog.py:457
+#: src/ui/main_window.py:866 src/ui/main_window.py:1521
+#: src/ui/preferences.py:82 src/ui/search_panel.py:1027
+msgid "Cancel"
+msgstr "Annulla"
+
+#: src/ui/album_detail.py:372
+msgid "Covers (click to enlarge)"
+msgstr "Copertine (clicca per ingrandire)"
+
+#: src/ui/album_detail.py:437
+msgid "Information"
+msgstr "Informazioni"
+
+#: src/ui/album_detail.py:441 src/ui/dialogs/acoustid_save_dialog.py:102
+#: src/ui/search_panel.py:813
+msgid "Artist:"
+msgstr "Artista:"
+
+#: src/ui/album_detail.py:444 src/ui/dialogs/acoustid_save_dialog.py:107
+#: src/ui/search_panel.py:821
+msgid "Album:"
+msgstr "Album:"
+
+#: src/ui/album_detail.py:447 src/ui/search_panel.py:829
+msgid "Year:"
+msgstr "Anno:"
+
+#: src/ui/album_detail.py:450
+msgid "Tracks:"
+msgstr "Tracce:"
+
+#: src/ui/album_detail.py:462
+msgid "Ungroup"
+msgstr "Separa"
+
+#: src/ui/album_detail.py:463 src/ui/library_view.py:662
+msgid "Split back into individual file entries"
+msgstr "Dividi in singoli file"
+
+#: src/ui/album_detail.py:473
+msgid "Path:"
+msgstr "Percorso:"
+
+#: src/ui/album_detail.py:478 src/ui/dialogs/statistics_dialog.py:232
+#: src/ui/dialogs/statistics_dialog.py:247
+#: src/ui/dialogs/statistics_dialog.py:264
+msgid "Audio tags:"
+msgstr "Tag audio:"
+
+#: src/ui/album_detail.py:482
+msgid "File:"
+msgstr "File:"
+
+#: src/ui/album_detail.py:487
+msgid "MBID:"
+msgstr "MBID:"
+
+#: src/ui/album_detail.py:500
+msgid "Identify"
+msgstr "Identifica"
+
+#: src/ui/album_detail.py:501 src/ui/album_detail.py:2136
+msgid "Identify the album via audio fingerprint"
+msgstr "Identifica l'album tramite impronta audio"
+
+#: src/ui/album_detail.py:507
+msgid "AcoustID:"
+msgstr "AcoustID:"
+
+#: src/ui/album_detail.py:512 src/ui/search_panel.py:851
+msgid "ISRC:"
+msgstr "ISRC:"
+
+#: src/ui/album_detail.py:517 src/ui/search_panel.py:860
+msgid "Barcode:"
+msgstr "Codice a barre:"
+
+#: src/ui/album_detail.py:522
+msgid "Actions"
+msgstr "Azioni"
+
+#: src/ui/album_detail.py:525 src/ui/library_view.py:618
+msgid "Search for a cover..."
+msgstr "Cerca una copertina..."
+
+#: src/ui/album_detail.py:530
+msgid "Import an image..."
+msgstr "Importa un'immagine..."
+
+#: src/ui/album_detail.py:535 src/ui/album_detail.py:1677
+#: src/ui/library_view.py:623 src/ui/main_window.py:2148
+msgid "Remove cover"
+msgstr "Rimuovi copertina"
+
+#: src/ui/album_detail.py:566
+msgid "Delete cover only from the location that matched the filter"
+msgstr "Elimina la copertina solo dalla posizione che corrisponde al filtro"
+
+#: src/ui/album_detail.py:574 src/ui/library_view.py:636
+#: src/ui/library_view.py:642 src/ui/library_view.py:645
+msgid "Find identical covers"
+msgstr "Copertine diverse:"
+
+#: src/ui/album_detail.py:575
+msgid "Find other albums with the same cover image"
+msgstr "Trova altri album con la stessa copertina"
+
+#: src/ui/album_detail.py:583 src/ui/album_detail.py:906
+msgid "Synchronization"
+msgstr "Sincronizzazione"
+
+#: src/ui/album_detail.py:586
+msgid "Tags -> External file"
+msgstr "Tag -> File esterno"
+
+#: src/ui/album_detail.py:587
+msgid "Copy cover from tags to external file"
+msgstr "Copia copertina dai tag al file esterno"
+
+#: src/ui/album_detail.py:591
+msgid "External file -> Tags"
+msgstr "File esterno -> Tag"
+
+#: src/ui/album_detail.py:592
+msgid "Copy external file to audio tags"
+msgstr "Copia file esterno nei tag audio"
+
+#: src/ui/album_detail.py:596
+msgid "Keep largest"
+msgstr "Mantieni la più grande"
+
+#: src/ui/album_detail.py:597
+msgid "Replace smaller with larger"
+msgstr "Sostituisci la più piccola con la più grande"
+
+#: src/ui/album_detail.py:601
+msgid "Compare"
+msgstr "Confronta"
+
+#: src/ui/album_detail.py:602
+msgid "Compare covers in detail (zoom and pan)"
+msgstr "Confronta le copertine in dettaglio (zoom e panoramica)"
+
+#: src/ui/album_detail.py:630
+msgid "Select an album"
+msgstr "Seleziona un album"
+
+#: src/ui/album_detail.py:694 src/ui/album_detail.py:695
+#: src/ui/dialogs/statistics_dialog.py:104
+msgid "Unknown"
+msgstr "Sconosciuto"
+
+#: src/ui/album_detail.py:702
+#, python-brace-format
+msgid "Manually grouped ({count} files)"
+msgstr "Raggruppato manualmente ({count} file)"
+
+#: src/ui/album_detail.py:712
+msgid "Click to open in file manager"
+msgstr "Clicca per aprire nel file manager"
+
+#: src/ui/album_detail.py:722
+msgid "Not detected"
+msgstr "Non rilevato"
+
+#: src/ui/album_detail.py:767 src/ui/library_view.py:674
+msgid "Unable to open file manager"
+msgstr "Impossibile aprire il file manager"
+
+#: src/ui/album_detail.py:857 src/ui/album_detail.py:870
+#: src/ui/album_detail.py:930
+msgid "Absent"
+msgstr "Assente"
+
+#: src/ui/album_detail.py:868
+msgid "different"
+msgstr "diverso"
+
+#: src/ui/album_detail.py:908
+msgid "Copy cover"
+msgstr "Copia copertina"
+
+#: src/ui/album_detail.py:971
+#, python-brace-format
+msgid ""
+"Multiple selection\n"
+"{count} albums"
+msgstr ""
+"Selezione multipla\n"
+"{count} album"
+
+#: src/ui/album_detail.py:982
+#, python-brace-format
+msgid "{n} without cover"
+msgstr "{n} senza copertina"
+
+#: src/ui/album_detail.py:984
+#, python-brace-format
+msgid "{n} with cover"
+msgstr "{n} con copertina"
+
+#: src/ui/album_detail.py:1020
+#, python-brace-format
+msgid "Delete covers from their matched source ({n} albums with context)"
+msgstr "Elimina le copertine dalla fonte corrispondente ({n} album con contesto)"
+
+#: src/ui/album_detail.py:1078
+#, python-brace-format
+msgid "Cover ({source}) - {name}"
+msgstr "Copertina ({source}) - {name}"
+
+#: src/ui/album_detail.py:1105
+#, python-brace-format
+msgid "{width} x {height} pixels"
+msgstr "{width} x {height} pixel"
+
+#: src/ui/album_detail.py:1232
+#, python-brace-format
+msgid "file {filename}"
+msgstr "file {filename}"
+
+#: src/ui/album_detail.py:1234 src/ui/album_detail.py:1434
+#: src/ui/album_detail.py:1661
+msgid "audio tags"
+msgstr "tag audio"
+
+#: src/ui/album_detail.py:1235 src/ui/album_detail.py:1437
+#: src/ui/album_detail.py:1664
+msgid " and "
+msgstr " e "
+
+#: src/ui/album_detail.py:1238
+#, python-brace-format
+msgid "Cover saved for {name} ({actions})"
+msgstr "Copertina salvata per {name} ({actions})"
+
+#: src/ui/album_detail.py:1246 src/ui/album_detail.py:1312
+#: src/ui/album_detail.py:1506 src/ui/album_detail.py:1826
+#: src/ui/album_detail.py:1877 src/ui/album_detail.py:1889
+#: src/ui/album_detail.py:1926 src/ui/album_detail.py:2017
+#: src/ui/dialogs/batch_acoustid_dialog.py:216 src/ui/main_window.py:1615
+#: src/ui/main_window.py:2206 src/ui/preferences.py:680
+#: src/ui/preferences.py:693 src/ui/search_panel.py:1218
+#: src/ui/search_panel.py:1827 src/ui/search_panel.py:1869
+msgid "Error"
+msgstr "Errore"
+
+#: src/ui/album_detail.py:1246
+#, python-brace-format
+msgid ""
+"Error applying cover:\n"
+"{error}"
+msgstr ""
+"Errore nell'applicazione della copertina:\n"
+"{error}"
+
+#: src/ui/album_detail.py:1256
+msgid "Select an image"
+msgstr "Seleziona un'immagine"
+
+#: src/ui/album_detail.py:1258
+msgid "Images (*.jpg *.jpeg *.png *.gif *.bmp *.webp)"
+msgstr "Immagini (*.jpg *.jpeg *.png *.gif *.bmp *.webp)"
+
+#: src/ui/album_detail.py:1270
+msgid "Local import"
+msgstr "Importa"
+
+#: src/ui/album_detail.py:1312 src/ui/main_window.py:1459
+#, python-brace-format
+msgid ""
+"Error during import:\n"
+"{error}"
+msgstr ""
+"Errore durante l'importazione:\n"
+"{error}"
+
+#: src/ui/album_detail.py:1360
+msgid "Delete from audio tags"
+msgstr "Elimina dai tag audio"
+
+#: src/ui/album_detail.py:1361
+msgid "Delete cover from audio tags (matched source)"
+msgstr "Elimina la copertina dai tag audio (fonte corrispondente)"
+
+#: src/ui/album_detail.py:1364
+msgid "Delete from file"
+msgstr "Elimina dal file"
+
+#: src/ui/album_detail.py:1365
+msgid "Delete cover from external file (matched source)"
+msgstr "Elimina la copertina dal file esterno (fonte corrispondente)"
+
+#: src/ui/album_detail.py:1368
+msgid "Delete from both sources"
+msgstr "Elimina da entrambe le fonti"
+
+#: src/ui/album_detail.py:1369
+msgid "Delete cover from audio tags and file (both matched)"
+msgstr "Elimina la copertina dai tag audio e dal file (entrambi corrispondenti)"
+
+#: src/ui/album_detail.py:1436 src/ui/album_detail.py:1663
+msgid "external file"
+msgstr "file esterno"
+
+#: src/ui/album_detail.py:1440
+#, python-brace-format
+msgid ""
+"This album matched the filter via {targets}.\n"
+"\n"
+"Delete cover from {targets}?"
+msgstr ""
+"Questo album corrisponde al filtro tramite {targets}.\n"
+"\n"
+"Eliminare la copertina da {targets}?"
+
+#: src/ui/album_detail.py:1500
+#, python-brace-format
+msgid "Cover deleted from {targets}"
+msgstr "Copertina eliminata da {targets}"
+
+#: src/ui/album_detail.py:1506
+#, python-brace-format
+msgid ""
+"Error deleting cover:\n"
+"{error}"
+msgstr ""
+"Errore nell'eliminazione della copertina:\n"
+"{error}"
+
+#: src/ui/album_detail.py:1543
+#, python-brace-format
+msgid "{n} from audio tags"
+msgstr "{n} dai tag audio"
+
+#: src/ui/album_detail.py:1545
+#, python-brace-format
+msgid "{n} from external file"
+msgstr "{n} dal file esterno"
+
+#: src/ui/album_detail.py:1548
+#, python-brace-format
+msgid ""
+"Delete covers from their matched sources?\n"
+"\n"
+"{count} albums will be processed:\n"
+"{details}"
+msgstr ""
+"Eliminare le copertine dalle fonti corrispondenti?\n"
+"\n"
+"{count} album verranno elaborati:\n"
+"{details}"
+
+#: src/ui/album_detail.py:1626 src/ui/album_detail.py:1751
+msgid "Errors"
+msgstr "Errori"
+
+#: src/ui/album_detail.py:1627
+#, python-brace-format
+msgid ""
+"Deleted covers from {success} albums.\n"
+"\n"
+"Errors:\n"
+"{errors}"
+msgstr ""
+"Copertine eliminate da {success} album.\n"
+"\n"
+"Errori:\n"
+"{errors}"
+
+#: src/ui/album_detail.py:1633
+#, python-brace-format
+msgid "Covers deleted from {count} albums"
+msgstr "Copertine eliminate da {count} album"
+
+#: src/ui/album_detail.py:1667
+#, python-brace-format
+msgid "Remove cover ({targets}) from {name}?"
+msgstr "Rimuovere la copertina ({targets}) da {name}?"
+
+#: src/ui/album_detail.py:1671
+#, python-brace-format
+msgid "Remove covers ({targets}) from {count} albums?"
+msgstr "Rimuovere le copertine ({targets}) da {count} album?"
+
+#: src/ui/album_detail.py:1751
+msgid "Errors during removal:\n"
+msgstr "Errori durante la rimozione:\n"
+
+#: src/ui/album_detail.py:1772
+msgid "Search by audio tags cover"
+msgstr "Cerca dalla copertina nei tag audio"
+
+#: src/ui/album_detail.py:1773
+msgid "Search by file cover"
+msgstr "Cerca dalla copertina nel file"
+
+#: src/ui/album_detail.py:1826 src/ui/album_detail.py:2017
+msgid "Unable to extract cover from audio tags."
+msgstr "Impossibile estrarre la copertina dai tag audio."
+
+#: src/ui/album_detail.py:1846
+msgid "Warning"
+msgstr "Avviso"
+
+#: src/ui/album_detail.py:1848
+msgid ""
+"This file is in a shared folder with other unrelated files.\n"
+"Saving an external cover file may affect other files.\n"
+"\n"
+"Continue anyway?"
+msgstr ""
+"Questo file si trova in una cartella condivisa con altri file non "
+"correlati.\n"
+"Il salvataggio di un file di copertina esterno potrebbe influenzare altri"
+" file.\n"
+"\n"
+"Continuare comunque?"
+
+#: src/ui/album_detail.py:1871
+#, python-brace-format
+msgid "Cover copied to {filename}"
+msgstr "Copertina copiata in {filename}"
+
+#: src/ui/album_detail.py:1877 src/ui/album_detail.py:1926
+#, python-brace-format
+msgid ""
+"Error during synchronization:\n"
+"{error}"
+msgstr ""
+"Errore durante la sincronizzazione:\n"
+"{error}"
+
+#: src/ui/album_detail.py:1889
+msgid "No external cover file found."
+msgstr "Nessun file di copertina esterno trovato."
+
+#: src/ui/album_detail.py:1912
+msgid "No files were updated"
+msgstr "Nessun file è stato aggiornato"
+
+#: src/ui/album_detail.py:1921
+msgid "Cover copied to audio tags."
+msgstr "Copertina copiata nei tag audio."
+
+#: src/ui/album_detail.py:1968
+#, python-brace-format
+msgid ""
+"Both covers have the same size ({w}x{h}). Please manually choose which "
+"one to keep."
+msgstr ""
+"Entrambe le copertine hanno la stessa dimensione ({w}x{h}). Scegli "
+"manualmente quale mantenere."
+
+#: src/ui/album_detail.py:1976
+msgid ""
+"Only the audio tags cover is available. Use 'Tags -> External file' to "
+"copy it."
+msgstr ""
+"Solo la copertina dei tag audio è disponibile. Usa 'Tag -> File esterno' "
+"per copiarla."
+
+#: src/ui/album_detail.py:1984
+msgid ""
+"Only the external file cover is available. Use 'External file -> Tags' to"
+" copy it."
+msgstr ""
+"Solo la copertina del file esterno è disponibile. Usa 'File esterno -> "
+"Tag' per copiarla."
+
+#: src/ui/album_detail.py:1992
+msgid ""
+"Unable to determine cover dimensions. Please manually choose which one to"
+" keep."
+msgstr ""
+"Impossibile determinare le dimensioni delle copertine. Scegli manualmente"
+" quale mantenere."
+
+#: src/ui/album_detail.py:2010
+msgid ""
+"Both covers (audio tags and external file) must be present to use "
+"comparison."
+msgstr ""
+"Entrambe le copertine (tag audio e file esterno) devono essere presenti "
+"per utilizzare il confronto."
+
+#: src/ui/album_detail.py:2106
+msgid "Automatic processing is complete."
+msgstr "L'elaborazione automatica è completata."
+
+#: src/ui/album_detail.py:2128
+msgid "AcoustID already present"
+msgstr "AcoustID già presente"
+
+#: src/ui/album_detail.py:2130
+msgid "Fingerprint not calculated"
+msgstr "Impronta non calcolata"
+
+#: src/ui/album_detail.py:2138
+msgid "No audio file available"
+msgstr "Nessun file audio disponibile"
+
+#: src/ui/fingerprint_dialog.py:121
+msgid "Loading..."
+msgstr "Caricamento..."
+
+#: src/ui/dialogs/cover_comparison.py:111
+#: src/ui/dialogs/cover_zoom_dialog.py:470
+#: src/ui/dialogs/cover_zoom_dialog.py:476 src/ui/fingerprint_dialog.py:151
+#: src/ui/widgets/album_card.py:283 src/ui/widgets/cover_preview.py:48
+msgid "No cover"
+msgstr "Nessuna copertina"
+
+#: src/ui/fingerprint_dialog.py:250
+#, python-brace-format
+msgid "Album: {album}{year}"
+msgstr "Album: {album}{year}"
+
+#: src/ui/fingerprint_dialog.py:275
+#, python-brace-format
+msgid "Matched tracks: {tracks}"
+msgstr "Tracce corrispondenti: {tracks}"
+
+#: src/ui/fingerprint_dialog.py:296
+#, python-brace-format
+msgid "{count} track(s) matched this release"
+msgstr "{count} traccia/e corrisponde/ono a questa versione"
+
+#: src/ui/fingerprint_dialog.py:301
+#, python-brace-format
+msgid "{score}% match"
+msgstr "{score}%% corrispondenza"
+
+#: src/ui/fingerprint_dialog.py:307
+msgid "Use this cover"
+msgstr "Usa questa copertina"
+
+#: src/ui/fingerprint_dialog.py:324
+msgid "Apply this cover directly without searching"
+msgstr "Applica questa copertina direttamente senza cercare"
+
+#: src/ui/fingerprint_dialog.py:395
+msgid "Fingerprint Identification Results"
+msgstr "Risultati dell'identificazione tramite impronta"
+
+#: src/ui/fingerprint_dialog.py:430
+msgid "No fingerprint matches found. Try scanning more tracks."
+msgstr "Nessuna corrispondenza trovata. Prova a scansionare più tracce."
+
+#: src/ui/fingerprint_dialog.py:443 src/ui/fingerprint_dialog.py:657
+#, python-brace-format
+msgid "Scan {count} more tracks"
+msgstr "Scansiona {count} tracce in più"
+
+#: src/ui/fingerprint_dialog.py:452
+msgid "None of these match"
+msgstr "Nessuno di questi corrisponde"
+
+#: src/ui/fingerprint_dialog.py:462
+msgid "Select"
+msgstr "Seleziona"
+
+#: src/ui/fingerprint_dialog.py:487 src/ui/fingerprint_dialog.py:647
+#, python-brace-format
+msgid "Analyzed: {analyzed}/{total} tracks"
+msgstr "Analizzate: {analyzed}/{total} tracce"
+
+#: src/ui/fingerprint_dialog.py:491 src/ui/fingerprint_dialog.py:651
+#, python-brace-format
+msgid "{failed} failed"
+msgstr "{failed} fallita/e"
+
+#: src/ui/fingerprint_dialog.py:634
+msgid "Scanning..."
+msgstr "Scansione in corso..."
+
+#: src/ui/fingerprint_dialog.py:673
+#, python-brace-format
+msgid "Scanning: {track}"
+msgstr "Scansione: {track}"
+
+#: src/ui/library_view.py:144
+msgid "Open a folder to scan your music library"
+msgstr "Apri una cartella per scansionare la tua libreria musicale"
+
+#: src/ui/library_view.py:145
+msgid "No album matches the current filter"
+msgstr "Nessun album corrisponde al filtro attuale"
+
+#: src/ui/library_view.py:549
+msgid "Select only one group to add files to"
+msgstr "Seleziona un solo gruppo per aggiungere file"
+
+#: src/ui/library_view.py:560
+msgid "Files must be in the same folder as the group"
+msgstr "I file devono trovarsi nella stessa cartella del gruppo"
+
+#: src/ui/library_view.py:572
+msgid "Group as album"
+msgstr "Raggruppa come album"
+
+#: src/ui/library_view.py:573
+msgid "Combine selected files into a single album entry"
+msgstr "Combina i file selezionati in una singola voce album"
+
+#: src/ui/library_view.py:581 src/ui/library_view.py:591
+msgid "Add to group"
+msgstr "Aggiungi al gruppo"
+
+#: src/ui/library_view.py:582
+msgid "Add selected files to the existing group"
+msgstr "Aggiungi i file selezionati al gruppo esistente"
+
+#: src/ui/library_view.py:603
+msgid "Open in file manager"
+msgstr "Apri nel file manager"
+
+#: src/ui/library_view.py:607
+msgid "Open terminal here"
+msgstr "Apri terminale qui"
+
+#: src/ui/library_view.py:611
+msgid "Copy path"
+msgstr "Copia percorso"
+
+#: src/ui/library_view.py:637
+msgid "By audio tags cover"
+msgstr "Per copertina incorporata"
+
+#: src/ui/library_view.py:639
+msgid "By file cover"
+msgstr "Per file immagine"
+
+#: src/ui/library_view.py:654
+msgid "Identify via AcoustID"
+msgstr "Identifica tramite AcoustID"
+
+#: src/ui/library_view.py:655
+msgid "Use audio fingerprinting to identify this album"
+msgstr "Usa il fingerprinting audio per identificare questo album"
+
+#: src/ui/library_view.py:661
+msgid "Ungroup album"
+msgstr "Separa album"
+
+#: src/ui/library_view.py:685
+msgid "Unable to open terminal"
+msgstr "Impossibile aprire il terminale"
+
+#: src/ui/library_view.py:693
+msgid "Path copied to clipboard"
+msgstr "Percorso copiato negli appunti"
+
+#: src/ui/main_window.py:493
+msgid "TuneCover"
+msgstr "TuneCover"
+
+#: src/ui/main_window.py:567
+msgid "Search..."
+msgstr "Cerca..."
+
+#: src/ui/main_window.py:574
+msgid "All albums"
+msgstr "Tutti gli album"
+
+#: src/ui/main_window.py:575
+msgid "Without cover"
+msgstr "Senza copertina"
+
+#: src/ui/main_window.py:576
+msgid "Partial cover"
+msgstr "Copertina parziale"
+
+#: src/ui/main_window.py:577
+msgid "With cover"
+msgstr "Con copertina"
+
+#: src/ui/main_window.py:578 src/ui/widgets/album_card.py:302
+#: src/ui/widgets/album_card.py:439
+msgid "Different images"
+msgstr "Immagini diverse"
+
+#: src/ui/main_window.py:579
+msgid "Small covers <"
+msgstr "Copertine piccole <"
+
+#: src/ui/main_window.py:580
+msgid "Covers to improve"
+msgstr "Copertine da migliorare"
+
+#: src/ui/main_window.py:581
+msgid "By size"
+msgstr "Stessa dimensione"
+
+#: src/ui/main_window.py:582
+msgid "By type"
+msgstr "Per tipo"
+
+#: src/ui/main_window.py:583
+msgid "Identical covers"
+msgstr "Copertine identiche"
+
+#: src/ui/main_window.py:584
+msgid "Without AcoustID"
+msgstr "Senza AcoustID"
+
+#: src/ui/main_window.py:585
+msgid "Single tracks"
+msgstr "Brani singoli"
+
+#: src/ui/main_window.py:586
+msgid "Albums (multi-track)"
+msgstr "Album (multi-traccia)"
+
+#: src/ui/main_window.py:590
+msgid "Show all albums in the library"
+msgstr "Mostra tutti gli album nella libreria"
+
+#: src/ui/main_window.py:591
+msgid "Albums without any cover (embedded or external)"
+msgstr "Album senza alcuna copertina (integrata o esterna)"
+
+#: src/ui/main_window.py:592
+msgid "Albums with only embedded OR only external cover"
+msgstr "Album con solo copertina integrata O solo esterna"
+
+#: src/ui/main_window.py:593
+msgid "Albums with at least one cover"
+msgstr "Album con almeno una copertina"
+
+#: src/ui/main_window.py:594
+msgid "Albums where embedded and external covers differ"
+msgstr "Album dove le copertine integrate ed esterne sono diverse"
+
+#: src/ui/main_window.py:595
+msgid "Albums with covers smaller than the specified dimension"
+msgstr "Album con copertine più piccole della dimensione specificata"
+
+#: src/ui/main_window.py:596
+msgid "Albums with low-quality or small covers that could be improved"
+msgstr "Album con copertine di bassa qualità o piccole da migliorare"
+
+#: src/ui/main_window.py:597
+msgid "Filter albums by cover file size range"
+msgstr "Filtra album per dimensione file copertina"
+
+#: src/ui/main_window.py:598
+msgid "Filter albums by cover image format (JPEG, PNG, etc.)"
+msgstr "Filtra album per formato immagine (JPEG, PNG, etc.)"
+
+#: src/ui/main_window.py:599
+msgid "Albums sharing the same cover image (grouped by hash)"
+msgstr ""
+"Album che condividono la stessa immagine di copertina (raggruppati per "
+"hash)"
+
+#: src/ui/main_window.py:600
+msgid "Albums without audio fingerprint identifier"
+msgstr "Album senza identificatore di impronta audio"
+
+#: src/ui/main_window.py:601
+msgid "Individual audio files (single track, not in album folder)"
+msgstr "File audio singoli (traccia unica, non in cartella album)"
+
+#: src/ui/main_window.py:602
+msgid "Albums containing multiple tracks"
+msgstr "Album contenenti più tracce"
+
+#: src/ui/main_window.py:613 src/ui/main_window.py:656
+msgid "Clear filter"
+msgstr "Svuota libreria"
+
+#: src/ui/main_window.py:623
+msgid "Minimum dimension (width or height)"
+msgstr "Dimensione minima (larghezza o altezza)"
+
+#: src/ui/main_window.py:630
+msgid "Sort by: Artist"
+msgstr "Ordina per: Artista"
+
+#: src/ui/main_window.py:631
+msgid "Sort by: Album"
+msgstr "Ordina per: Album"
+
+#: src/ui/main_window.py:632
+msgid "Sort by: Year"
+msgstr "Ordina per: Anno"
+
+#: src/ui/main_window.py:633
+msgid "Sort by: Dimension"
+msgstr "Ordina per: Dimensione"
+
+#: src/ui/main_window.py:634
+msgid "Sort by: Path"
+msgstr "Ordina per: Percorso"
+
+#: src/ui/main_window.py:657
+msgid "Clear identical covers filter"
+msgstr "Cancella il filtro delle copertine identiche"
+
+#: src/ui/main_window.py:705
+msgid "&File"
+msgstr "&File"
+
+#: src/ui/main_window.py:707
+msgid "&Open folder..."
+msgstr "&Apri cartella..."
+
+#: src/ui/main_window.py:712
+msgid "&Rescan (incremental)"
+msgstr "&Riscansiona (incrementale)"
+
+#: src/ui/main_window.py:717
+msgid "Full rescan"
+msgstr "Riscansione completa"
+
+#: src/ui/main_window.py:724
+msgid "&Export list..."
+msgstr "&Esporta lista..."
+
+#: src/ui/main_window.py:729
+msgid "&Import list..."
+msgstr "&Importa lista..."
+
+#: src/ui/main_window.py:736
+msgid "&Clear library"
+msgstr "&Svuota libreria"
+
+#: src/ui/main_window.py:743
+msgid "&Quit"
+msgstr "&Esci"
+
+#: src/ui/main_window.py:749
+msgid "&Edit"
+msgstr "&Modifica"
+
+#: src/ui/main_window.py:751
+msgid "Select all"
+msgstr "Seleziona tutto"
+
+#: src/ui/main_window.py:756
+msgid "Deselect all"
+msgstr "Deseleziona tutto"
+
+#: src/ui/main_window.py:762
+msgid "Auto download covers..."
+msgstr "Scarica automaticamente le copertine..."
+
+#: src/ui/main_window.py:769
+msgid "&Preferences..."
+msgstr "&Preferenze..."
+
+#: src/ui/main_window.py:775
+msgid "&View"
+msgstr "&Visualizza"
+
+#: src/ui/main_window.py:777
+msgid "Grid view"
+msgstr "Vista griglia"
+
+#: src/ui/main_window.py:781
+msgid "List view"
+msgstr "Vista lista"
+
+#: src/ui/main_window.py:787
+msgid "Statistics..."
+msgstr "Statistiche..."
+
+#: src/ui/main_window.py:792
+msgid "&Tools"
+msgstr "&Strumenti"
+
+#: src/ui/main_window.py:794
+msgid "Auto fetch..."
+msgstr "Scaricamento automatico..."
+
+#: src/ui/main_window.py:798
+msgid "Batch AcoustID identification..."
+msgstr "Identificazione AcoustID in batch"
+
+#: src/ui/main_window.py:803
+msgid "&Help"
+msgstr "&Aiuto"
+
+#: src/ui/main_window.py:805
+msgid "About"
+msgstr "Informazioni"
+
+#: src/ui/main_window.py:817
+msgid "Open"
+msgstr "Apri"
+
+#: src/ui/main_window.py:818
+msgid "Open a music folder"
+msgstr "Apri una cartella musicale"
+
+#: src/ui/main_window.py:828
+msgid "Clear"
+msgstr "Svuota"
+
+#: src/ui/main_window.py:829
+msgid "Clear library"
+msgstr "Svuota libreria"
+
+#: src/ui/main_window.py:836
+msgid "Auto Fetch"
+msgstr "Scarica Auto"
+
+#: src/ui/main_window.py:837
+msgid "Automatically fetch missing covers"
+msgstr "Scarica automaticamente le copertine mancanti"
+
+#: src/ui/main_window.py:847
+msgid "Ready"
+msgstr "Pronto"
+
+#: src/ui/main_window.py:856
+msgid "Scan:"
+msgstr "Scansione:"
+
+#: src/ui/main_window.py:981
+#, python-brace-format
+msgid "File loaded (MBID: {mbid}...)"
+msgstr "File caricato (MBID: {mbid}...)"
+
+#: src/ui/main_window.py:987
+#, python-brace-format
+msgid "File loaded: {name}"
+msgstr "File caricato: {name}"
+
+#: src/ui/main_window.py:991
+#, python-brace-format
+msgid "{count} files loaded"
+msgstr "{count} file caricati"
+
+#: src/ui/main_window.py:1018
+msgid "Cannot group: selected files must be in the same folder"
+msgstr ""
+"Impossibile raggruppare: i file selezionati devono trovarsi nella stessa "
+"cartella"
+
+#: src/ui/main_window.py:1048 src/ui/main_window.py:1050
+msgid "Various Artists"
+msgstr "Artisti vari"
+
+#: src/ui/main_window.py:1118
+#, python-brace-format
+msgid "{count} files grouped as album \"{name}\""
+msgstr "{count} file raggruppati come album \"{name}\""
+
+#: src/ui/main_window.py:1162
+#, python-brace-format
+msgid "{missing} files not found on disk"
+msgstr "{missing} file non trovati sul disco"
+
+#: src/ui/main_window.py:1165
+#, python-brace-format
+msgid "Album ungrouped: {restored} of {total} files restored"
+msgstr "Album separato: {restored} di {total} file ripristinati"
+
+#: src/ui/main_window.py:1175
+#, python-brace-format
+msgid "Album ungrouped: {count} individual files restored"
+msgstr "Album separato: {count} file individuali ripristinati"
+
+#: src/ui/main_window.py:1213
+msgid "Cannot add: files must be in the same folder as the group"
+msgstr ""
+"Impossibile aggiungere: i file devono trovarsi nella stessa cartella del "
+"gruppo"
+
+#: src/ui/main_window.py:1278
+#, python-brace-format
+msgid "{count} files added to group \"{name}\""
+msgstr "{count} file aggiunti al gruppo \"{name}\""
+
+#: src/ui/main_window.py:1309
+msgid "Select a music folder"
+msgstr "Seleziona una cartella musicale"
+
+#: src/ui/main_window.py:1329
+msgid "No folder to scan. Open a music folder first."
+msgstr "Nessuna cartella da scansionare. Apri prima una cartella musicale."
+
+#: src/ui/main_window.py:1340
+msgid "Library cleared"
+msgstr "Libreria svuotata"
+
+#: src/ui/main_window.py:1345
+msgid "No album to export."
+msgstr "Nessun album da esportare."
+
+#: src/ui/main_window.py:1351
+msgid "Export album list"
+msgstr "Esporta lista album"
+
+#: src/ui/main_window.py:1373
+#, python-brace-format
+msgid "Exported {count} albums to {filename}"
+msgstr "Esportati {count} album in {filename}"
+
+#: src/ui/main_window.py:1382
+msgid "Export error"
+msgstr "Errore di esportazione"
+
+#: src/ui/main_window.py:1382
+#, python-brace-format
+msgid ""
+"Error during export:\n"
+"{error}"
+msgstr ""
+"Errore durante l'esportazione:\n"
+"{error}"
+
+#: src/ui/main_window.py:1390
+msgid "Import album list"
+msgstr "Importa lista album"
+
+#: src/ui/main_window.py:1419
+msgid "Import"
+msgstr "Importa"
+
+#: src/ui/main_window.py:1419
+msgid "No valid album found in file."
+msgstr "Nessun album valido trovato nel file."
+
+#: src/ui/main_window.py:1443
+#, python-brace-format
+msgid "Imported: {added} added, {updated} updated"
+msgstr "Importati: {added} aggiunti, {updated} aggiornati"
+
+#: src/ui/main_window.py:1453 src/ui/main_window.py:1459
+msgid "Import error"
+msgstr "Errore di importazione"
+
+#: src/ui/main_window.py:1454
+#, python-brace-format
+msgid ""
+"File is not valid JSON:\n"
+"{error}"
+msgstr ""
+"Il file non è un JSON valido:\n"
+"{error}"
+
+#: src/ui/main_window.py:1488
+msgid "full"
+msgstr "completa"
+
+#: src/ui/main_window.py:1491
+msgid "incremental"
+msgstr "incrementale"
+
+#: src/ui/main_window.py:1494
+#, python-brace-format
+msgid "Scan ({type}):"
+msgstr "Scansione ({type}):"
+
+#: src/ui/main_window.py:1504
+#, python-brace-format
+msgid "Scan ({type}) of {path}..."
+msgstr "Scansione ({type}) di {path}..."
+
+#: src/ui/main_window.py:1513
+msgid "Scan in progress"
+msgstr "Scansione in corso"
+
+#: src/ui/main_window.py:1513
+msgid "A scan is already in progress. Please wait."
+msgstr "Una scansione è già in corso. Attendere prego."
+
+#: src/ui/main_window.py:1521
+msgid "Scanning folders..."
+msgstr "Scansione cartelle..."
+
+#: src/ui/main_window.py:1530
+#, python-brace-format
+msgid "Scanning {name}..."
+msgstr "Scansione di {name}..."
+
+#: src/ui/main_window.py:1552
+#, python-brace-format
+msgid "{count} albums added"
+msgstr "{count} album aggiunti"
+
+#: src/ui/main_window.py:1555
+msgid "No album found in folders"
+msgstr "Nessun album trovato nelle cartelle"
+
+#: src/ui/main_window.py:1562
+msgid "Scan cancelled"
+msgstr "Scansione annullata"
+
+#: src/ui/main_window.py:1570
+#, python-brace-format
+msgid "Scan: {message}"
+msgstr "Scansione: {message}"
+
+#: src/ui/main_window.py:1597
+#, python-brace-format
+msgid "Scan complete: {total} albums ({scanned} scanned, {cached} cached)"
+msgstr ""
+"Scansione completata: {total} album ({scanned} scansionati, {cached} "
+"dalla cache)Scansione completata: {total} album ({scanned} scansionati, "
+"{cached} dalla cache)"
+
+#: src/ui/main_window.py:1600
+#, python-brace-format
+msgid "Scan complete: {count} albums found"
+msgstr "Scansione completata: {count} album trovati"
+
+#: src/ui/main_window.py:1615
+#, python-brace-format
+msgid ""
+"Error during scan:\n"
+"{error}"
+msgstr ""
+"Errore durante la scansione:\n"
+"{error}"
+
+#: src/ui/main_window.py:1617
+msgid "Error during scan"
+msgstr "Errore durante la scansione"
+
+#: src/ui/main_window.py:1764
+#, python-brace-format
+msgid "Albums: {total} | Without cover: {missing}"
+msgstr "Album: {total} | Senza copertina: {missing}"
+
+#: src/ui/main_window.py:1770
+#, python-brace-format
+msgid "Search: {filtered} result(s) of {total} | Without cover: {missing}"
+msgstr "Ricerca: {filtered} risultato/i su {total} | Senza copertina: {missing}"
+
+#: src/ui/main_window.py:1776
+#, python-brace-format
+msgid "Displayed: {filtered}/{total} | Without cover: {missing}"
+msgstr "Visualizzati: {filtered}/{total} | Senza copertina: {missing}"
+
+#: src/ui/main_window.py:1858
+msgid "No album without cover in current selection."
+msgstr "Nessun album senza copertina nella selezione attuale."
+
+#: src/ui/main_window.py:1863
+msgid "Auto fetch"
+msgstr "Scaricamento automatico"
+
+#: src/ui/main_window.py:1865
+#, python-brace-format
+msgid ""
+"Automatically search covers for {count} albums?\n"
+"\n"
+"Only matches with a high score will be automatically applied."
+msgstr ""
+"Cercare automaticamente le copertine per {count} album?\n"
+"\n"
+"Solo i risultati con punteggio alto verranno applicati automaticamente."
+
+#: src/ui/main_window.py:1888
+msgid ""
+"No album without cover in current selection. Select albums without cover "
+"or use the 'Without cover' filter to display only affected albums."
+msgstr ""
+"Nessun album senza copertina nella selezione attuale. Seleziona album "
+"senza copertina o usa il filtro 'Senza copertina' per visualizzare solo "
+"gli album interessati."
+
+#: src/ui/main_window.py:1897
+#, python-brace-format
+msgid "Automatically download covers for {count} selected album(s)?"
+msgstr "Scaricare automaticamente le copertine per {count} album selezionato/i?"
+
+#: src/ui/main_window.py:1901
+#, python-brace-format
+msgid "Automatically download covers for {count} visible album(s)?"
+msgstr "Scaricare automaticamente le copertine per {count} album visibile/i?"
+
+#: src/ui/main_window.py:1907
+#, python-brace-format
+msgid ""
+"\n"
+"\n"
+"Only results with a score >= {score}% will be automatically applied."
+msgstr ""
+"\n"
+"\n"
+"Solo i risultati con punteggio >= {score}%% verranno applicati "
+"automaticamente."
+
+#: src/ui/main_window.py:1912
+msgid "Auto download"
+msgstr "Scaricamento automatico"
+
+#: src/ui/main_window.py:1941 src/ui/search_panel.py:1206
+msgid "Fingerprinting unavailable"
+msgstr "Identificazione audio non disponibile"
+
+#: src/ui/main_window.py:1943 src/ui/search_panel.py:1208
+msgid ""
+"Audio fingerprinting requires chromaprint to be installed.\n"
+"\n"
+"On Linux: sudo apt install libchromaprint-tools\n"
+"On macOS: brew install chromaprint\n"
+"On Windows: Download fpcalc.exe from acoustid.org"
+msgstr ""
+"L'identificazione audio richiede l'installazione di chromaprint.\n"
+"\n"
+"Su Linux: sudo apt install libchromaprint-tools\n"
+"Su macOS: brew install chromaprint\n"
+"Su Windows: Scarica fpcalc.exe da acoustid.org"
+
+#: src/ui/main_window.py:1957
+msgid "Batch AcoustID identification"
+msgstr "Identificazione AcoustID in batch"
+
+#: src/ui/main_window.py:1958
+msgid "All albums in the current view already have an AcoustID."
+msgstr "Tutti gli album nella vista corrente hanno già un AcoustID."
+
+#: src/ui/main_window.py:1997
+msgid "about.title"
+msgstr "Informazioni su {app}"
+
+#: src/ui/main_window.py:1998
+msgid "about.content"
+msgstr ""
+"{app} v{version}\n"
+"\n"
+"Uno strumento per recuperare e integrare le copertine degli album.\n"
+"\n"
+"Fonti:\n"
+"- MusicBrainz / Cover Art Archive\n"
+"- AcoustID (impronta audio)\n"
+"- Discogs (richiede chiave API)\n"
+"- Last.fm (richiede chiave API)\n"
+"\n"
+"Autore: {author}\n"
+"© {year} {author}. Tutti i diritti riservati."
+
+#: src/ui/main_window.py:2086
+msgid "No album with identical cover found"
+msgstr "Album con copertina completa:"
+
+#: src/ui/main_window.py:2088
+msgid "1 album with identical cover"
+msgstr "Album con copertina completa:"
+
+#: src/ui/main_window.py:2090
+#, python-brace-format
+msgid "{count} albums with identical cover"
+msgstr "{count} album senza copertina da elaborare"
+
+#: src/ui/main_window.py:2150
+#, python-brace-format
+msgid ""
+"Remove the cover from \"{name}\"?\n"
+"\n"
+"This will remove both the embedded cover and the folder image file."
+msgstr ""
+"Rimuovere la copertina da \"{name}\"?\n"
+"\n"
+"Questo rimuoverà sia la copertina incorporata che il file immagine della "
+"cartella."
+
+#: src/ui/main_window.py:2200
+#, python-brace-format
+msgid "Cover removed from \"{name}\""
+msgstr "Copertina rimossa da \"{name}\""
+
+#: src/ui/main_window.py:2206
+#, python-brace-format
+msgid ""
+"Error removing cover:\n"
+"{error}"
+msgstr ""
+"Errore nella rimozione della copertina:\n"
+"{error}"
+
+#: src/ui/preferences.py:50
+msgid "Preferences"
+msgstr "Preferenze"
+
+#: src/ui/preferences.py:61
+msgid "General"
+msgstr "Generale"
+
+#: src/ui/preferences.py:64
+msgid "API Keys"
+msgstr "Chiavi API"
+
+#: src/ui/preferences.py:67
+msgid "Fingerprinting"
+msgstr "Fingerprinting"
+
+#: src/ui/preferences.py:70
+msgid "Embedding"
+msgstr "Integrazione"
+
+#: src/ui/preferences.py:73
+msgid "Exclusions"
+msgstr "Esclusioni"
+
+#: src/ui/preferences.py:76
+msgid "Cache"
+msgstr "Cache"
+
+#: src/ui/dialogs/cover_comparison.py:368 src/ui/preferences.py:86
+#: src/ui/search_panel.py:1031
+msgid "Apply"
+msgstr "Applica"
+
+#: src/ui/preferences.py:90
+msgid "OK"
+msgstr "OK"
+
+#: src/ui/preferences.py:102
+msgid "Interface"
+msgstr "Interfaccia"
+
+#: src/ui/preferences.py:108
+msgid "Thumbnail size in grid view"
+msgstr "Dimensione miniature nella vista griglia"
+
+#: src/ui/preferences.py:109
+msgid "Thumbnail size:"
+msgstr "Dimensione miniature:"
+
+#: src/ui/preferences.py:111
+msgid "Auto scan at startup"
+msgstr "Scansiona automaticamente all'avvio"
+
+#: src/ui/preferences.py:112
+msgid "Rescan last opened folder at startup"
+msgstr "Riscansiona l'ultima cartella aperta all'avvio"
+
+#: src/ui/preferences.py:119
+msgid "Application language (requires restart)"
+msgstr "Lingua dell'applicazione (richiede riavvio)"
+
+#: src/ui/preferences.py:120
+msgid "Language:"
+msgstr "Lingua:"
+
+#: src/ui/preferences.py:125 src/ui/search_panel.py:900
+msgid "Search"
+msgstr "Cerca"
+
+#: src/ui/preferences.py:131
+msgid "Minimum score for automatic application"
+msgstr "Punteggio minimo per l'applicazione automatica"
+
+#: src/ui/preferences.py:132
+msgid "Minimum score (auto):"
+msgstr "Punteggio minimo (auto):"
+
+#: src/ui/preferences.py:136
+msgid "Maximum number of results per search"
+msgstr "Numero massimo di risultati per ricerca"
+
+#: src/ui/preferences.py:137
+msgid "Max results:"
+msgstr "Risultati max:"
+
+#: src/ui/preferences.py:142
+msgid "Contact Information"
+msgstr "Informazioni di contatto"
+
+#: src/ui/preferences.py:146
+msgid "your@email.com (optional)"
+msgstr "tua@email.com (opzionale)"
+
+#: src/ui/preferences.py:149
+msgid ""
+"Contact email used in User-Agent for API requests.\n"
+"Improves rate limits (e.g., MusicBrainz: 1 → 50 req/s)."
+msgstr ""
+"Email di contatto usata nel User-Agent per le richieste API.\n"
+"Migliora i limiti di velocità (es: MusicBrainz: 1 → 50 req/s)."
+
+#: src/ui/preferences.py:153
+msgid "Contact email:"
+msgstr "Email di contatto:"
+
+#: src/ui/preferences.py:157
+msgid ""
+"Some APIs offer better rate limits when a contact email\n"
+"is provided in the User-Agent. This is optional but recommended."
+msgstr ""
+"Alcune API offrono limiti di velocità migliori quando un'email\n"
+"di contatto è fornita nel User-Agent. È opzionale ma consigliato."
+
+#: src/ui/preferences.py:181
+msgid ""
+"MusicBrainz does not require an API key.\n"
+"Rate limit is improved when a contact email is configured\n"
+"in the General tab."
+msgstr ""
+"MusicBrainz non richiede una chiave API.\n"
+"Il limite di velocità è migliorato quando un'email di contatto\n"
+"è configurata nella scheda Generale."
+
+#: src/ui/preferences.py:198
+msgid "Personal Discogs token (required for search)"
+msgstr "Token personale Discogs (richiesto per la ricerca)"
+
+#: src/ui/preferences.py:201
+msgid "Token:"
+msgstr "Token:"
+
+#: src/ui/preferences.py:203
+msgid "Discogs API requires a token to access search."
+msgstr "L'API Discogs richiede un token per accedere alla ricerca."
+
+#: src/ui/preferences.py:210
+msgid "Get a token on discogs.com"
+msgstr "Ottieni un token su discogs.com"
+
+#: src/ui/preferences.py:223
+msgid "Last.fm API key (required for search)"
+msgstr "Chiave API Last.fm (richiesta per la ricerca)"
+
+#: src/ui/preferences.py:225
+msgid "API Key:"
+msgstr "Chiave API:"
+
+#: src/ui/preferences.py:227
+msgid "Last.fm API requires a key to access search."
+msgstr "L'API Last.fm richiede una chiave per accedere alla ricerca."
+
+#: src/ui/preferences.py:234
+msgid "Get a key on last.fm"
+msgstr "Ottieni una chiave su last.fm"
+
+#: src/ui/preferences.py:243
+msgid "Show keys"
+msgstr "Mostra chiavi"
+
+#: src/ui/preferences.py:257
+msgid "Chromaprint (fpcalc)"
+msgstr "Chromaprint (fpcalc)"
+
+#: src/ui/preferences.py:262
+msgid "Status:"
+msgstr "Stato:"
+
+#: src/ui/preferences.py:273
+msgid "Auto-detect (leave empty)"
+msgstr "Rilevamento automatico (lasciare vuoto)"
+
+#: src/ui/preferences.py:275
+msgid ""
+"Custom path to fpcalc binary.\n"
+"Leave empty for automatic detection."
+msgstr ""
+"Percorso personalizzato del binario fpcalc.\n"
+"Lasciare vuoto per il rilevamento automatico."
+
+#: src/ui/preferences.py:279
+msgid "Browse..."
+msgstr "Sfoglia..."
+
+#: src/ui/preferences.py:283
+msgid "Test"
+msgstr "Test"
+
+#: src/ui/preferences.py:287
+msgid "fpcalc path:"
+msgstr "Percorso fpcalc:"
+
+#: src/ui/preferences.py:293
+msgid ""
+"Chromaprint is required for audio fingerprinting.\n"
+"Linux: sudo apt install libchromaprint-tools\n"
+"macOS: brew install chromaprint\n"
+"Windows: Download fpcalc.exe from acoustid.org"
+msgstr ""
+"L'identificazione audio richiede l'installazione di chromaprint.\n"
+"\n"
+"Su Linux: sudo apt install libchromaprint-tools\n"
+"Su macOS: brew install chromaprint\n"
+"Su Windows: Scarica fpcalc.exe da acoustid.org"
+
+#: src/ui/preferences.py:312
+msgid ""
+"Audio fingerprint lookups work automatically using a built-in\n"
+"application key. No configuration is needed."
+msgstr ""
+"La ricerca di impronte audio funziona automaticamente con una chiave\n"
+"applicazione integrata. Nessuna configurazione necessaria."
+
+#: src/ui/preferences.py:324
+msgid "Submit fingerprints (optional)"
+msgstr "Invia impronte audio (opzionale)"
+
+#: src/ui/preferences.py:329
+msgid ""
+"To help improve the AcoustID database by submitting new audio\n"
+"fingerprints, you need a personal user API key:"
+msgstr ""
+"Per aiutare a migliorare il database AcoustID inviando nuove impronte\n"
+"audio, hai bisogno di una chiave API utente personale:"
+
+#: src/ui/preferences.py:340
+msgid "Optional: Your personal user API key"
+msgstr "Opzionale: La tua chiave API utente personale"
+
+#: src/ui/preferences.py:342
+msgid "User API Key:"
+msgstr "Chiave API utente:"
+
+#: src/ui/preferences.py:348
+msgid "Register for a free user API key"
+msgstr "Registra una chiave API utente gratuita"
+
+#: src/ui/preferences.py:357
+msgid "Show key"
+msgstr "Mostra chiave"
+
+#: src/ui/preferences.py:372
+#, python-brace-format
+msgid "Available ({path})"
+msgstr "Disponibile ({path})"
+
+#: src/ui/preferences.py:375
+msgid "Not available"
+msgstr "Non disponibile"
+
+#: src/ui/preferences.py:383
+msgid "Executable (*.exe)"
+msgstr "Eseguibile (*.exe)"
+
+#: src/ui/preferences.py:385
+msgid "All files (*)"
+msgstr "Tutti i file (*)"
+
+#: src/ui/preferences.py:389
+msgid "Select fpcalc binary"
+msgstr "Seleziona il binario fpcalc"
+
+#: src/ui/preferences.py:404
+msgid "Test successful"
+msgstr "Test riuscito"
+
+#: src/ui/preferences.py:405
+#, python-brace-format
+msgid ""
+"fpcalc is working correctly.\n"
+"{message}"
+msgstr ""
+"fpcalc funziona correttamente.\n"
+"{message}"
+
+#: src/ui/preferences.py:410
+msgid "Test failed"
+msgstr "Test fallito"
+
+#: src/ui/preferences.py:411
+#, python-brace-format
+msgid ""
+"fpcalc test failed.\n"
+"{message}"
+msgstr ""
+"Test fpcalc fallito.\n"
+"{message}"
+
+#: src/ui/dialogs/cover_comparison.py:328 src/ui/preferences.py:420
+msgid "Save options"
+msgstr "Opzioni di salvataggio"
+
+#: src/ui/preferences.py:423
+msgid "Embed in audio tags (ID3, FLAC, etc.)"
+msgstr "Integra nei tag audio (ID3, FLAC, ecc.)"
+
+#: src/ui/preferences.py:426
+msgid ""
+"Embed cover art in audio file metadata.\n"
+"For multi-file albums, only applies if 'Always embed' is checked."
+msgstr ""
+"Integra la copertina nei metadati dei file audio.\n"
+"Per album multi-file, si applica solo se 'Integra sempre' è selezionato."
+
+#: src/ui/preferences.py:433
+msgid "Embed in multi-file albums"
+msgstr "Integra negli album multi-file"
+
+#: src/ui/preferences.py:436
+msgid ""
+"If unchecked, embedding is only done for single-file entries\n"
+"(to avoid duplicating the cover in many files).\n"
+"If checked, the cover is embedded in ALL audio files of the album."
+msgstr ""
+"Se deselezionato, l'integrazione viene fatta solo per album con un "
+"singolo file (per evitare di duplicare la copertina in molti file).\n"
+"Se selezionato, la copertina viene integrata in TUTTI i file audio "
+"dell'album."
+
+#: src/ui/preferences.py:444
+msgid "Save as external file in folder"
+msgstr "Salva come file esterno nella cartella"
+
+#: src/ui/preferences.py:445
+msgid "Save a copy of the cover in the album folder"
+msgstr "Salva una copia della copertina nella cartella dell'album"
+
+#: src/ui/preferences.py:451
+msgid "Filename:"
+msgstr "Nome file:"
+
+#: src/ui/preferences.py:453
+msgid "cover"
+msgstr "cover"
+
+#: src/ui/preferences.py:456
+msgid ""
+"Cover filename (without extension).\n"
+"Extension will be detected automatically (.jpg, .png, etc.)"
+msgstr ""
+"Nome file copertina (senza estensione).\n"
+"L'estensione verrà rilevata automaticamente (.jpg, .png, ecc.)"
+
+#: src/ui/preferences.py:466
+msgid "Preserve file modification date"
+msgstr "Preserva la data di modifica dei file"
+
+#: src/ui/preferences.py:468
+msgid ""
+"Restore original modification date of audio files\n"
+"after embedding cover."
+msgstr ""
+"Ripristina la data di modifica originale dei file audio\n"
+"dopo l'integrazione della copertina."
+
+#: src/ui/preferences.py:481
+msgid "Image settings"
+msgstr "Impostazioni immagine"
+
+#: src/ui/preferences.py:487
+msgid "Maximum image size (resized if larger)"
+msgstr "Dimensione massima immagine (ridimensionata se più grande)"
+
+#: src/ui/preferences.py:488
+msgid "Max size:"
+msgstr "Dimensione max:"
+
+#: src/ui/preferences.py:493
+msgid "JPEG quality for compression"
+msgstr "Qualità JPEG per la compressione"
+
+#: src/ui/preferences.py:494
+msgid "JPEG quality:"
+msgstr "Qualità JPEG:"
+
+#: src/ui/preferences.py:507
+msgid "Warning: At least one option must be enabled!"
+msgstr "Attenzione: Almeno un'opzione deve essere abilitata!"
+
+#: src/ui/preferences.py:525
+msgid "Excluded folder patterns"
+msgstr "Pattern cartelle escluse"
+
+#: src/ui/preferences.py:530
+msgid ""
+"Folders containing these terms will be ignored during scan.\n"
+"One pattern per line (e.g. 'backup', 'samples', '.git')"
+msgstr ""
+"Le cartelle contenenti questi termini verranno ignorate durante la "
+"scansione.\n"
+"Un pattern per riga (es. 'backup', 'samples', '.git')"
+
+#: src/ui/preferences.py:543
+msgid "Add"
+msgstr "Aggiungi"
+
+#: src/ui/preferences.py:547
+msgid "Remove"
+msgstr "Rimuovi"
+
+#: src/ui/preferences.py:564
+msgid "Disk cache (downloaded covers)"
+msgstr "Cache disco (copertine scaricate)"
+
+#: src/ui/preferences.py:570
+msgid "Maximum size for cached downloaded images"
+msgstr "Dimensione massima per immagini scaricate in cache"
+
+#: src/ui/preferences.py:571
+msgid "Maximum size:"
+msgstr "Dimensione max:"
+
+#: src/ui/preferences.py:575
+msgid " hours"
+msgstr " ore"
+
+#: src/ui/preferences.py:576
+msgid "Images older than this will be deleted"
+msgstr "Le immagini più vecchie verranno eliminate"
+
+#: src/ui/preferences.py:577
+msgid "Expiration:"
+msgstr "Scadenza:"
+
+#: src/ui/preferences.py:584
+msgid "Clear disk cache"
+msgstr "Svuota cache disco"
+
+#: src/ui/preferences.py:592
+msgid "Memory cache"
+msgstr "Cache memoria"
+
+#: src/ui/preferences.py:599
+msgid "Maximum memory for cached embedded cover data"
+msgstr "Memoria massima per dati copertine integrate in cache"
+
+#: src/ui/preferences.py:601
+msgid "Embedded covers:"
+msgstr "Copertine integrate:"
+
+#: src/ui/preferences.py:606
+msgid "Maximum number of thumbnails to keep in memory"
+msgstr "Numero massimo di miniature in memoria"
+
+#: src/ui/preferences.py:608
+msgid "Thumbnail count:"
+msgstr "Numero miniature:"
+
+#: src/ui/preferences.py:615
+msgid "Clear memory cache"
+msgstr "Svuota cache memoria"
+
+#: src/ui/preferences.py:625
+msgid ""
+"Cache helps reduce network requests and speeds up display.\n"
+"Clearing cache frees space but may slow down the next operations."
+msgstr ""
+"La cache riduce le richieste di rete e velocizza la visualizzazione.\n"
+"Svuotare la cache libera spazio ma può rallentare le prossime operazioni."
+
+#: src/ui/preferences.py:649
+#, python-brace-format
+msgid "Current: {size:.1f} MB ({count} files)"
+msgstr "Attuale: {size:.1f} MB ({count} file)"
+
+#: src/ui/preferences.py:654 src/ui/preferences.py:667
+msgid "Current: unknown"
+msgstr "Attuale: sconosciuto"
+
+#: src/ui/preferences.py:662
+#, python-brace-format
+msgid "Current: {size:.1f} MB ({count} entries)"
+msgstr "Attuale: {size:.1f} MB ({count} voci)"
+
+#: src/ui/preferences.py:676 src/ui/preferences.py:689
+msgid "Cache cleared"
+msgstr "Cache svuotata"
+
+#: src/ui/preferences.py:676
+#, python-brace-format
+msgid "Cleared {count} cached images."
+msgstr "{count} immagini in cache eliminate."
+
+#: src/ui/preferences.py:680 src/ui/preferences.py:693
+#, python-brace-format
+msgid "Failed to clear cache: {error}"
+msgstr "Errore durante lo svuotamento della cache: {error}"
+
+#: src/ui/preferences.py:689
+#, python-brace-format
+msgid "Cleared {count} cached entries."
+msgstr "{count} voci cache eliminate."
+
+#: src/ui/preferences.py:711
+msgid "Add pattern"
+msgstr "Aggiungi pattern"
+
+#: src/ui/preferences.py:711
+msgid "Pattern to exclude:"
+msgstr "Pattern da escludere:"
+
+#: src/ui/preferences.py:783
+msgid "Invalid configuration"
+msgstr "Configurazione non valida"
+
+#: src/ui/preferences.py:832
+msgid "Invalid filename"
+msgstr "Nome file non valido"
+
+#: src/ui/preferences.py:833
+msgid "Cover filename must not contain / or \\ and must not start with a dot."
+msgstr ""
+"Il nome del file non deve contenere / o \\ e non deve iniziare con un "
+"punto.Il nome del file copertina non deve contenere / o \\ e non deve "
+"iniziare con un punto."
+
+#: src/ui/search_criteria_manager.py:118
+msgid "Artist unchecked (compilation detected)"
+msgstr "Artista deselezionato (compilation rilevata)"
+
+#: src/ui/search_panel.py:100
+#, python-brace-format
+msgid "Connecting to {host}..."
+msgstr "Connessione a {host}..."
+
+#: src/ui/search_panel.py:104
+msgid "Direct MBID lookup..."
+msgstr "Ricerca diretta per MBID..."
+
+#: src/ui/search_panel.py:115
+msgid "ISRC lookup..."
+msgstr "Ricerca per ISRC..."
+
+#: src/ui/search_panel.py:127 src/ui/search_panel.py:140
+msgid "Barcode lookup..."
+msgstr "Ricerca per codice a barre..."
+
+#: src/ui/search_panel.py:153
+msgid "Text search..."
+msgstr "Ricerca testuale..."
+
+#: src/ui/search_panel.py:167
+msgid "Trying audio fingerprinting..."
+msgstr "Tentativo di fingerprinting audio..."
+
+#: src/ui/search_panel.py:200
+#, python-brace-format
+msgid "Fingerprint found: {artist}. Searching covers..."
+msgstr "Fingerprint trovato: {artist}. Ricerca copertine..."
+
+#: src/ui/search_panel.py:217
+#, python-brace-format
+msgid "Connected to {host}"
+msgstr "Connesso a {host}"
+
+#: src/ui/search_panel.py:225
+#, python-brace-format
+msgid "Rate limit exceeded on {host}{retry}"
+msgstr "Limite di richieste superato su {host}{retry}"
+
+#: src/ui/search_panel.py:234 src/ui/search_panel.py:257
+#, python-brace-format
+msgid "Connection timeout to {host}"
+msgstr "Timeout connessione a {host}"
+
+#: src/ui/search_panel.py:236 src/ui/search_panel.py:251
+#, python-brace-format
+msgid "Connection failed to {host}"
+msgstr "Connessione fallita a {host}"
+
+#: src/ui/search_panel.py:243
+#, python-brace-format
+msgid "Communication error with {host} (HTTP {code})"
+msgstr "Errore di comunicazione con {host} (HTTP {code})"
+
+#: src/ui/search_panel.py:263
+#, python-brace-format
+msgid "Error communicating with {host}"
+msgstr "Errore comunicazione con {host}"
+
+#: src/ui/search_panel.py:388
+msgid "Download failed"
+msgstr "Scaricamento fallito"
+
+#: src/ui/search_panel.py:408
+msgid "Generating audio fingerprint..."
+msgstr "Generazione fingerprint audio..."
+
+#: src/ui/search_panel.py:413
+msgid "Failed to generate fingerprint. Is chromaprint installed?"
+msgstr "Generazione fingerprint fallita. Chromaprint è installato?"
+
+#: src/ui/search_panel.py:419
+msgid "Looking up fingerprint in AcoustID database..."
+msgstr "Ricerca fingerprint nel database AcoustID..."
+
+#: src/ui/search_panel.py:426
+msgid "AcoustID lookup failed. Check your API key in Preferences."
+msgstr "Ricerca AcoustID fallita. Controlla la tua chiave API nelle Preferenze."
+
+#: src/ui/search_panel.py:430
+msgid "No matches found in AcoustID database"
+msgstr "Nessuna corrispondenza trovata nel database AcoustID"
+
+#: src/ui/search_panel.py:495 src/ui/search_panel.py:1226
+msgid "Analyzing audio fingerprints..."
+msgstr "Analisi delle impronte audio..."
+
+#: src/ui/search_panel.py:578 src/ui/search_panel.py:629
+msgid "[Cover]"
+msgstr "[Copertina]"
+
+#: src/ui/dialogs/cover_comparison.py:82 src/ui/dialogs/cover_comparison.py:176
+#: src/ui/search_panel.py:615
+msgid "Double-click to zoom"
+msgstr "Doppio clic per ingrandire"
+
+#: src/ui/search_panel.py:745
+#, python-brace-format
+msgid "Cover search: {name}"
+msgstr "Ricerca copertina: {name}"
+
+#: src/ui/search_panel.py:789
+msgid "Force text search"
+msgstr "Forza ricerca testuale"
+
+#: src/ui/search_panel.py:792
+msgid ""
+"Ignore MBID and perform text-based search.\n"
+"Useful if MBID doesn't give satisfactory results."
+msgstr ""
+"Ignora MBID ed esegui una ricerca testuale.\n"
+"Utile se MBID non dà risultati soddisfacenti."
+
+#: src/ui/search_panel.py:808
+msgid "Search criteria"
+msgstr "Criteri di ricerca"
+
+#: src/ui/search_panel.py:816
+msgid "Artist name"
+msgstr "Nome artista"
+
+#: src/ui/search_panel.py:824
+msgid "Album title"
+msgstr "Titolo album"
+
+#: src/ui/search_panel.py:832
+msgid "(optional)"
+msgstr "(opzionale)"
+
+#: src/ui/search_panel.py:838
+msgid "Title:"
+msgstr "Titolo:"
+
+#: src/ui/search_panel.py:841
+msgid "Track title"
+msgstr "Titolo della traccia"
+
+#: src/ui/search_panel.py:854
+msgid "ISRC"
+msgstr "ISRC"
+
+#: src/ui/search_panel.py:863
+msgid "UPC/EAN"
+msgstr "UPC/EAN"
+
+#: src/ui/search_panel.py:876
+msgid "AcoustID"
+msgstr "AcoustID"
+
+#: src/ui/search_panel.py:879
+msgid ""
+"Use audio fingerprinting to identify this track.\n"
+"Fills in artist/album fields from AcoustID database."
+msgstr ""
+"Usa il fingerprinting audio per identificare questa traccia.\n"
+"Compila i campi artista/album dal database AcoustID."
+
+#: src/ui/search_panel.py:893
+msgid ""
+"Fingerprinting unavailable.\n"
+"Install chromaprint/fpcalc and pyacoustid."
+msgstr ""
+"Fingerprinting non disponibile.\n"
+"Installa chromaprint/fpcalc e pyacoustid."
+
+#: src/ui/search_panel.py:896
+msgid "No audio file available for fingerprinting."
+msgstr "Nessun file audio disponibile per il fingerprinting."
+
+#: src/ui/search_panel.py:947
+msgid "Results"
+msgstr "Risultati"
+
+#: src/ui/search_panel.py:962
+msgid "Stop"
+msgstr "Ferma"
+
+#: src/ui/search_panel.py:963
+msgid "Stop loading thumbnails"
+msgstr "Ferma il caricamento delle miniature"
+
+#: src/ui/search_panel.py:984
+msgid "Start a search to find covers"
+msgstr "Avvia una ricerca per trovare copertine"
+
+#: src/ui/search_panel.py:993
+msgid "Selection"
+msgstr "Selezione"
+
+#: src/ui/search_panel.py:1003 src/ui/search_panel.py:1599
+msgid "No selection"
+msgstr "Nessuna selezione"
+
+#: src/ui/search_panel.py:1078
+#, python-brace-format
+msgid "Mode: MBID Lookup ({mbid}...)"
+msgstr "Modalità: Ricerca MBID ({mbid}...)"
+
+#: src/ui/search_panel.py:1086
+#, python-brace-format
+msgid ""
+"MusicBrainz Album ID: {mbid}\n"
+"\n"
+"Search uses the unique MusicBrainz identifier.\n"
+"This is the most reliable method (exact match)."
+msgstr ""
+"MusicBrainz Album ID: {mbid}\n"
+"\n"
+"La ricerca usa l'identificatore unico MusicBrainz.\n"
+"Questo è il metodo più affidabile (corrispondenza esatta)."
+
+#: src/ui/search_panel.py:1092
+msgid "Mode: Text search"
+msgstr "Modalità: Ricerca testuale"
+
+#: src/ui/search_panel.py:1098
+msgid ""
+"Search uses artist/album text.\n"
+"Results depend on text matching."
+msgstr ""
+"La ricerca usa il testo artista/album.\n"
+"I risultati dipendono dalla corrispondenza testuale."
+
+#: src/ui/search_panel.py:1218
+msgid "No audio files available for fingerprinting."
+msgstr "Nessun file audio disponibile per il fingerprinting."
+
+#: src/ui/search_panel.py:1283
+#, python-brace-format, python-format
+msgid ""
+"Identified via AcoustID: {artist} - {title} ({score}%% confidence).\n"
+"Click 'Search' to find covers."
+msgstr ""
+"Identificato tramite AcoustID: {artist} - {title} ({score}%% confidenza)."
+"\n"
+"Clicca 'Cerca' per trovare le copertine."
+
+#: src/ui/search_panel.py:1300
+#, python-brace-format
+msgid "AcoustID error: {error}"
+msgstr "Errore AcoustID: {error}"
+
+#: src/ui/search_panel.py:1305
+msgid "Identification error"
+msgstr "Errore di identificazione"
+
+#: src/ui/search_panel.py:1306
+#, python-brace-format
+msgid ""
+"Could not identify via AcoustID:\n"
+"{error}"
+msgstr ""
+"Impossibile identificare tramite AcoustID:\n"
+"{error}"
+
+#: src/ui/search_panel.py:1312
+#, python-brace-format
+msgid "Analyzing track {current}/{total}: {name}"
+msgstr "Analisi traccia {current}/{total}: {name}"
+
+#: src/ui/search_panel.py:1327
+#, python-brace-format
+msgid "No fingerprint matches found ({analyzed} tracks analyzed)."
+msgstr "Nessuna corrispondenza trovata ({analyzed} tracce analizzate)."
+
+#: src/ui/search_panel.py:1376
+#, python-brace-format
+msgid ""
+"Selected: {artist} - {title} ({votes} tracks matched).\n"
+"Click 'Search' to find covers."
+msgstr ""
+"Selezionato: {artist} - {title} ({votes} tracce corrispondenti).\n"
+"Clicca 'Cerca' per trovare le copertine."
+
+#: src/ui/search_panel.py:1451
+msgid "Scan error"
+msgstr "Errore di scansione"
+
+#: src/ui/search_panel.py:1452
+#, python-brace-format
+msgid ""
+"Error scanning additional tracks:\n"
+"{error}"
+msgstr ""
+"Errore nella scansione di tracce aggiuntive:\n"
+"{error}"
+
+#: src/ui/search_panel.py:1483
+msgid "No source available"
+msgstr "Nessuna fonte disponibile"
+
+#: src/ui/search_panel.py:1491 src/ui/widgets/source_selector.py:237
+msgid "Configuration required"
+msgstr "Configurazione richiesta"
+
+#: src/ui/search_panel.py:1493
+#, python-brace-format
+msgid ""
+"Provider {name} requires an API key.\n"
+"\n"
+"Please configure the API key in preferences\n"
+"(Menu Edit -> Preferences)."
+msgstr ""
+"Il fornitore {name} richiede una chiave API.\n"
+"\n"
+"Configura la chiave API nelle preferenze\n"
+"(Menu Modifica -> Preferenze)."
+
+#: src/ui/search_panel.py:1520
+msgid "Enter at least an artist or album"
+msgstr "Inserisci almeno un artista o album"
+
+#: src/ui/dialogs/batch_download_dialog.py:247 src/ui/search_panel.py:1539
+#, python-brace-format
+msgid "MBID lookup on {provider}..."
+msgstr "Ricerca MBID su {provider}..."
+
+#: src/ui/search_panel.py:1546
+#, python-brace-format
+msgid "artist='{artist}'"
+msgstr "artista='{artist}'"
+
+#: src/ui/search_panel.py:1548
+#, python-brace-format
+msgid "album='{album}'"
+msgstr "album='{album}'"
+
+#: src/ui/search_panel.py:1550
+#, python-brace-format
+msgid "year={year}"
+msgstr "anno={year}"
+
+#: src/ui/search_panel.py:1553
+#, python-brace-format
+msgid "Searching on {provider}: {desc}..."
+msgstr "Ricerca su {provider}: {desc}..."
+
+#: src/ui/search_panel.py:1617
+#, python-brace-format
+msgid "No results found on {provider}"
+msgstr "Nessun risultato trovato su {provider}"
+
+#: src/ui/search_panel.py:1655
+msgid "Connection error. Check your internet connection."
+msgstr "Errore di connessione al server. Controlla la tua connessione internet."
+
+#: src/ui/search_panel.py:1657
+msgid "Invalid or expired API key. Check your credentials in preferences."
+msgstr ""
+"Chiave API non valida o scaduta. Controlla le tue credenziali nelle "
+"preferenze.Chiave API non valida o scaduta. Controlla le tue credenziali "
+"nelle preferenze."
+
+#: src/ui/search_panel.py:1659
+msgid "Too many requests. Please wait before trying again."
+msgstr "Troppe richieste. Attendi prima di riprovare."
+
+#: src/ui/search_panel.py:1661
+#, python-brace-format
+msgid ""
+"API communication error:\n"
+"{error}"
+msgstr ""
+"Errore di comunicazione API:\n"
+"{error}"
+
+#: src/ui/search_panel.py:1667
+msgid "Search error"
+msgstr "Errore di ricerca"
+
+#: src/ui/search_panel.py:1768
+#, python-brace-format
+msgid "Year: {year} | Score: {score}%"
+msgstr "Anno: {year} | Punteggio: {score}%"
+
+#: src/ui/search_panel.py:1776
+#, python-brace-format
+msgid "Image: {info}"
+msgstr "Immagine: {info}"
+
+#: src/ui/search_panel.py:1827
+msgid "This cover is not available."
+msgstr "Questa copertina non è disponibile."
+
+#: src/ui/search_panel.py:1869
+#, python-brace-format
+msgid ""
+"Error downloading cover:\n"
+"{error}"
+msgstr ""
+"Errore durante lo scaricamento della copertina:\n"
+"{error}"
+
+#: src/ui/dialogs/acoustid_save_dialog.py:83
+msgid "Save AcoustID"
+msgstr "Salva AcoustID"
+
+#: src/ui/dialogs/acoustid_save_dialog.py:90
+msgid "Save this AcoustID to the audio files?"
+msgstr "Salvare questo AcoustID nei file audio?"
+
+#: src/ui/dialogs/acoustid_save_dialog.py:119
+msgid "Confidence:"
+msgstr "Confidenza:"
+
+#: src/ui/dialogs/acoustid_save_dialog.py:134
+msgid "Update metadata"
+msgstr "Aggiorna metadati"
+
+#: src/ui/dialogs/acoustid_save_dialog.py:141
+#, python-brace-format
+msgid "Update artist tag to: {artist}"
+msgstr "Aggiorna artista a: {artist}"
+
+#: src/ui/dialogs/acoustid_save_dialog.py:147
+#: src/ui/dialogs/acoustid_save_dialog.py:162
+#, python-brace-format
+msgid "Current: {current}"
+msgstr "Attuale: {current}"
+
+#: src/ui/dialogs/acoustid_save_dialog.py:156
+#, python-brace-format
+msgid "Update album tag to: {album}"
+msgstr "Aggiorna album a: {album}"
+
+#: src/ui/dialogs/acoustid_save_dialog.py:174
+msgid "This will modify the tags of the audio files."
+msgstr "Questo modificherà i tag dei file audio."
+
+#: src/ui/dialogs/acoustid_save_dialog.py:180
+msgid "Save"
+msgstr "Salva"
+
+#: src/ui/dialogs/batch_acoustid_dialog.py:88
+msgid "Error: fpcalc not found"
+msgstr "Errore: fpcalc non trovato"
+
+#: src/ui/dialogs/batch_acoustid_dialog.py:92
+#: src/ui/dialogs/batch_acoustid_dialog.py:213
+#, python-brace-format
+msgid "Error: {error}"
+msgstr "Errore: {error}"
+
+#: src/ui/dialogs/batch_acoustid_dialog.py:97
+msgid "Starting batch AcoustID identification..."
+msgstr "Avvio identificazione AcoustID in batch..."
+
+#: src/ui/dialogs/batch_acoustid_dialog.py:98
+#, python-brace-format
+msgid "Albums to process: {count}"
+msgstr "Album da elaborare: {count}"
+
+#: src/ui/dialogs/batch_acoustid_dialog.py:103
+#: src/ui/dialogs/batch_download_dialog.py:134
+msgid "Operation cancelled by user."
+msgstr "Operazione annullata dall'utente."
+
+#: src/ui/dialogs/batch_acoustid_dialog.py:114
+msgid "Skipped (already has AcoustID)"
+msgstr "Saltato (ha già AcoustID)"
+
+#: src/ui/dialogs/batch_acoustid_dialog.py:115
+msgid "Already has AcoustID"
+msgstr "Ha già AcoustID"
+
+#: src/ui/dialogs/batch_acoustid_dialog.py:120
+#: src/ui/dialogs/batch_download_dialog.py:152
+msgid "Skipped by user"
+msgstr "Saltato dall'utente"
+
+#: src/ui/dialogs/batch_acoustid_dialog.py:122
+#: src/ui/dialogs/batch_download_dialog.py:154
+msgid "Skipped"
+msgstr "Saltato"
+
+#: src/ui/dialogs/batch_acoustid_dialog.py:128
+msgid "No audio file found"
+msgstr "Nessun file audio trovato"
+
+#: src/ui/dialogs/batch_acoustid_dialog.py:131
+msgid "No audio file"
+msgstr "Nessun file audio"
+
+#: src/ui/dialogs/batch_acoustid_dialog.py:136
+msgid "Generating fingerprint..."
+msgstr "Generazione impronta..."
+
+#: src/ui/dialogs/batch_acoustid_dialog.py:140
+msgid "Failed to generate fingerprint"
+msgstr "Generazione impronta fallita"
+
+#: src/ui/dialogs/batch_acoustid_dialog.py:143
+msgid "Fingerprint failed"
+msgstr "Impronta fallita"
+
+#: src/ui/dialogs/batch_acoustid_dialog.py:147
+msgid "Looking up in AcoustID database..."
+msgstr "Ricerca nel database AcoustID..."
+
+#: src/ui/dialogs/batch_acoustid_dialog.py:154
+msgid "No match found in AcoustID"
+msgstr "Nessuna corrispondenza trovata in AcoustID"
+
+#: src/ui/dialogs/batch_acoustid_dialog.py:156
+#: src/ui/dialogs/batch_download_dialog.py:201
+msgid "No match"
+msgstr "Nessuna corrispondenza"
+
+#: src/ui/dialogs/batch_acoustid_dialog.py:166
+#, python-brace-format
+msgid "Found: {artist} - {album} (score: {score}%)"
+msgstr "Trovato: {artist} - {album} (punteggio: {score}%)"
+
+#: src/ui/dialogs/batch_acoustid_dialog.py:180
+#, python-brace-format
+msgid "Saved AcoustID to {count} files"
+msgstr "AcoustID salvato in {count} file"
+
+#: src/ui/dialogs/batch_acoustid_dialog.py:195
+#, python-brace-format
+msgid "Updated metadata in {count} files"
+msgstr "Metadati aggiornati in {count} file"
+
+#: src/ui/dialogs/batch_acoustid_dialog.py:205
+#, python-brace-format
+msgid "Identified: {artist} - {album}"
+msgstr "Identificato: {artist} - {album}"
+
+#: src/ui/dialogs/batch_acoustid_dialog.py:219
+msgid "Batch identification complete."
+msgstr "Identificazione in batch completata."
+
+#: src/ui/dialogs/batch_acoustid_dialog.py:222
+#, python-brace-format
+msgid ""
+"Identified: {identified}, Saved: {saved}, No match: {no_match}, Errors: "
+"{errors}"
+msgstr ""
+"Identificati: {identified}, Salvati: {saved}, Senza corrispondenza: "
+"{no_match}, Errori: {errors}"
+
+#: src/ui/dialogs/batch_acoustid_dialog.py:256
+msgid "Batch AcoustID Identification"
+msgstr "Identificazione AcoustID in batch"
+
+#: src/ui/dialogs/batch_acoustid_dialog.py:265
+msgid "Options"
+msgstr "Opzioni"
+
+#: src/ui/dialogs/batch_acoustid_dialog.py:268
+msgid "Save AcoustID to audio file tags"
+msgstr "Salva AcoustID nei tag dei file audio"
+
+#: src/ui/dialogs/batch_acoustid_dialog.py:272
+msgid "Update artist/album tags from identification"
+msgstr "Aggiorna i tag artista/album dall'identificazione"
+
+#: src/ui/dialogs/batch_acoustid_dialog.py:275
+msgid "If enabled, artist and album tags will be updated from AcoustID results"
+msgstr ""
+"Se abilitato, i tag artista e album saranno aggiornati dai risultati "
+"AcoustIDSe abilitato, i tag artista e album saranno aggiornati dai "
+"risultati AcoustID"
+
+#: src/ui/dialogs/batch_acoustid_dialog.py:282
+#: src/ui/dialogs/batch_download_dialog.py:376
+msgid "Progress"
+msgstr "Progresso"
+
+#: src/ui/dialogs/batch_acoustid_dialog.py:286
+msgid "Ready to start"
+msgstr "Pronto per iniziare"
+
+#: src/ui/dialogs/batch_acoustid_dialog.py:299
+#: src/ui/dialogs/batch_download_dialog.py:392
+msgid "Log"
+msgstr "Log"
+
+#: src/ui/dialogs/batch_acoustid_dialog.py:312
+#: src/ui/dialogs/batch_download_dialog.py:406
+msgid "Skip"
+msgstr "Salta"
+
+#: src/ui/dialogs/batch_acoustid_dialog.py:319
+msgid "Start"
+msgstr "Avvia"
+
+#: src/ui/dialogs/batch_acoustid_dialog.py:365
+#, python-brace-format
+msgid "Processing {current}/{total}: {name}"
+msgstr "Elaborazione {current}/{total}: {name}"
+
+#: src/ui/dialogs/batch_acoustid_dialog.py:387
+#: src/ui/dialogs/batch_download_dialog.py:415
+#: src/ui/dialogs/cover_zoom_dialog.py:453
+#: src/ui/dialogs/statistics_dialog.py:277 src/ui/widgets/toast.py:168
+msgid "Close"
+msgstr "Chiudi"
+
+#: src/ui/dialogs/batch_acoustid_dialog.py:388
+msgid "Complete"
+msgstr "Completato"
+
+#: src/ui/dialogs/batch_acoustid_dialog.py:395
+#, python-brace-format
+msgid "{count} albums identified via AcoustID"
+msgstr "{count} album identificati via AcoustID"
+
+#: src/ui/dialogs/batch_download_dialog.py:115
+msgid "No cover provider enabled."
+msgstr "Nessun fornitore di copertine abilitato."
+
+#: src/ui/dialogs/batch_download_dialog.py:127
+#, python-brace-format
+msgid "Enabled providers: {providers}"
+msgstr "Fornitori abilitati: {providers}"
+
+#: src/ui/dialogs/batch_download_dialog.py:129
+#, python-brace-format
+msgid "Minimum score: {score}%"
+msgstr "Punteggio minimo: {score}%"
+
+#: src/ui/dialogs/batch_download_dialog.py:145
+msgid "Skipped (already has cover)"
+msgstr "Saltato (ha già una copertina)"
+
+#: src/ui/dialogs/batch_download_dialog.py:147
+msgid "Already has cover"
+msgstr "Ha già una copertina"
+
+#: src/ui/dialogs/batch_download_dialog.py:173
+msgid "Error: invalid save configuration"
+msgstr "Errore: configurazione di salvataggio non valida"
+
+#: src/ui/dialogs/batch_download_dialog.py:182
+#, python-brace-format
+msgid "Cover applied ({provider}, score: {score}%)"
+msgstr "Copertina applicata ({provider}, punteggio: {score}%)"
+
+#: src/ui/dialogs/batch_download_dialog.py:192
+#, python-brace-format
+msgid "Error ({provider}): {error}"
+msgstr "Errore ({provider}): {error}"
+
+#: src/ui/dialogs/batch_download_dialog.py:199
+msgid "No sufficient result found"
+msgstr "Nessun risultato sufficiente trovato"
+
+#: src/ui/dialogs/batch_download_dialog.py:205
+msgid "Summary:"
+msgstr "Riepilogo:"
+
+#: src/ui/dialogs/batch_download_dialog.py:207
+#: src/ui/dialogs/batch_download_dialog.py:487
+#, python-brace-format
+msgid "Covers downloaded: {count}"
+msgstr "Copertine scaricate: {count}"
+
+#: src/ui/dialogs/batch_download_dialog.py:210
+#, python-brace-format
+msgid "Skipped (no match): {count}"
+msgstr "Saltati (nessuna corrispondenza): {count}"
+
+#: src/ui/dialogs/batch_download_dialog.py:214
+#, python-brace-format
+msgid "Skipped (already have cover): {count}"
+msgstr "Saltati (hanno già copertina): {count}"
+
+#: src/ui/dialogs/batch_download_dialog.py:219
+#: src/ui/dialogs/batch_download_dialog.py:495
+#, python-brace-format
+msgid "Errors: {count}"
+msgstr "Errori: {count}"
+
+#: src/ui/dialogs/batch_download_dialog.py:258
+#, python-brace-format
+msgid "Text search on {provider}..."
+msgstr "Ricerca testuale su {provider}..."
+
+#: src/ui/dialogs/batch_download_dialog.py:369
+msgid "Automatic cover download"
+msgstr "Scaricamento automatico copertine"
+
+#: src/ui/dialogs/batch_download_dialog.py:379
+msgid "Preparing..."
+msgstr "Preparazione..."
+
+#: src/ui/dialogs/batch_download_dialog.py:407
+msgid "Skip to next album"
+msgstr "Passa al prossimo album"
+
+#: src/ui/dialogs/batch_download_dialog.py:442
+#, python-brace-format
+msgid "Album {current}/{total}: {name}"
+msgstr "Album {current}/{total}: {name}"
+
+#: src/ui/dialogs/batch_download_dialog.py:467
+msgid "Finished"
+msgstr "Completato"
+
+#: src/ui/dialogs/batch_download_dialog.py:482
+msgid "Cancelling..."
+msgstr "Annullamento..."
+
+#: src/ui/dialogs/batch_download_dialog.py:488
+#, python-brace-format
+msgid "Albums skipped (no match): {count}"
+msgstr "Album saltati (nessuna corrispondenza): {count}"
+
+#: src/ui/dialogs/batch_download_dialog.py:489
+#, python-brace-format
+msgid "Albums skipped (already have cover): {count}"
+msgstr "Album saltati (hanno già copertina): {count}"
+
+#: src/ui/dialogs/batch_download_dialog.py:530
+msgid "Cancel download"
+msgstr "Annulla scaricamento"
+
+#: src/ui/dialogs/batch_download_dialog.py:531
+msgid "A download is in progress. Do you want to cancel it?"
+msgstr "Uno scaricamento è in corso. Vuoi annullarlo?"
+
+#: src/ui/dialogs/cover_comparison.py:129
+#: src/ui/dialogs/cover_zoom_dialog.py:216
+#: src/ui/dialogs/cover_zoom_dialog.py:247
+msgid "Invalid image"
+msgstr "Immagine non valida"
+
+#: src/ui/dialogs/cover_comparison.py:259
+msgid "Preview before applying"
+msgstr "Anteprima prima di applicare"
+
+#: src/ui/dialogs/cover_comparison.py:288
+msgid "Current covers"
+msgstr "Copertine attuali"
+
+#: src/ui/dialogs/cover_comparison.py:300
+#: src/ui/dialogs/cover_zoom_dialog.py:389
+msgid "External file"
+msgstr "File esterno"
+
+#: src/ui/dialogs/cover_comparison.py:310
+msgid "Current cover"
+msgstr "Copertina attuale"
+
+#: src/ui/dialogs/cover_comparison.py:322
+msgid "New cover"
+msgstr "Nuova copertina"
+
+#: src/ui/dialogs/cover_comparison.py:332
+msgid "Embed in audio tags"
+msgstr "Integra nei tag audio"
+
+#: src/ui/dialogs/cover_comparison.py:340
+#, python-brace-format
+msgid "Save as external file ({filename})"
+msgstr "Salva come file esterno ({filename})"
+
+#: src/ui/dialogs/cover_comparison.py:352
+#, python-brace-format
+msgid "<i>Suggestion: {reason}</i>"
+msgstr "Suggerimento: {reason}"
+
+#: src/ui/dialogs/cover_comparison.py:425
+msgid "Options modified by user"
+msgstr "Opzioni modificate dall'utente"
+
+#: src/ui/dialogs/cover_zoom_dialog.py:242
+msgid "File not found"
+msgstr "File non trovato"
+
+#: src/ui/dialogs/cover_zoom_dialog.py:366
+#, python-brace-format
+msgid "Cover comparison - {name}"
+msgstr "Confronto copertine - {name}"
+
+#: src/ui/dialogs/cover_zoom_dialog.py:395
+msgid "Zoom controls"
+msgstr "Controlli zoom"
+
+#: src/ui/dialogs/cover_zoom_dialog.py:402
+msgid "Zoom out (- key)"
+msgstr "Zoom indietro (tasto -)"
+
+#: src/ui/dialogs/cover_zoom_dialog.py:419
+msgid "Zoom in (+ key)"
+msgstr "Zoom avanti (tasto +)"
+
+#: src/ui/dialogs/cover_zoom_dialog.py:430
+msgid "Fit"
+msgstr "Adatta"
+
+#: src/ui/dialogs/cover_zoom_dialog.py:431
+msgid "Fit to window"
+msgstr "Adatta alla finestra"
+
+#: src/ui/dialogs/cover_zoom_dialog.py:437
+msgid "Reset zoom to 100%"
+msgstr "Reimposta zoom al 100%"
+
+#: src/ui/dialogs/cover_zoom_dialog.py:492
+msgid "Audio tags larger"
+msgstr "tag audio"
+
+#: src/ui/dialogs/cover_zoom_dialog.py:494
+#: src/ui/dialogs/cover_zoom_dialog.py:503
+msgid "pixels"
+msgstr "pixel"
+
+#: src/ui/dialogs/cover_zoom_dialog.py:501
+msgid "External file larger"
+msgstr "File esterno"
+
+#: src/ui/dialogs/cover_zoom_dialog.py:510
+msgid "Same sizes"
+msgstr "Stesse dimensioni"
+
+#: src/ui/dialogs/cover_zoom_dialog.py:514
+msgid "Only audio tags cover is available"
+msgstr "Solo la copertina dei tag audio è disponibile"
+
+#: src/ui/dialogs/cover_zoom_dialog.py:517
+msgid "Only external file cover is available"
+msgstr "Solo la copertina del file esterno è disponibile"
+
+#: src/ui/dialogs/statistics_dialog.py:146
+#, python-brace-format
+msgid "Min: {min} KB / Max: {max} KB / Avg: {avg} KB"
+msgstr "Min: {min} KB / Max: {max} KB / Med: {avg} KB"
+
+#: src/ui/dialogs/statistics_dialog.py:159
+msgid "Library statistics"
+msgstr "Statistiche libreria"
+
+#: src/ui/dialogs/statistics_dialog.py:167
+msgid "<b>Library statistics</b>"
+msgstr "Statistiche libreria"
+
+#: src/ui/dialogs/statistics_dialog.py:173
+msgid "Overview"
+msgstr "Panoramica"
+
+#: src/ui/dialogs/statistics_dialog.py:178
+msgid "Total albums:"
+msgstr "Album totali:"
+
+#: src/ui/dialogs/statistics_dialog.py:183
+msgid "Cover status"
+msgstr "Stato copertine"
+
+#: src/ui/dialogs/statistics_dialog.py:192
+msgid "Tags + external file:"
+msgstr "Tag + file esterno:"
+
+#: src/ui/dialogs/statistics_dialog.py:199
+msgid "Tags only:"
+msgstr "Solo tag:"
+
+#: src/ui/dialogs/statistics_dialog.py:204
+msgid "External file only:"
+msgstr "Solo file esterno:"
+
+#: src/ui/dialogs/statistics_dialog.py:210
+msgid "Without cover:"
+msgstr "Senza copertina:"
+
+#: src/ui/dialogs/statistics_dialog.py:222
+msgid "Different covers:"
+msgstr "Copertine diverse:"
+
+#: src/ui/dialogs/statistics_dialog.py:227
+msgid "Average dimensions"
+msgstr "Dimensioni medie"
+
+#: src/ui/dialogs/statistics_dialog.py:235
+#: src/ui/dialogs/statistics_dialog.py:252
+#: src/ui/dialogs/statistics_dialog.py:269
+msgid "External files:"
+msgstr "File esterni:"
+
+#: src/ui/dialogs/statistics_dialog.py:240
+msgid "Format distribution"
+msgstr "Distribuzione formati"
+
+#: src/ui/dialogs/statistics_dialog.py:257
+msgid "File sizes"
+msgstr "Dimensioni file"
+
+#: src/ui/widgets/album_card.py:284
+msgid "Embedded cover only"
+msgstr "Solo copertina integrata"
+
+#: src/ui/widgets/album_card.py:285
+msgid "Folder cover only"
+msgstr "Solo copertina cartella"
+
+#: src/ui/widgets/album_card.py:286
+msgid "Embedded and folder covers"
+msgstr "Copertine integrata e cartella"
+
+#: src/ui/widgets/album_card.py:288
+msgid "Unknown status"
+msgstr "Stato sconosciuto"
+
+#: src/ui/widgets/album_card.py:294 src/ui/widgets/album_card.py:439
+msgid "Tags"
+msgstr "Tag"
+
+#: src/ui/widgets/album_card.py:312
+msgid "Manually grouped"
+msgstr "Raggruppato manualmente"
+
+#: src/ui/widgets/album_card.py:318
+msgid "Single track"
+msgstr "Traccia singola"
+
+#: src/ui/widgets/album_card.py:321
+#, python-brace-format
+msgid "{count} tracks"
+msgstr "{count} tracce"
+
+#: src/ui/widgets/cover_preview.py:100
+msgid "Cover preview"
+msgstr "Anteprima copertina"
+
+#: src/ui/widgets/filter_widgets.py:29
+msgid "Size:"
+msgstr "Dimensione max:"
+
+#: src/ui/widgets/filter_widgets.py:35
+msgid "Minimum file size"
+msgstr "Dimensioni file"
+
+#: src/ui/widgets/filter_widgets.py:45
+msgid "Maximum file size"
+msgstr "Dimensioni file"
+
+#: src/ui/widgets/filter_widgets.py:101
+msgid "Type:"
+msgstr "Anno:"
+
+#: src/ui/widgets/filter_widgets.py:115
+msgid "Exclude"
+msgstr "Pattern di cartelle da escludere"
+
+#: src/ui/widgets/filter_widgets.py:117
+msgid "Invert filter: show albums that do NOT match selected types"
+msgstr "Inverti filtro: mostra album che NON corrispondono ai tipi selezionati"
+
+#: src/ui/widgets/source_selector.py:68
+msgid "Source:"
+msgstr "Fonte:"
+
+#: src/ui/widgets/source_selector.py:117 src/ui/widgets/source_selector.py:198
+#: src/ui/widgets/source_selector.py:212
+#, python-brace-format
+msgid "{name} requires an API key (see Preferences)"
+msgstr "{name} richiede una chiave API (vedi Preferenze)"
+
+#: src/ui/widgets/source_selector.py:119 src/ui/widgets/source_selector.py:201
+#: src/ui/widgets/source_selector.py:215
+#, python-brace-format
+msgid "Search on {name}"
+msgstr "Cerca su {name}"
+
+#: src/ui/widgets/source_selector.py:239
+#, python-brace-format
+msgid ""
+"The provider {name} requires an API key to work.\n"
+"\n"
+"Please configure the API key in Preferences\n"
+"(Edit menu > Preferences)."
+msgstr ""
+"Il fornitore {name} richiede una chiave API per funzionare.\n"
+"\n"
+"Configura la chiave API nelle Preferenze\n"
+"(Menu Modifica > Preferenze)."
+
+#~ msgid "single file entry (no folder)"
+#~ msgstr "file singolo (nessuna cartella)"
+
+#~ msgid "Title: {title}"
+#~ msgstr "Titolo: {title}"
+
+#~ msgid "International Standard Recording Code"
+#~ msgstr "Codice internazionale di registrazione standard"
+
+#~ msgid ""
+#~ "At least one save option must be enabled.\n"
+#~ "Check preferences (Edit > Preferences > Embedding)."
+#~ msgstr ""
+#~ "Almeno un'opzione di salvataggio deve essere abilitata.\n"
+#~ "Controlla le preferenze (Modifica > Preferenze > Integrazione)."
+
+#~ msgid ""
+#~ "Audio fingerprint identification requires "
+#~ "fpcalc. This feature will be available"
+#~ " in a future version."
+#~ msgstr ""
+#~ "L'identificazione tramite impronta audio "
+#~ "richiede fpcalc. Questa funzionalità sarà "
+#~ "disponibile in una versione futura."
+
+#~ msgid "AcoustID and metadata saved to tags"
+#~ msgstr "AcoustID salvato nei tag"
+
+#~ msgid "AcoustID saved to tags"
+#~ msgstr "AcoustID salvato nei tag"
+
+#~ msgid "Error saving: {error}"
+#~ msgstr "Errore durante il salvataggio: {error}"
+
