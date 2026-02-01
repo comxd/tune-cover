@@ -414,4 +414,4 @@ uv run req2flatpak \
 
 ## License
 
-MIT License - Free to use and modify.
+GPL-3.0-or-later - See [LICENSE](LICENSE) for details.
