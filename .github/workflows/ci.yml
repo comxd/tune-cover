@@ -94,4 +94,4 @@ jobs:
       - name: Validate shell scripts
         run: |
           bash -n packaging/generate-icons.sh
-          bash -n packaging/generate-macos-icns.sh
+          bash -n packaging/generate-macos-icons.sh

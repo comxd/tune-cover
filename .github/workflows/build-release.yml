@@ -142,7 +142,7 @@ jobs:
         run: uv run pybabel compile -d src/i18n/locales
 
       - name: Generate macOS icon (ICNS)
-        run: ./packaging/generate-macos-icns.sh
+        run: ./packaging/generate-macos-icons.sh
 
       - name: Build with PyInstaller
         run: |
@@ -181,7 +181,7 @@ jobs:
         run: uv run pybabel compile -d src/i18n/locales
 
       - name: Generate macOS icon (ICNS)
-        run: ./packaging/generate-macos-icns.sh
+        run: ./packaging/generate-macos-icons.sh
 
       - name: Build with PyInstaller
         run: |

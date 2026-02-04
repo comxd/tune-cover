@@ -341,7 +341,7 @@ brew install chromaprint
 uv run pybabel compile -d src/i18n/locales
 
 # Generate icon and build
-./packaging/generate-macos-icns.sh
+./packaging/generate-macos-icons.sh
 cd packaging
 uv run pyinstaller tunecover-macos.spec
 
