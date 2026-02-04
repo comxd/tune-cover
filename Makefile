@@ -181,7 +181,7 @@ build-flatpak:
 		echo "Error: flatpak-builder not found. Install with: sudo apt install flatpak-builder"; \
 		exit 1; \
 	fi
-	cd flatpak && flatpak-builder --force-clean --repo=repo build-dir io.github.comxd.TuneCover.yml
+	cd flatpak && flatpak-builder --force-clean --user --repo=repo build-dir io.github.comxd.TuneCover.yml
 	cd flatpak && flatpak build-bundle repo TuneCover-linux-x86_64.flatpak io.github.comxd.TuneCover
 	@echo "Flatpak bundle created: flatpak/TuneCover-linux-x86_64.flatpak"
 
