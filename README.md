@@ -319,14 +319,14 @@ flatpak build-bundle repo TuneCover-linux-x86_64.flatpak io.github.comxd.TuneCov
 ```powershell
 # Install dependencies
 uv sync --frozen
-uv pip install pyinstaller
+uv pip install pyinstaller babel
 
 # Compile translations
-uv run pybabel compile -d src/i18n/locales
+uv run python -m babel.messages.frontend compile -d src/i18n/locales
 
 # Build executable
 cd packaging
-uv run pyinstaller tunecover.spec
+uv run --project .. python -m PyInstaller tunecover.spec
 
 # Result: dist/TuneCover/TuneCover.exe
 ```
