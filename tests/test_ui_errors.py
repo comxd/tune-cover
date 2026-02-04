@@ -157,9 +157,7 @@ class TestSearchWorkerErrorSignals:
         """Test that SearchWorker emits connection_status on RateLimitError."""
         from src.ui.search_panel import SearchWorker
 
-        mock_provider.search.side_effect = RateLimitError(
-            "Rate limit exceeded", retry_after=30
-        )
+        mock_provider.search.side_effect = RateLimitError("Rate limit exceeded", retry_after=30)
 
         worker = SearchWorker(
             provider=mock_provider,
@@ -170,9 +168,7 @@ class TestSearchWorkerErrorSignals:
         )
 
         status_received = []
-        worker.connection_status.connect(
-            lambda msg, is_err: status_received.append((msg, is_err))
-        )
+        worker.connection_status.connect(lambda msg, is_err: status_received.append((msg, is_err)))
 
         with qtbot.waitSignal(worker.connection_status, timeout=5000):
             worker.run()
@@ -200,9 +196,7 @@ class TestSearchWorkerErrorSignals:
         )
 
         status_received = []
-        worker.connection_status.connect(
-            lambda msg, is_err: status_received.append((msg, is_err))
-        )
+        worker.connection_status.connect(lambda msg, is_err: status_received.append((msg, is_err)))
 
         with qtbot.waitSignal(worker.connection_status, timeout=5000):
             worker.run()
@@ -239,9 +233,7 @@ class TestSearchWorkerErrorSignals:
         )
 
         status_received = []
-        worker.connection_status.connect(
-            lambda msg, is_err: status_received.append((msg, is_err))
-        )
+        worker.connection_status.connect(lambda msg, is_err: status_received.append((msg, is_err)))
 
         with qtbot.waitSignal(worker.results_ready, timeout=5000):
             worker.run()

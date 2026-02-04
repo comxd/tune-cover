@@ -94,9 +94,7 @@ class BatchDownloadWorker(QThread):
         if self.config.get("providers.discogs.enabled", False):
             api_token = self.config.get("api.discogs_token")
             if api_token:
-                providers.append(
-                    DiscogsProvider(api_token=api_token, user_email=contact_email)
-                )
+                providers.append(DiscogsProvider(api_token=api_token, user_email=contact_email))
 
         # Last.fm requires API key
         if self.config.get("providers.lastfm.enabled", False):

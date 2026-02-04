@@ -26,9 +26,7 @@ logger = logging.getLogger(__name__)
 
 
 @contextmanager
-def handle_network_errors(
-    provider_name: str, use_circuit_breaker: bool = True
-) -> "Iterator[None]":
+def handle_network_errors(provider_name: str, use_circuit_breaker: bool = True) -> "Iterator[None]":
     """
     Context manager for consistent network error handling across all providers.
 
