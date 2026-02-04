@@ -437,7 +437,6 @@ class TestClearResultsTimerSafety:
         thumbnail loading before clearing results, to prevent stale signal delivery
         to already-deleted widgets.
         """
-        from unittest.mock import MagicMock, patch
 
         # Track the order of operations
         call_order = []

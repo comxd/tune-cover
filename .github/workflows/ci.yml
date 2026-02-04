@@ -34,7 +34,7 @@ jobs:
           sudo apt-get install -y libxkbcommon-x11-0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 libxcb-xinerama0 libxcb-xfixes0 x11-utils libegl1
 
       - name: Install dependencies
-        run: uv sync --frozen
+        run: uv sync --frozen --extra dev
 
       - name: Compile translations
         run: uv run pybabel compile -d src/i18n/locales
@@ -60,11 +60,8 @@ jobs:
         with:
           enable-cache: true
 
-      - name: Set up Python
-        run: uv python install 3.12
-
-      - name: Install linting tools
-        run: uv pip install ruff
+      - name: Install dependencies
+        run: uv sync --frozen --extra dev
 
       - name: Check formatting with ruff
         run: uv run ruff format --check src/ tests/
@@ -82,75 +79,19 @@ jobs:
         with:
           enable-cache: true
 
-      - name: Set up Python
-        run: uv python install 3.12
-
       - name: Install dependencies
-        run: uv pip install -e ".[dev]"
+        run: uv sync --frozen --all-extras
 
       - name: Run mypy
         run: uv run mypy src/ --python-version 3.12 --ignore-missing-imports --no-error-summary || true
 
-  # Validate packaging configuration files
+  # Validate packaging scripts (syntax check only - real validation happens during build)
   packaging:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up uv
-        uses: astral-sh/setup-uv@v5
-        with:
-          enable-cache: true
-
-      - name: Set up Python
-        run: uv python install 3.12
-
-      - name: Install dependencies
-        run: |
-          uv sync --frozen
-          uv pip install pyinstaller
-
-      - name: Validate PyInstaller spec files
-        run: |
-          echo "=== Validating tunecover.spec ==="
-          uv run python -c "
-          import sys
-          sys.path.insert(0, '.')
-          # Mock PyInstaller globals that are injected at runtime
-          class MockClass:
-              def __init__(self, *args, **kwargs): pass
-          for name in ['Analysis', 'PYZ', 'EXE', 'COLLECT', 'BUNDLE']:
-              globals()[name] = MockClass
-          exec(open('packaging/tunecover.spec').read())
-          print('tunecover.spec: OK')
-          "
-
-          echo "=== Validating tunecover-macos.spec ==="
-          uv run python -c "
-          import sys
-          sys.path.insert(0, '.')
-          class MockClass:
-              def __init__(self, *args, **kwargs): pass
-          for name in ['Analysis', 'PYZ', 'EXE', 'COLLECT', 'BUNDLE']:
-              globals()[name] = MockClass
-          exec(open('packaging/tunecover-macos.spec').read())
-          print('tunecover-macos.spec: OK')
-          "
-
-      - name: Validate Flatpak manifest
-        run: |
-          uv run python -c "
-          import yaml
-          with open('flatpak/io.github.comxd.TuneCover.yml') as f:
-              manifest = yaml.safe_load(f)
-          assert manifest['app-id'] == 'io.github.comxd.TuneCover'
-          assert 'modules' in manifest
-          print('Flatpak manifest: OK')
-          "
-
       - name: Validate shell scripts
         run: |
           bash -n packaging/generate-icons.sh
-          echo "generate-icons.sh: OK"
           bash -n packaging/generate-macos-icns.sh
-          echo "generate-macos-icns.sh: OK"

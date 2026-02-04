@@ -186,25 +186,17 @@ build-flatpak:
 	@echo "Flatpak bundle created: flatpak/TuneCover-linux-x86_64.flatpak"
 
 # Build Windows executable (PyInstaller)
-# Prerequisites: pyinstaller
+# Prerequisites: make install-dev (includes pyinstaller)
 build-windows:
 	@echo "Building Windows executable..."
-	@if ! uv run python -c "import PyInstaller" 2>/dev/null; then \
-		echo "Installing PyInstaller..."; \
-		uv pip install pyinstaller; \
-	fi
 	$(MAKE) i18n-compile
 	cd packaging && uv run pyinstaller tunecover.spec
 	@echo "Windows build complete: packaging/dist/TuneCover/"
 
 # Build macOS app bundle (PyInstaller)
-# Prerequisites: pyinstaller, macOS (for iconutil)
+# Prerequisites: make install-dev (includes pyinstaller), macOS (for iconutil)
 build-macos:
 	@echo "Building macOS app bundle..."
-	@if ! uv run python -c "import PyInstaller" 2>/dev/null; then \
-		echo "Installing PyInstaller..."; \
-		uv pip install pyinstaller; \
-	fi
 	$(MAKE) i18n-compile
 	cd packaging && uv run pyinstaller tunecover-macos.spec
 	@echo "macOS build complete: packaging/dist/TuneCover.app/"

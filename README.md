@@ -318,15 +318,14 @@ flatpak build-bundle repo TuneCover-linux-x86_64.flatpak io.github.comxd.TuneCov
 
 ```powershell
 # Install dependencies
-uv sync --frozen
-uv pip install pyinstaller babel
+uv sync --frozen --all-extras
 
 # Compile translations
-uv run python -m babel.messages.frontend compile -d src/i18n/locales
+uv run pybabel compile -d src/i18n/locales
 
 # Build executable
 cd packaging
-uv run --project .. python -m PyInstaller tunecover.spec
+uv run pyinstaller tunecover.spec
 
 # Result: dist/TuneCover/TuneCover.exe
 ```
@@ -335,8 +334,7 @@ uv run --project .. python -m PyInstaller tunecover.spec
 
 ```bash
 # Install dependencies
-uv sync --frozen
-uv pip install pyinstaller
+uv sync --frozen --all-extras
 brew install chromaprint
 
 # Compile translations
@@ -387,14 +385,11 @@ git push origin v1.0.0-test
 Python dependencies are managed with `req2flatpak` for reproducibility:
 
 ```bash
-# Install the tool
-uv pip install req2flatpak
-
 # Update versions in requirements file
 # Edit flatpak/requirements-flatpak.txt
 
-# Regenerate manifest sources
-uv run req2flatpak \
+# Regenerate manifest sources (uvx installs and runs the tool)
+uvx req2flatpak \
   --requirements-file flatpak/requirements-flatpak.txt \
   --target-platforms 312-x86_64 \
   --yaml

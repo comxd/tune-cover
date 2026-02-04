@@ -77,13 +77,8 @@ jobs:
           enable-cache: true
           cache-dependency-glob: "uv.lock"
 
-      - name: Set up Python
-        run: uv python install 3.12
-
       - name: Install dependencies
-        run: |
-          uv sync --frozen
-          uv pip install pyinstaller
+        run: uv sync --frozen --all-extras
 
       # Download and install chromaprint for audio fingerprinting
       - name: Install Chromaprint
@@ -136,13 +131,8 @@ jobs:
           enable-cache: true
           cache-dependency-glob: "uv.lock"
 
-      - name: Set up Python
-        run: uv python install 3.12
-
       - name: Install dependencies
-        run: |
-          uv sync --frozen
-          uv pip install pyinstaller
+        run: uv sync --frozen --all-extras
 
       # Install chromaprint for audio fingerprinting
       - name: Install Chromaprint
@@ -180,13 +170,8 @@ jobs:
           enable-cache: true
           cache-dependency-glob: "uv.lock"
 
-      - name: Set up Python
-        run: uv python install 3.12
-
       - name: Install dependencies
-        run: |
-          uv sync --frozen
-          uv pip install pyinstaller
+        run: uv sync --frozen --all-extras
 
       # Install chromaprint for audio fingerprinting
       - name: Install Chromaprint
