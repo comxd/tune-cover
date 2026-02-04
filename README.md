@@ -249,7 +249,7 @@ pre-commit install
 make test         # Run tests
 make test-cov     # Tests with coverage
 make lint         # Check code (ruff)
-make format       # Format code (black + ruff)
+make format       # Format code (ruff)
 make run          # Run the application
 ```
 
