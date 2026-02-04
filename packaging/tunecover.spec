@@ -21,7 +21,7 @@ from PyInstaller.utils.hooks import collect_data_files, collect_submodules
 
 # Read version from pyproject.toml (single source of truth)
 try:
-    pyproject_path = Path(__file__).parent.parent / 'pyproject.toml'
+    pyproject_path = Path(SPECPATH).parent / 'pyproject.toml'
     with pyproject_path.open('rb') as f:
         pyproject = tomllib.load(f)
         VERSION = pyproject['project']['version']

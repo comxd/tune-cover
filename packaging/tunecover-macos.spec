@@ -23,7 +23,7 @@ from PyInstaller.utils.hooks import collect_data_files, collect_submodules
 
 # Read version from pyproject.toml (single source of truth)
 try:
-    pyproject_path = Path(__file__).parent.parent / 'pyproject.toml'
+    pyproject_path = Path(SPECPATH).parent / 'pyproject.toml'
     with pyproject_path.open('rb') as f:
         pyproject = tomllib.load(f)
         VERSION = pyproject['project']['version']
@@ -78,7 +78,7 @@ for path in chromaprint_paths:
 # Determine icon path - use ICNS if available, fall back to PNG
 icon_icns = '../resources/icons/app-icon.icns'
 icon_png = '../resources/icons/app-icon-512.png'
-icon_path = icon_icns if os.path.exists(os.path.join(os.path.dirname(__file__), icon_icns)) else icon_png
+icon_path = icon_icns if os.path.exists(os.path.join(SPECPATH, icon_icns)) else icon_png
 
 a = Analysis(
     ['../src/main.py'],
