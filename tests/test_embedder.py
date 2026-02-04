@@ -1449,7 +1449,7 @@ class TestExtractEmbeddedCoverCaching:
             mock_audio = MagicMock()
             mock_tags = MagicMock()
             # Make tags iterable (for key in tags)
-            mock_tags.__iter__ = lambda self: iter(["APIC:Cover"])
+            mock_tags.keys = lambda: ["APIC:Cover"]
             mock_tags.__getitem__ = lambda self, key: MagicMock(data=cover_data)
             mock_audio.tags = mock_tags
             mock_mutagen.return_value = mock_audio
@@ -1476,7 +1476,7 @@ class TestExtractEmbeddedCoverCaching:
             # First call - cache original cover
             mock_audio = MagicMock()
             mock_tags = MagicMock()
-            mock_tags.__iter__ = lambda self: iter(["APIC:Cover"])
+            mock_tags.keys = lambda: ["APIC:Cover"]
             mock_tags.__getitem__ = lambda self, key: MagicMock(data=original_cover)
             mock_audio.tags = mock_tags
             mock_mutagen.return_value = mock_audio
@@ -1507,7 +1507,7 @@ class TestExtractEmbeddedCoverCaching:
         with patch("src.core.embedder.MutagenFile") as mock_mutagen:
             mock_audio = MagicMock()
             mock_tags = MagicMock()
-            mock_tags.__iter__ = lambda self: iter(["APIC:Cover"])
+            mock_tags.keys = lambda: ["APIC:Cover"]
             mock_tags.__getitem__ = lambda self, key: MagicMock(data=cover_data)
             mock_audio.tags = mock_tags
             mock_mutagen.return_value = mock_audio
@@ -1533,7 +1533,7 @@ class TestExtractEmbeddedCoverCaching:
             # Return audio without cover
             mock_audio = MagicMock()
             mock_tags = MagicMock()
-            mock_tags.__iter__ = lambda self: iter(["TIT2", "TPE1"])  # No APIC
+            mock_tags.keys = lambda: ["TIT2", "TPE1"]  # No APIC
             mock_audio.tags = mock_tags
             mock_mutagen.return_value = mock_audio
 
@@ -1556,7 +1556,7 @@ class TestExtractEmbeddedCoverCaching:
         with patch("src.core.embedder.MutagenFile") as mock_mutagen:
             mock_audio = MagicMock()
             mock_tags = MagicMock()
-            mock_tags.__iter__ = lambda self: iter(["APIC:Cover"])
+            mock_tags.keys = lambda: ["APIC:Cover"]
             mock_tags.__getitem__ = lambda self, key: MagicMock(data=cover_data)
             mock_audio.tags = mock_tags
             mock_mutagen.return_value = mock_audio
@@ -1580,3 +1580,77 @@ class TestExtractEmbeddedCoverCaching:
 
         # Cache should be empty
         assert embedded_cover_cache.get(mp3_file) is None
+
+
+class TestWmaTagIterationRegression:
+    """
+    Regression tests for WMA crash: ASFTags inherits from list.
+
+    Bug: When iterating over ASFTags (WMA files) with `for key in tags`,
+    the loop yields (name, value) tuples instead of string keys, causing
+    `key.startswith("APIC")` to crash with AttributeError (tuple has no
+    startswith method).
+
+    Fix: Use explicit `tags.keys()` which returns string keys for all
+    mutagen tag types, including ASFTags.
+
+    See: src/core/embedder.py:99, src/core/scanner.py:654
+    """
+
+    def _make_asf_like_tags(self, keys: list[str], cover_data: bytes | None = None):
+        """Create a mock that simulates ASFTags behavior.
+
+        ASFTags inherits from list: direct iteration yields tuples,
+        but .keys() returns string keys.
+        """
+        tags = MagicMock()
+        # Simulate ASFTags: __iter__ yields (name, value) tuples, NOT string keys
+        tags.__iter__ = lambda self: iter([(k, MagicMock()) for k in keys])
+        # .keys() correctly returns string keys
+        tags.keys.return_value = keys
+        # Support dict-like access for cover data retrieval
+        if cover_data:
+            tags.__getitem__ = lambda self, key: MagicMock(data=cover_data)
+        return tags
+
+    def test_extract_embedded_cover_wma_with_apic(self, tmp_path):
+        """
+        Regression: extract_embedded_cover must use tags.keys() to handle WMA files.
+
+        Without .keys(), iterating ASFTags yields tuples and
+        tuple.startswith("APIC") raises AttributeError.
+        """
+        wma_file = tmp_path / "test.wma"
+        wma_file.write_bytes(b"fake wma data")
+        cover_data = b"wma_cover_data"
+
+        tags = self._make_asf_like_tags(["APIC:Cover", "WM/Title"], cover_data)
+
+        with patch("src.core.embedder.MutagenFile") as mock_mutagen:
+            mock_audio = MagicMock()
+            mock_audio.tags = tags
+            mock_audio.pictures = []
+            mock_mutagen.return_value = mock_audio
+
+            result = extract_embedded_cover(wma_file, use_cache=False)
+
+        assert result == cover_data
+        # Verify .keys() was called (not direct iteration)
+        tags.keys.assert_called()
+
+    def test_extract_embedded_cover_wma_without_apic(self, tmp_path):
+        """Regression: WMA file without APIC should return None, not crash."""
+        wma_file = tmp_path / "test.wma"
+        wma_file.write_bytes(b"fake wma data")
+
+        tags = self._make_asf_like_tags(["WM/Title", "WM/AlbumTitle"])
+
+        with patch("src.core.embedder.MutagenFile") as mock_mutagen:
+            mock_audio = MagicMock()
+            mock_audio.tags = tags
+            mock_audio.pictures = []
+            mock_mutagen.return_value = mock_audio
+
+            result = extract_embedded_cover(wma_file, use_cache=False)
+
+        assert result is None

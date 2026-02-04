@@ -94,7 +94,9 @@ def extract_embedded_cover(filepath: Path, use_cache: bool = True) -> bytes | No
         if result is None and hasattr(audio, "tags") and audio.tags:
             tags = audio.tags
             # ID3 APIC frames
-            for key in tags:
+            # ASFTags (WMA) inherits from list: iterating directly yields tuples,
+            # not string keys. Explicit .keys() is required here.
+            for key in tags.keys():  # noqa: SIM118
                 if key.startswith("APIC"):
                     result = tags[key].data
                     break
