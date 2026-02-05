@@ -5,6 +5,7 @@ Tests for CLI module.
 import argparse
 import csv
 import json
+import os
 from io import StringIO
 from pathlib import Path
 from unittest.mock import Mock, patch
@@ -783,32 +784,35 @@ class TestCmdFetch:
         assert "results" in log_data
         assert log_data["summary"]["success"] == 2
 
-    def test_fetch_permission_denied(self, tmp_path, capsys):
+    def test_fetch_permission_denied(self, tmp_path, capsys, monkeypatch):
         """Fetch should handle permission errors gracefully."""
         # Create a report file
         report_path = tmp_path / "report.json"
         report_path.write_text("{}")
 
-        # Make it unreadable
-        report_path.chmod(0o000)
+        # Mock Path.open to raise PermissionError (cross-platform approach)
+        original_path_open = Path.open
 
-        try:
-            args = argparse.Namespace(
-                report=report_path,
-                auto=True,
-                min_score=95,
-                embed=False,
-                dry_run=True,
-                log=None,
-                start_from=0,
-            )
-            result = cmd_fetch(args)
-            assert result == 1
-            captured = capsys.readouterr()
-            assert "Impossible de lire" in captured.out or "Permission" in captured.out
-        finally:
-            # Restore permissions for cleanup
-            report_path.chmod(0o644)
+        def mock_path_open(self, *args, **kwargs):
+            if self == report_path:
+                raise PermissionError("Permission denied")
+            return original_path_open(self, *args, **kwargs)
+
+        monkeypatch.setattr(Path, "open", mock_path_open)
+
+        args = argparse.Namespace(
+            report=report_path,
+            auto=True,
+            min_score=95,
+            embed=False,
+            dry_run=True,
+            log=None,
+            start_from=0,
+        )
+        result = cmd_fetch(args)
+        assert result == 1
+        captured = capsys.readouterr()
+        assert "Impossible de lire" in captured.out or "Permission" in captured.out
 
 
 # ============================================================================
@@ -1433,20 +1437,22 @@ class TestExportJson:
         artists = [a.get("artist") for a in missing]
         assert "Artist Four" in artists
 
-    def test_export_json_permission_error(self, sample_albums, tmp_path):
+    def test_export_json_permission_error(self, sample_albums, tmp_path, monkeypatch):
         """JSON export should raise IOError on permission error."""
-        # Create a directory with no write permission
-        readonly_dir = tmp_path / "readonly"
-        readonly_dir.mkdir()
-        readonly_dir.chmod(0o555)
+        output_path = tmp_path / "report.json"
 
-        output_path = readonly_dir / "report.json"
+        # Mock Path.open to raise PermissionError (cross-platform approach)
+        original_path_open = Path.open
 
-        try:
-            with pytest.raises(IOError):
-                export_json(sample_albums, output_path)
-        finally:
-            readonly_dir.chmod(0o755)
+        def mock_path_open(self, *args, **kwargs):
+            if self == output_path:
+                raise PermissionError("Permission denied")
+            return original_path_open(self, *args, **kwargs)
+
+        monkeypatch.setattr(Path, "open", mock_path_open)
+
+        with pytest.raises(IOError):
+            export_json(sample_albums, output_path)
 
     def test_export_json_unicode(self, tmp_path):
         """JSON export should handle unicode characters."""
@@ -1524,19 +1530,22 @@ class TestExportCsv:
         assert "Artist Two" in artists
         assert "Artist Four" in artists
 
-    def test_export_csv_permission_error(self, sample_albums, tmp_path):
+    def test_export_csv_permission_error(self, sample_albums, tmp_path, monkeypatch):
         """CSV export should raise IOError on permission error."""
-        readonly_dir = tmp_path / "readonly"
-        readonly_dir.mkdir()
-        readonly_dir.chmod(0o555)
+        output_path = tmp_path / "report.csv"
 
-        output_path = readonly_dir / "report.csv"
+        # Mock Path.open to raise PermissionError (cross-platform approach)
+        original_path_open = Path.open
 
-        try:
-            with pytest.raises(IOError):
-                export_csv(sample_albums, output_path)
-        finally:
-            readonly_dir.chmod(0o755)
+        def mock_path_open(self, *args, **kwargs):
+            if self == output_path:
+                raise PermissionError("Permission denied")
+            return original_path_open(self, *args, **kwargs)
+
+        monkeypatch.setattr(Path, "open", mock_path_open)
+
+        with pytest.raises(IOError):
+            export_csv(sample_albums, output_path)
 
 
 class TestFetchProgress:
@@ -1642,30 +1651,33 @@ class TestFetchProgress:
 class TestErrorHandling:
     """Tests for error handling scenarios."""
 
-    def test_scan_directory_permission_denied(self, tmp_path, capsys):
+    def test_scan_directory_permission_denied(self, tmp_path, capsys, monkeypatch):
         """Scan should handle permission denied errors."""
-        # Create a directory and make it inaccessible
         restricted_dir = tmp_path / "restricted"
         restricted_dir.mkdir()
-        restricted_dir.chmod(0o000)
 
+        # Mock os.listdir to raise PermissionError (cross-platform approach)
+        original_listdir = os.listdir
+
+        def mock_listdir(path):
+            if str(path) == str(restricted_dir):
+                raise PermissionError("Permission denied")
+            return original_listdir(path)
+
+        monkeypatch.setattr(os, "listdir", mock_listdir)
+
+        args = argparse.Namespace(
+            music_dir=restricted_dir, quiet=True, exclude=[], output=None, format="json"
+        )
+
+        # The scan should handle the permission error gracefully
         try:
-            args = argparse.Namespace(
-                music_dir=restricted_dir, quiet=True, exclude=[], output=None, format="json"
-            )
-
-            # On some systems, exists() on a dir with no permissions may raise PermissionError
-            # or return True but then fail later. We just verify it handles the error.
-            try:
-                result = cmd_scan(args)
-                # If it completes, it should return an error code
-                assert result == 1 or result == 0  # Depends on scanner implementation
-            except PermissionError:
-                # This is also acceptable - the permission error bubbled up
-                pass
-        finally:
-            # Restore permissions for cleanup
-            restricted_dir.chmod(0o755)
+            result = cmd_scan(args)
+            # If it completes, it should return an error code or 0 (empty scan)
+            assert result in (0, 1)
+        except PermissionError:
+            # This is also acceptable - the permission error bubbled up
+            pass
 
     def test_fetch_report_read_error(self, tmp_path, capsys):
         """Fetch should handle file read errors gracefully."""
