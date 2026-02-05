@@ -78,7 +78,7 @@ jobs:
         run: uv sync --frozen --all-extras
 
       - name: Run mypy
-        run: uv run mypy src/ --python-version 3.12 --ignore-missing-imports --no-error-summary || true
+        run: uv run mypy src/ || true
 
   # Validate packaging scripts (syntax check only - real validation happens during build)
   packaging:

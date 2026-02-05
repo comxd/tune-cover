@@ -136,5 +136,12 @@ quote-style = "double"
 indent-style = "space"
 docstring-code-format = true
 
+[tool.mypy]
+python_version = "3.12"
+warn_return_any = true
+warn_unused_configs = true
+ignore_missing_imports = true
+exclude = ["tests/"]
+
 # Note: [dependency-groups] (PEP 735) removed in favor of standard [project.optional-dependencies]
 # This ensures compatibility with both `pip install -e ".[dev]"` and `uv sync`
