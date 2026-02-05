@@ -53,6 +53,7 @@ class TestSearchPanelConnectionStatus:
         with patch("src.ui.search_panel.is_fingerprinting_available", return_value=False):
             panel = SearchPanel(mock_album, mock_config)
             qtbot.addWidget(panel)
+            panel.show()
             return panel
 
     def test_connection_status_label_exists(self, search_panel):
@@ -181,7 +182,7 @@ class TestSearchWorkerErrorSignals:
         # Check that message contains retry info
         assert "30" in msg or "Rate limit" in msg
 
-    def test_worker_emits_connection_status_on_timeout(self, qtbot, mock_provider):
+    def test_worker_emits_connection_status_on_timeout(self, qtbot, mock_provider, english_locale):
         """Test that SearchWorker emits connection_status on timeout."""
         from src.ui.search_panel import SearchWorker
 
@@ -316,11 +317,14 @@ class TestErrorMessageTranslation:
         )
         return album
 
-    def test_search_error_uses_translation(self, qtbot, mock_album, mock_config):
+    def test_search_error_uses_translation(self, qtbot, mock_album, mock_config, english_locale):
         """Test that search error messages use tr() for translation."""
         from src.ui.search_panel import SearchPanel
 
-        with patch("src.ui.search_panel.is_fingerprinting_available", return_value=False):
+        with (
+            patch("src.ui.search_panel.is_fingerprinting_available", return_value=False),
+            patch("src.ui.search_panel.QMessageBox"),  # Prevent blocking modal dialog
+        ):
             panel = SearchPanel(mock_album, mock_config)
             qtbot.addWidget(panel)
 
@@ -329,8 +333,9 @@ class TestErrorMessageTranslation:
 
             # Check that the no_results_label was updated with a user-friendly message
             label_text = panel.no_results_label.text()
-            # The message should be user-friendly, not the raw error
-            assert "error" in label_text.lower() or "connection" in label_text.lower()
+            # The message should be user-friendly, not the raw error string
+            label_lower = label_text.lower()
+            assert "error" in label_lower or "connection" in label_lower
 
 
 class TestClearResultsTimerSafety:
