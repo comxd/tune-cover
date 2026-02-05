@@ -2,6 +2,7 @@
 
 import json
 import os
+import time
 
 import pytest
 
@@ -401,7 +402,8 @@ class TestScanCacheIntegration:
         # Check folder is not changed
         assert cache2.is_folder_changed(album_folder) is False
 
-        # Modify folder
+        # Modify folder (with sleep to ensure mtime changes on all platforms)
+        time.sleep(0.1)
         new_file = album_folder / "track2.mp3"
         new_file.write_bytes(b"more audio data")
 
