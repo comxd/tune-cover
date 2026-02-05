@@ -325,13 +325,14 @@ class TestThumbnailLoaderLogic:
         with patch("src.ui.widgets.thumbnail_loader.QThreadPool"):
             loader = ThumbnailLoader()
             mock_pixmap = MagicMock()
-            album_path = "/music/artist/album"
+            album_path = Path("/music/artist/album")
 
-            # Pre-cache
-            loader._cache.put(album_path, mock_pixmap)
+            # Pre-cache using str(Path) to match what request_thumbnail uses internally
+            # This ensures cross-platform consistency (Windows vs Unix path separators)
+            loader._cache.put(str(album_path), mock_pixmap)
 
             album = MagicMock(spec=AlbumInfo)
-            album.path = Path(album_path)
+            album.path = album_path
 
             result = loader.request_thumbnail(album, size=150)
 
