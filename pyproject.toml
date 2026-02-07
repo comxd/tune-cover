@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "tunecover"
-version = "0.0.1"
+version = "0.1.0"
 description = "A GUI application for fetching and embedding album artwork in music libraries"
 readme = "README.md"
 requires-python = ">=3.12"
