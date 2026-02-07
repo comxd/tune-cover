@@ -499,6 +499,172 @@ class TestAlbumCardTooltipHtml:
         assert "Regroupé manuellement" not in html
 
 
+class TestBadgeTooltips:
+    """Tests for badge-specific tooltip functionality on album cards."""
+
+    def test_badge_rects_empty_for_plain_album(self, qtbot, tmp_path):
+        """An album with no special attributes should have no badge rects."""
+        from src.ui.widgets.album_card import AlbumCard
+
+        album = AlbumInfo(
+            path=tmp_path,
+            artist="Artist",
+            album="Album",
+            cover=CoverInfo(),
+        )
+        card = AlbumCard(album, lazy_load=False)
+        qtbot.addWidget(card)
+
+        assert card._badge_rects == []
+
+    def test_badge_rects_acoustid(self, qtbot, tmp_path):
+        """Album with AcoustID should have one badge rect in top-left corner."""
+        from src.ui.widgets.album_card import AlbumCard
+
+        album = AlbumInfo(
+            path=tmp_path,
+            artist="Artist",
+            album="Album",
+            acoustid="abc-123",
+            cover=CoverInfo(),
+        )
+        card = AlbumCard(album, lazy_load=False)
+        qtbot.addWidget(card)
+
+        assert len(card._badge_rects) == 1
+        rect, text = card._badge_rects[0]
+        # Top-left corner: x=margin, y=margin
+        assert rect.x() == 4
+        assert rect.y() == 4
+        assert "AcoustID" in text
+
+    def test_badge_rects_single_track(self, qtbot, tmp_path):
+        """Album with single track should have one badge rect in top-right corner."""
+        from src.ui.widgets.album_card import AlbumCard
+
+        album = AlbumInfo(
+            path=tmp_path,
+            artist="Artist",
+            album="Album",
+            track_count=1,
+            cover=CoverInfo(),
+        )
+        card = AlbumCard(album, lazy_load=False)
+        qtbot.addWidget(card)
+
+        assert len(card._badge_rects) == 1
+        rect, text = card._badge_rects[0]
+        # Top-right corner: x should be near the right edge
+        assert rect.x() > 50
+
+    def test_badge_rects_forced_group(self, qtbot, tmp_path):
+        """Album with forced group should have one badge rect in bottom-left corner."""
+        from src.ui.widgets.album_card import AlbumCard
+
+        album = AlbumInfo(
+            path=tmp_path,
+            artist="Artist",
+            album="Album",
+            is_forced_group=True,
+            cover=CoverInfo(),
+        )
+        card = AlbumCard(album, lazy_load=False)
+        qtbot.addWidget(card)
+
+        assert len(card._badge_rects) == 1
+        rect, text = card._badge_rects[0]
+        # Bottom-left corner: x=margin, y should be near the bottom edge
+        assert rect.x() == 4
+        assert rect.y() > 50
+
+    def test_badge_rects_multiple_badges(self, qtbot, tmp_path):
+        """Album with multiple indicators should have multiple badge rects."""
+        from src.ui.widgets.album_card import AlbumCard
+
+        album = AlbumInfo(
+            path=tmp_path,
+            artist="Artist",
+            album="Album",
+            acoustid="abc-123",
+            track_count=1,
+            is_forced_group=True,
+            cover=CoverInfo(),
+        )
+        card = AlbumCard(album, lazy_load=False)
+        qtbot.addWidget(card)
+
+        assert len(card._badge_rects) == 3
+
+    def test_badge_rects_covers_differ(self, qtbot, tmp_path):
+        """Album with differing covers should have a badge rect for the differ indicator."""
+        from src.ui.widgets.album_card import AlbumCard
+
+        cover_file = tmp_path / "cover.jpg"
+        cover_file.write_bytes(b"fake")
+        album = AlbumInfo(
+            path=tmp_path,
+            artist="Artist",
+            album="Album",
+            cover=CoverInfo(
+                has_embedded=True,
+                has_folder=True,
+                folder_path=cover_file,
+                covers_differ=True,
+                embedded_dimensions=(500, 500),
+                folder_dimensions=(800, 800),
+            ),
+        )
+        card = AlbumCard(album, lazy_load=False)
+        qtbot.addWidget(card)
+
+        assert len(card._badge_rects) == 1
+        rect, text = card._badge_rects[0]
+        # Bottom-right corner
+        assert rect.x() > 50
+        assert rect.y() > 50
+        assert "500x500" in text
+        assert "800x800" in text
+
+    def test_covers_differ_tooltip_text(self, tmp_path):
+        """Test that _get_covers_differ_tooltip_text returns formatted dimensions."""
+        from src.ui.widgets.album_card import AlbumCard
+
+        album = AlbumInfo(
+            path=tmp_path,
+            artist="Artist",
+            album="Album",
+            cover=CoverInfo(
+                has_embedded=True,
+                has_folder=True,
+                covers_differ=True,
+                embedded_dimensions=(300, 300),
+                folder_dimensions=(600, 600),
+            ),
+        )
+        card = AlbumCard(album, lazy_load=False)
+
+        text = card._get_covers_differ_tooltip_text()
+
+        assert "300x300" in text
+        assert "600x600" in text
+
+    def test_event_filter_installed(self, qtbot, tmp_path):
+        """Test that event filter is installed on cover_label."""
+        from src.ui.widgets.album_card import AlbumCard
+
+        album = AlbumInfo(
+            path=tmp_path,
+            artist="Artist",
+            album="Album",
+            cover=CoverInfo(),
+        )
+        card = AlbumCard(album, lazy_load=False)
+        qtbot.addWidget(card)
+
+        # Mouse tracking should be enabled for positional tooltip detection
+        assert card.cover_label.hasMouseTracking()
+
+
 class TestBase64Encoding:
     """Tests for base64 encoding logic used in tooltip images."""
 

@@ -1220,6 +1220,10 @@ msgstr "Identifica tramite AcoustID"
 msgid "Use audio fingerprinting to identify this album"
 msgstr "Usa il fingerprinting audio per identificare questo album"
 
+#: src/ui/widgets/album_card.py
+msgid "Identified via AcoustID (audio fingerprint)"
+msgstr "Identificato tramite AcoustID (impronta audio)"
+
 #: src/ui/library_view.py:661
 msgid "Ungroup album"
 msgstr "Separa album"

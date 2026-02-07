@@ -4,9 +4,9 @@ Album card widget for grid view display.
 
 import base64
 
-from PySide6.QtCore import QBuffer, QByteArray, QIODevice, Qt, Signal
+from PySide6.QtCore import QBuffer, QByteArray, QEvent, QIODevice, QPoint, QRect, Qt, Signal
 from PySide6.QtGui import QBrush, QColor, QFont, QMouseEvent, QPainter, QPen, QPixmap
-from PySide6.QtWidgets import QFrame, QLabel, QStackedLayout, QVBoxLayout
+from PySide6.QtWidgets import QFrame, QLabel, QStackedLayout, QToolTip, QVBoxLayout
 
 from ...core.embedder import extract_embedded_cover
 from ...core.models import AlbumInfo, CoverStatus
@@ -28,6 +28,9 @@ class AlbumCard(QFrame):
     CARD_SIZE = 150
     COVER_SIZE = 130
     TOOLTIP_PREVIEW_SIZE = 200
+    _BADGE_SIZE = 18
+    _BADGE_SIZE_LARGE = 22
+    _BADGE_MARGIN = 4
 
     def __init__(self, album: AlbumInfo, lazy_load: bool = True, parent=None):
         """
@@ -44,6 +47,7 @@ class AlbumCard(QFrame):
         self._hovered = False
         self._cover_loaded = False
         self._lazy_load = lazy_load
+        self._badge_rects: list[tuple[QRect, str]] = []
 
         self._setup_ui()
 
@@ -80,6 +84,8 @@ class AlbumCard(QFrame):
         self.cover_label = QLabel()
         self.cover_label.setFixedSize(self.COVER_SIZE, self.COVER_SIZE)
         self.cover_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.cover_label.setMouseTracking(True)
+        self.cover_label.installEventFilter(self)
         cover_layout.addWidget(self.cover_label)
 
         # Loading spinner (overlayed on top)
@@ -241,6 +247,10 @@ class AlbumCard(QFrame):
 
     def _apply_cover_indicators(self, pixmap: QPixmap) -> QPixmap:
         """Apply cover difference indicators if needed."""
+        self._badge_rects = []
+        pw, ph = pixmap.width(), pixmap.height()
+        s, sl, m = self._BADGE_SIZE, self._BADGE_SIZE_LARGE, self._BADGE_MARGIN
+
         # Draw covers differ indicator (only when both exist but differ)
         if self.album.cover.covers_differ:
             # Determine if it's just dimension difference or complete difference
@@ -248,21 +258,46 @@ class AlbumCard(QFrame):
                 self.album.cover.dimensions_differ and not self._is_completely_different_image()
             )
             pixmap = self._draw_covers_differ_indicator(pixmap, same_image_diff_size)
-            self._set_cover_diff_tooltip()
+            diff_tooltip = self._get_covers_differ_tooltip_text()
+            self.cover_label.setToolTip(diff_tooltip)
+            self._badge_rects.append(
+                (
+                    QRect(pw - sl - m, ph - sl - m, sl, sl),
+                    diff_tooltip,
+                )
+            )
         else:
             self.cover_label.setToolTip("")
 
         # Draw AcoustID indicator (top-left corner)
         if self.album.acoustid:
             pixmap = self._draw_acoustid_indicator(pixmap)
+            self._badge_rects.append(
+                (
+                    QRect(m, m, s, s),
+                    tr("Identified via AcoustID (audio fingerprint)"),
+                )
+            )
 
         # Draw single track indicator (top-right corner)
         if self.album.track_count == 1:
             pixmap = self._draw_single_track_indicator(pixmap)
+            self._badge_rects.append(
+                (
+                    QRect(pw - s - m, m, s, s),
+                    tr("Single track"),
+                )
+            )
 
         # Draw forced group indicator (bottom-left corner)
         if self.album.is_forced_group:
             pixmap = self._draw_forced_group_indicator(pixmap)
+            self._badge_rects.append(
+                (
+                    QRect(m, ph - s - m, s, s),
+                    tr("Manually grouped"),
+                )
+            )
 
         return pixmap
 
@@ -428,16 +463,32 @@ class AlbumCard(QFrame):
                     return True
         return False
 
-    def _set_cover_diff_tooltip(self) -> None:
-        """Set tooltip with cover difference information."""
+    def eventFilter(self, obj, event):
+        """Show badge-specific tooltips when hovering over indicator badges."""
+        if obj is self.cover_label and event.type() == QEvent.Type.ToolTip and self._badge_rects:
+            pixmap = self.cover_label.pixmap()
+            if pixmap and not pixmap.isNull():
+                # Map mouse position to pixmap coordinates (label centers the pixmap)
+                offset_x = (self.cover_label.width() - pixmap.width()) // 2
+                offset_y = (self.cover_label.height() - pixmap.height()) // 2
+                pixmap_pos = QPoint(
+                    event.pos().x() - offset_x,
+                    event.pos().y() - offset_y,
+                )
+                for rect, tooltip_text in self._badge_rects:
+                    # Slightly expanded hit area for easier hovering on small badges
+                    if rect.adjusted(-3, -3, 3, 3).contains(pixmap_pos):
+                        QToolTip.showText(event.globalPos(), tooltip_text, self.cover_label)
+                        return True
+        return super().eventFilter(obj, event)
+
+    def _get_covers_differ_tooltip_text(self) -> str:
+        """Get tooltip text for covers differ indicator."""
         embedded_dims = self.album.cover.embedded_dimensions
         folder_dims = self.album.cover.folder_dimensions
-
         e_str = f"{embedded_dims[0]}x{embedded_dims[1]}" if embedded_dims else "?"
         f_str = f"{folder_dims[0]}x{folder_dims[1]}" if folder_dims else "?"
-
-        tooltip = tr("Different images") + f"\n{tr('Tags')}: {e_str}\n{tr('File')}: {f_str}"
-        self.cover_label.setToolTip(tooltip)
+        return tr("Different images") + f"\n{tr('Tags')}: {e_str}\n{tr('File')}: {f_str}"
 
     def _draw_covers_differ_indicator(
         self, pixmap: QPixmap, same_image_diff_size: bool = False
@@ -457,9 +508,8 @@ class AlbumCard(QFrame):
         try:
             painter.setRenderHint(QPainter.RenderHint.Antialiasing)
 
-            # Badge dimensions
-            badge_size = 22
-            margin = 4
+            badge_size = self._BADGE_SIZE_LARGE
+            margin = self._BADGE_MARGIN
             x = result.width() - badge_size - margin
             y = result.height() - badge_size - margin
 
@@ -499,9 +549,8 @@ class AlbumCard(QFrame):
         try:
             painter.setRenderHint(QPainter.RenderHint.Antialiasing)
 
-            # Badge dimensions (smaller than covers differ indicator)
-            badge_size = 18
-            margin = 4
+            badge_size = self._BADGE_SIZE
+            margin = self._BADGE_MARGIN
             x = margin
             y = margin
 
@@ -535,9 +584,8 @@ class AlbumCard(QFrame):
         try:
             painter.setRenderHint(QPainter.RenderHint.Antialiasing)
 
-            # Badge dimensions
-            badge_size = 18
-            margin = 4
+            badge_size = self._BADGE_SIZE
+            margin = self._BADGE_MARGIN
             x = result.width() - badge_size - margin
             y = margin
 
@@ -571,9 +619,8 @@ class AlbumCard(QFrame):
         try:
             painter.setRenderHint(QPainter.RenderHint.Antialiasing)
 
-            # Badge dimensions
-            badge_size = 18
-            margin = 4
+            badge_size = self._BADGE_SIZE
+            margin = self._BADGE_MARGIN
             x = margin
             y = result.height() - badge_size - margin
 
