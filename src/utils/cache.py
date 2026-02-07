@@ -63,8 +63,9 @@ class ImageCache:
         )
         self._lock = threading.RLock()
 
-        # LRU tracking: key -> (size, last_access_time)
-        self._index: dict[str, tuple[int, float]] = {}
+        # LRU tracking: OrderedDict preserves access order (oldest first).
+        # Timestamps are kept for TTL checks but ordering relies on dict position.
+        self._index: OrderedDict[str, tuple[int, float]] = OrderedDict()
         self._index_path = self.cache_dir / ".cache_index.json"
         self._load_index()
 
@@ -81,13 +82,13 @@ class ImageCache:
             if self._index_path.exists():
                 with self._index_path.open(encoding="utf-8") as f:
                     data = json.load(f)
-                    # Convert lists back to tuples
-                    self._index = {k: tuple(v) for k, v in data.items()}
+                    # Convert lists back to tuples (JSON preserves insertion order)
+                    self._index = OrderedDict((k, tuple(v)) for k, v in data.items())
                     # Validate index against actual files
                     self._sync_index()
         except (OSError, json.JSONDecodeError) as e:
             logger.warning(f"Could not load cache index: {e}")
-            self._index = {}
+            self._index = OrderedDict()
             self._rebuild_index()
 
     def _save_index(self) -> None:
@@ -128,7 +129,7 @@ class ImageCache:
 
     def _rebuild_index(self) -> None:
         """Rebuild the index from disk."""
-        self._index = {}
+        self._index = OrderedDict()
         try:
             for cache_file in self.cache_dir.glob("*.cache"):
                 try:
@@ -158,33 +159,33 @@ class ImageCache:
         """
         Evict least recently used entries to free up space.
 
+        Iterates from the front of the OrderedDict (oldest entries first).
+        This is O(k) where k = entries evicted, vs O(n log n) for timestamp sorting.
+
         Args:
             needed_space: Minimum bytes to free
         """
         if not self._index:
             return
 
-        # Sort by last access time (oldest first)
-        sorted_entries = sorted(
-            self._index.items(),
-            key=lambda x: x[1][1],  # Sort by access time
-        )
-
         freed = 0
-        for key, (size, _) in sorted_entries:
+        # Collect keys to evict (oldest are at the front of the OrderedDict)
+        keys_to_evict = []
+        for key, (size, _) in self._index.items():
             if freed >= needed_space:
                 break
+            keys_to_evict.append(key)
+            freed += size
 
+        for key in keys_to_evict:
             cache_path = self.cache_dir / f"{key}.cache"
             try:
                 cache_path.unlink()
-                del self._index[key]
-                freed += size
-                logger.debug(f"Evicted cache entry: {key} ({size} bytes)")
+                logger.debug(f"Evicted cache entry: {key} ({self._index[key][0]} bytes)")
             except (OSError, FileNotFoundError):
-                # File already gone, just remove from index
-                if key in self._index:
-                    del self._index[key]
+                pass
+            # Always remove from index regardless of file deletion result
+            del self._index[key]
 
         if freed > 0:
             self._save_index()
@@ -224,8 +225,9 @@ class ImageCache:
                         pass
                     return None
 
-                # Update access time in index (for LRU)
+                # Update access time and move to end of OrderedDict (most recent)
                 self._index[key] = (stat.st_size, time.time())
+                self._index.move_to_end(key)
                 # Don't save index on every read for performance
                 # It will be saved on next write or on shutdown
 
@@ -259,6 +261,7 @@ class ImageCache:
             try:
                 cache_path.write_bytes(data)
                 self._index[key] = (data_size, time.time())
+                self._index.move_to_end(key)
                 self._save_index()
             except OSError as e:
                 logger.warning(f"Could not write cache: {e}")
@@ -284,7 +287,7 @@ class ImageCache:
                     self._index_path.unlink()
             except OSError:
                 pass
-            self._index = {}
+            self._index = OrderedDict()
             return count
 
     def clear_expired(self) -> int:
