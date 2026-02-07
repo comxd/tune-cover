@@ -186,6 +186,7 @@ jobs:
                 continue
               }
               mv "${arm_file}.universal" "$arm_file"
+              chmod +x "$arm_file"
             fi
           done
 
