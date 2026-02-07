@@ -239,8 +239,8 @@ Configurable via **Edit > Preferences > Cache**:
 
 ```bash
 # Clone and install
-git clone https://github.com/comxd/tunecover.git
-cd tunecover
+git clone https://github.com/comxd/tune-cover.git
+cd tune-cover
 uv venv && source .venv/bin/activate
 uv pip install -e ".[dev]"
 pre-commit install
@@ -249,7 +249,7 @@ pre-commit install
 make test         # Run tests
 make test-cov     # Tests with coverage
 make lint         # Check code (ruff)
-make format       # Format code (black + ruff)
+make format       # Format code (ruff)
 make run          # Run the application
 ```
 
@@ -286,7 +286,7 @@ Note: `.po` files keep their own `Project-Id-Version` to track when translations
 
 ### Pre-built Releases
 
-Download ready-to-use packages from [GitHub Releases](https://github.com/comxd/tunecover/releases):
+Download ready-to-use packages from [GitHub Releases](https://github.com/comxd/tune-cover/releases):
 
 | Platform | Format | Notes |
 |----------|--------|-------|
@@ -318,8 +318,7 @@ flatpak build-bundle repo TuneCover-linux-x86_64.flatpak io.github.comxd.TuneCov
 
 ```powershell
 # Install dependencies
-uv sync --frozen
-uv pip install pyinstaller
+uv sync --frozen --all-extras
 
 # Compile translations
 uv run pybabel compile -d src/i18n/locales
@@ -335,15 +334,14 @@ uv run pyinstaller tunecover.spec
 
 ```bash
 # Install dependencies
-uv sync --frozen
-uv pip install pyinstaller
+uv sync --frozen --all-extras
 brew install chromaprint
 
 # Compile translations
 uv run pybabel compile -d src/i18n/locales
 
 # Generate icon and build
-./packaging/generate-macos-icns.sh
+./packaging/generate-macos-icons.sh
 cd packaging
 uv run pyinstaller tunecover-macos.spec
 
@@ -387,14 +385,11 @@ git push origin v1.0.0-test
 Python dependencies are managed with `req2flatpak` for reproducibility:
 
 ```bash
-# Install the tool
-uv pip install req2flatpak
-
 # Update versions in requirements file
 # Edit flatpak/requirements-flatpak.txt
 
-# Regenerate manifest sources
-uv run req2flatpak \
+# Regenerate manifest sources (uvx installs and runs the tool)
+uvx req2flatpak \
   --requirements-file flatpak/requirements-flatpak.txt \
   --target-platforms 312-x86_64 \
   --yaml

@@ -518,6 +518,74 @@ class TestFileHasEmbeddedCover:
         assert result is False
 
 
+class TestWmaTagIterationRegression:
+    """
+    Regression tests for WMA crash: ASFTags inherits from list.
+
+    Bug: When checking for embedded covers in WMA files, iterating
+    `for key in tags` yields (name, value) tuples from ASFTags (which
+    inherits from list), causing `key.startswith("APIC")` to crash
+    with AttributeError.
+
+    Fix: Use explicit `tags.keys()` which returns string keys for all
+    mutagen tag types, including ASFTags.
+
+    See: src/core/scanner.py:654
+    """
+
+    def _make_asf_like_tags(self, keys: list[str]):
+        """Create a mock that simulates ASFTags behavior.
+
+        ASFTags inherits from list: direct iteration yields tuples,
+        but .keys() returns string keys.
+        """
+        tags = MagicMock()
+        # Simulate ASFTags: __iter__ yields (name, value) tuples, NOT string keys
+        tags.__iter__ = lambda self: iter([(k, MagicMock()) for k in keys])
+        # .keys() correctly returns string keys
+        tags.keys.return_value = keys
+        return tags
+
+    def test_file_has_embedded_cover_wma_with_apic(self, scanner, tmp_path):
+        """
+        Regression: _file_has_embedded_cover must use tags.keys() for WMA files.
+
+        Without .keys(), iterating ASFTags yields tuples and
+        tuple.startswith("APIC") raises AttributeError.
+        """
+        wma_file = tmp_path / "test.wma"
+        wma_file.write_bytes(b"fake")
+
+        tags = self._make_asf_like_tags(["APIC:Cover", "WM/Title"])
+
+        mock_audio = MagicMock()
+        mock_audio.tags = tags
+        mock_audio.pictures = []
+
+        with patch("src.core.scanner.MutagenFile", return_value=mock_audio):
+            result = scanner._file_has_embedded_cover(wma_file)
+
+        assert result is True
+        # Verify .keys() was called (not direct iteration)
+        tags.keys.assert_called()
+
+    def test_file_has_embedded_cover_wma_without_apic(self, scanner, tmp_path):
+        """Regression: WMA file without APIC should return False, not crash."""
+        wma_file = tmp_path / "test.wma"
+        wma_file.write_bytes(b"fake")
+
+        tags = self._make_asf_like_tags(["WM/Title", "WM/AlbumTitle"])
+
+        mock_audio = MagicMock()
+        mock_audio.tags = tags
+        mock_audio.pictures = []
+
+        with patch("src.core.scanner.MutagenFile", return_value=mock_audio):
+            result = scanner._file_has_embedded_cover(wma_file)
+
+        assert result is False
+
+
 class TestExtractMetadata:
     """Tests for _extract_metadata method."""
 

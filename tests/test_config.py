@@ -554,7 +554,8 @@ class TestPropertyLastDirectory:
 
         config.last_directory = Path("/new/path")
 
-        assert config.get("last_directory") == "/new/path"
+        # Compare using Path to handle cross-platform separators
+        assert Path(config.get("last_directory")) == Path("/new/path")
         assert config.last_directory == Path("/new/path")
 
     def test_last_directory_setter_with_none(self, tmp_path):

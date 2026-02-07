@@ -27,99 +27,114 @@ def mock_subprocess(monkeypatch):
 
 
 class TestTruncatePath:
-    """Tests for the truncate_path function."""
+    """Tests for the truncate_path function.
 
-    def test_short_path_unchanged(self, tmp_path):
+    Note: truncate_path() works on string representations, not actual filesystem paths.
+    Tests use fixed path strings to ensure consistent behavior across platforms.
+    """
+
+    def test_short_path_unchanged(self):
         """Short paths should not be truncated."""
-        path = tmp_path / "Music"
+        # Use a short relative path (works as string on all platforms)
+        path = "Music/Artist/Album"
         result = truncate_path(path, max_length=80)
-        assert result == str(path)
+        assert result == path
         assert "..." not in result
 
-    def test_exact_length_unchanged(self, tmp_path):
+    def test_path_at_exact_max_length_unchanged(self):
         """Path exactly at max_length should not be truncated."""
-        # Create a path of exactly 80 chars
-        base = str(tmp_path)
-        remaining = 80 - len(base) - 1  # -1 for the separator
-        if remaining > 0:
-            path = tmp_path / ("x" * remaining)
-            result = truncate_path(path, max_length=80)
-            assert len(result) <= 80
+        # Create a path string of exactly 40 chars
+        path = "Music/Artist/Album/Track01_SongTitle.mp3"  # 40 chars
+        assert len(path) == 40
 
-    def test_long_path_truncated(self, tmp_path):
+        result = truncate_path(path, max_length=40)
+        assert result == path
+        assert "..." not in result
+
+    def test_long_path_truncated(self):
         """Long paths should be truncated with ellipsis in the middle."""
-        # Create a very long path
-        long_name = "VeryLongArtistName" * 3
-        long_album = "VeryLongAlbumName" * 3
-        path = tmp_path / long_name / long_album / "SubFolder"
+        # Create a 100+ char path string
+        path = "Music/VeryLongArtistName/VeryLongAlbumName/Disc1/Track01_AVeryLongSongTitleThatExceedsLimit.mp3"
+        assert len(path) > 80
 
         result = truncate_path(path, max_length=80)
 
         assert "..." in result
         assert len(result) <= 80
 
-    def test_truncated_path_shows_start_and_end(self, tmp_path):
+    def test_truncated_path_shows_start_and_end(self):
         """Truncated paths should show beginning and end."""
-        path = tmp_path / "Artist" / "Album" / "SubFolder" / "DeepFolder" / "file.mp3"
-        path_str = str(path)
+        path = "Music/Artist/Album/SubFolder/DeepFolder/Track.mp3"
+        assert len(path) > 40
 
-        if len(path_str) > 80:
-            result = truncate_path(path, max_length=80)
+        result = truncate_path(path, max_length=40)
 
-            # Should start with beginning of path
-            assert result.startswith(str(tmp_path)[:10])
-            # Should end with last part of path
-            assert result.endswith("file.mp3")
+        # Should start with beginning of path
+        assert result.startswith("Music")
+        # Should end with last part of path
+        assert result.endswith("Track.mp3")
+        assert "..." in result
 
-    def test_custom_max_length(self, tmp_path):
+    def test_custom_max_length(self):
         """Custom max_length should be respected."""
-        long_path = tmp_path / ("a" * 50) / ("b" * 50)
+        # Create a 100+ char path
+        long_path = "Music/" + "a" * 50 + "/" + "b" * 50 + "/file.mp3"
+        assert len(long_path) > 100
 
         result_40 = truncate_path(long_path, max_length=40)
         result_60 = truncate_path(long_path, max_length=60)
 
         assert len(result_40) <= 40
         assert len(result_60) <= 60
+        assert "..." in result_40
+        assert "..." in result_60
 
     def test_minimum_truncation(self):
         """Even very short max_length should work."""
-        path = Path("/home/user/very/long/path/to/some/file.txt")
+        path = "Music/Artist/Album/Very/Long/Path/Track.mp3"
         result = truncate_path(path, max_length=20)
 
         assert len(result) <= 20
         assert "..." in result
 
-    def test_very_small_max_length(self):
-        """Very small max_length values should still work correctly."""
-        path = Path("/home/user/very/long/path/to/some/file.txt")
+    def test_very_small_max_length_clamped_to_minimum(self):
+        """Very small max_length values should be clamped to minimum 10."""
+        path = "Music/Artist/Album/Track.mp3"
 
-        # Test with max_length < 13 (previously would cause negative end_length)
+        # Test with max_length < 10 (should be clamped to 10)
         result_10 = truncate_path(path, max_length=10)
-        result_12 = truncate_path(path, max_length=12)
-        result_5 = truncate_path(path, max_length=5)  # Below minimum, should be clamped to 10
+        result_5 = truncate_path(path, max_length=5)  # Below minimum
 
         # All results should be within max_length (or minimum 10)
         assert len(result_10) <= 10
-        assert len(result_12) <= 12
         assert len(result_5) <= 10  # Clamped to minimum
         assert "..." in result_10
-        assert "..." in result_12
         assert "..." in result_5
 
     def test_string_input(self):
         """Should accept string paths as well as Path objects."""
-        path_str = "/home/user/very/long/path/to/some/deeply/nested/file.txt"
+        path_str = "Music/Artist/Album/SubDir/Another/Deep/Nested/Track.mp3"
         result = truncate_path(path_str, max_length=40)
 
         assert len(result) <= 40
         assert "..." in result
 
-    def test_preserves_path_structure(self, tmp_path):
-        """Truncation should preserve path separators."""
-        path = tmp_path / "Artist" / "Album"
+    def test_path_object_input(self):
+        """Should accept Path objects."""
+        path = Path("Music") / "Artist" / "Album" / "Track.mp3"
         result = truncate_path(path, max_length=80)
 
-        # Should contain path separator
+        assert isinstance(result, str)
+        # Path should not be truncated (it's short)
+        assert "..." not in result
+
+    def test_preserves_path_separators(self, tmp_path):
+        """Truncation should preserve path separators from actual filesystem paths."""
+        # Use tmp_path to get platform-specific separators
+        path = tmp_path / "Artist" / "Album"
+        result = truncate_path(path, max_length=200)  # Don't truncate
+
+        # Should contain platform-appropriate separator
         assert "/" in result or "\\" in result
 
 

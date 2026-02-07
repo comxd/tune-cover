@@ -1169,7 +1169,7 @@ class TestImageCacheLRUEviction:
         cache.set("url1", b"x" * 200)
         cache.set("url2", b"y" * 200)
 
-        # Access url1 to make it recently used
+        # Access url1 to make it recently used (move_to_end in OrderedDict)
         cache.get("url1")
 
         # Add item that exceeds limit - should evict url2 (oldest accessed)

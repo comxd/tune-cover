@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "tunecover"
-version = "0.0.1"
+version = "0.1.0"
 description = "A GUI application for fetching and embedding album artwork in music libraries"
 readme = "README.md"
 requires-python = ">=3.12"
@@ -46,6 +46,7 @@ dev = [
     "types-requests>=2.32.0",
     "pre-commit>=4.0.0",
     "Babel>=2.17.0",
+    "pyinstaller>=6.0.0",
 ]
 
 [project.scripts]
@@ -55,9 +56,9 @@ tunecover = "src.main:main"
 tunecover-gui = "src.main:main"
 
 [project.urls]
-Homepage = "https://github.com/comxd/tunecover"
-Repository = "https://github.com/comxd/tunecover"
-Issues = "https://github.com/comxd/tunecover/issues"
+Homepage = "https://github.com/comxd/tune-cover"
+Repository = "https://github.com/comxd/tune-cover"
+Issues = "https://github.com/comxd/tune-cover/issues"
 
 [tool.setuptools.packages.find]
 where = ["."]
@@ -134,6 +135,13 @@ ignore = [
 quote-style = "double"
 indent-style = "space"
 docstring-code-format = true
+
+[tool.mypy]
+python_version = "3.12"
+warn_return_any = true
+warn_unused_configs = true
+ignore_missing_imports = true
+exclude = ["tests/"]
 
 # Note: [dependency-groups] (PEP 735) removed in favor of standard [project.optional-dependencies]
 # This ensures compatibility with both `pip install -e ".[dev]"` and `uv sync`

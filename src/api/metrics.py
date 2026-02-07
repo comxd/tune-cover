@@ -54,9 +54,7 @@ class ProviderMetrics:
                 return 0.0
             return self.requests_failed / self.requests_total
 
-    def record_request(
-        self, success: bool, duration_ms: float, rate_limited: bool = False
-    ) -> None:
+    def record_request(self, success: bool, duration_ms: float, rate_limited: bool = False) -> None:
         """
         Record a completed request.
 

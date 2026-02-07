@@ -45,7 +45,8 @@ class TestCoverInfo:
         assert result["has_folder"] is True
         assert result["folder_file"] == "cover.jpg"
         assert result["embedded_mime_type"] == "image/jpeg"
-        assert result["folder_path"] == "/music/album"
+        # Compare using Path to handle cross-platform separators
+        assert Path(result["folder_path"]) == Path("/music/album")
         assert result["covers_differ"] is True
         assert result["embedded_dimensions"] == (500, 500)
         assert result["folder_dimensions"] == (1000, 1000)
@@ -131,7 +132,8 @@ class TestAlbumInfo:
         )
         result = album.to_dict()
 
-        assert result["path"] == "/music/Artist/Album"
+        # Compare using Path to handle cross-platform separators
+        assert Path(result["path"]) == Path("/music/Artist/Album")
         assert result["artist"] == "Test Artist"
         assert result["album"] == "Test Album"
         assert result["year"] == "2023"
@@ -321,10 +323,10 @@ class TestAlbumInfo:
         data = album.to_dict()
 
         assert data["is_forced_group"] is True
-        assert data["forced_group_files"] == [
-            "/music/Compilation/track1.mp3",
-            "/music/Compilation/track2.mp3",
-        ]
+        # Compare using Path to handle cross-platform separators
+        assert len(data["forced_group_files"]) == 2
+        assert Path(data["forced_group_files"][0]) == Path("/music/Compilation/track1.mp3")
+        assert Path(data["forced_group_files"][1]) == Path("/music/Compilation/track2.mp3")
 
     def test_from_dict_with_forced_group(self):
         """Test AlbumInfo deserialization with forced group fields."""

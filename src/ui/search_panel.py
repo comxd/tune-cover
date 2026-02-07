@@ -636,7 +636,11 @@ class CoverResultCard(QFrame):
 
     def stop_loading(self):
         """Stop the loading spinner and show a cancelled state."""
-        if self.spinner.isVisible():
+        # Use is_spinning() (checks timer.isActive()) instead of isVisible()
+        # because isVisible() returns False when parent hierarchy is hidden,
+        # but the timer may still be active and must be stopped to prevent
+        # "QObject::killTimer: Timers cannot be stopped from another thread" crash.
+        if self.spinner.is_spinning():
             self.spinner.stop()
             # Show a placeholder indicating loading was cancelled
             self.thumb_label.setText("—")
@@ -646,7 +650,7 @@ class CoverResultCard(QFrame):
 
     def is_loading(self) -> bool:
         """Check if the card is still loading its thumbnail."""
-        return self.spinner.isVisible()
+        return self.spinner.is_spinning()
 
     def _update_style(self):
         """Update the frame style."""
@@ -1525,9 +1529,12 @@ class SearchPanel(QDialog):
             f"_start_search: artist={artist!r}, album={album!r}, year={year!r}, isrc={isrc!r}, barcode={barcode!r}, use_mbid={use_mbid}"
         )
 
-        # Clear previous results and disconnect old workers
-        self._clear_results()
+        # Disconnect signals first, then cancel worker, then clear results.
+        # This order matches _cleanup_workers() and ensures no stale signal delivery.
         self._disconnect_workers()
+        if self.thumb_worker and self.thumb_worker.isRunning():
+            self.thumb_worker.cancel()
+        self._clear_results()
 
         self.progress_bar.setVisible(True)
         self.search_btn.setEnabled(False)
@@ -1590,8 +1597,14 @@ class SearchPanel(QDialog):
 
         while self.results_grid.count():
             item = self.results_grid.takeAt(0)
-            if item.widget():
-                item.widget().deleteLater()
+            widget = item.widget()
+            if widget:
+                # Stop active spinner timers before deletion to prevent
+                # "QObject::killTimer: Timers cannot be stopped from another thread"
+                # crash when Qt processes deleteLater() later in the event loop.
+                if isinstance(widget, CoverResultCard):
+                    widget.stop_loading()
+                widget.deleteLater()
 
         # Hide selection panel with animation
         self._hide_selection_panel()

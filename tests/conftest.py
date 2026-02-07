@@ -7,6 +7,27 @@ from unittest.mock import MagicMock
 import pytest
 
 
+@pytest.fixture
+def english_locale():
+    """
+    Set English locale for tests that need predictable translated strings.
+
+    Use this fixture explicitly in tests that check translated text content.
+    This ensures consistent test assertions regardless of the system locale.
+
+    Usage:
+        def test_something(english_locale):
+            # All tr() calls will return English strings
+            ...
+    """
+    from src.i18n import set_language
+
+    set_language("en")
+    yield
+    # Reset to default (French) after test
+    set_language("fr")
+
+
 @pytest.fixture(autouse=True)
 def reset_circuit_breakers_and_metrics():
     """

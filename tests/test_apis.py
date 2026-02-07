@@ -1215,9 +1215,7 @@ class TestDiscogsProvider:
         A 404 indicates the cover image doesn't exist, which is semantically
         different from a network error.
         """
-        responses.add(
-            responses.GET, "https://i.discogs.com/image/R-12345-cover.jpg", status=404
-        )
+        responses.add(responses.GET, "https://i.discogs.com/image/R-12345-cover.jpg", status=404)
 
         provider = DiscogsProvider()
         result = provider.download_cover("https://i.discogs.com/image/R-12345-cover.jpg")

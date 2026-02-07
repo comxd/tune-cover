@@ -760,7 +760,8 @@ class TestBug9TracksNotSerializedInCache:
 
         data = track.to_dict()
         assert isinstance(data, dict), "to_dict() should return a dict"
-        assert data["path"] == "/test/song.mp3"
+        # Compare using Path to handle cross-platform separators
+        assert Path(data["path"]) == Path("/test/song.mp3")
         assert data["filename"] == "song.mp3"
         assert data["artist"] == "Test Artist"
         assert data["title"] == "Test Song"

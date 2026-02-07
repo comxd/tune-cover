@@ -9,7 +9,7 @@ from unittest.mock import MagicMock, Mock, patch
 
 import pytest
 
-pytest.importorskip("pytest_qt")
+pytest.importorskip("pytestqt")
 
 from PySide6.QtCore import Qt
 
@@ -53,6 +53,7 @@ class TestSearchPanelConnectionStatus:
         with patch("src.ui.search_panel.is_fingerprinting_available", return_value=False):
             panel = SearchPanel(mock_album, mock_config)
             qtbot.addWidget(panel)
+            panel.show()
             return panel
 
     def test_connection_status_label_exists(self, search_panel):
@@ -157,9 +158,7 @@ class TestSearchWorkerErrorSignals:
         """Test that SearchWorker emits connection_status on RateLimitError."""
         from src.ui.search_panel import SearchWorker
 
-        mock_provider.search.side_effect = RateLimitError(
-            "Rate limit exceeded", retry_after=30
-        )
+        mock_provider.search.side_effect = RateLimitError("Rate limit exceeded", retry_after=30)
 
         worker = SearchWorker(
             provider=mock_provider,
@@ -170,9 +169,7 @@ class TestSearchWorkerErrorSignals:
         )
 
         status_received = []
-        worker.connection_status.connect(
-            lambda msg, is_err: status_received.append((msg, is_err))
-        )
+        worker.connection_status.connect(lambda msg, is_err: status_received.append((msg, is_err)))
 
         with qtbot.waitSignal(worker.connection_status, timeout=5000):
             worker.run()
@@ -185,7 +182,7 @@ class TestSearchWorkerErrorSignals:
         # Check that message contains retry info
         assert "30" in msg or "Rate limit" in msg
 
-    def test_worker_emits_connection_status_on_timeout(self, qtbot, mock_provider):
+    def test_worker_emits_connection_status_on_timeout(self, qtbot, mock_provider, english_locale):
         """Test that SearchWorker emits connection_status on timeout."""
         from src.ui.search_panel import SearchWorker
 
@@ -200,9 +197,7 @@ class TestSearchWorkerErrorSignals:
         )
 
         status_received = []
-        worker.connection_status.connect(
-            lambda msg, is_err: status_received.append((msg, is_err))
-        )
+        worker.connection_status.connect(lambda msg, is_err: status_received.append((msg, is_err)))
 
         with qtbot.waitSignal(worker.connection_status, timeout=5000):
             worker.run()
@@ -239,9 +234,7 @@ class TestSearchWorkerErrorSignals:
         )
 
         status_received = []
-        worker.connection_status.connect(
-            lambda msg, is_err: status_received.append((msg, is_err))
-        )
+        worker.connection_status.connect(lambda msg, is_err: status_received.append((msg, is_err)))
 
         with qtbot.waitSignal(worker.results_ready, timeout=5000):
             worker.run()
@@ -324,11 +317,14 @@ class TestErrorMessageTranslation:
         )
         return album
 
-    def test_search_error_uses_translation(self, qtbot, mock_album, mock_config):
+    def test_search_error_uses_translation(self, qtbot, mock_album, mock_config, english_locale):
         """Test that search error messages use tr() for translation."""
         from src.ui.search_panel import SearchPanel
 
-        with patch("src.ui.search_panel.is_fingerprinting_available", return_value=False):
+        with (
+            patch("src.ui.search_panel.is_fingerprinting_available", return_value=False),
+            patch("src.ui.search_panel.QMessageBox"),  # Prevent blocking modal dialog
+        ):
             panel = SearchPanel(mock_album, mock_config)
             qtbot.addWidget(panel)
 
@@ -337,5 +333,146 @@ class TestErrorMessageTranslation:
 
             # Check that the no_results_label was updated with a user-friendly message
             label_text = panel.no_results_label.text()
-            # The message should be user-friendly, not the raw error
-            assert "error" in label_text.lower() or "connection" in label_text.lower()
+            # The message should be user-friendly, not the raw error string
+            label_lower = label_text.lower()
+            assert "error" in label_lower or "connection" in label_lower
+
+
+class TestClearResultsTimerSafety:
+    """
+    Regression test for crash: QObject::killTimer: Timers cannot be stopped from another thread.
+
+    Bug: When clearing search results, CoverResultCard widgets with active LoadingSpinner
+    QTimers were scheduled for deletion via deleteLater() without stopping their timers first.
+    This caused Qt to crash when the timers were destroyed on the wrong thread.
+
+    Fix: _clear_results() now calls stop_loading() on each CoverResultCard before deleteLater()
+    to ensure all QTimers are stopped on the main thread before widget destruction.
+    """
+
+    @pytest.fixture
+    def mock_config(self, tmp_path):
+        """Create a mock config for testing."""
+        from src.utils.config import Config
+
+        config_path = tmp_path / "config.json"
+        config = Config(config_path)
+        return config
+
+    @pytest.fixture
+    def mock_album(self):
+        """Create a mock album for testing."""
+        from pathlib import Path
+
+        from src.core.models import AlbumInfo
+
+        album = AlbumInfo(
+            path=Path("/tmp/test_album"),
+            artist="Test Artist",
+            album="Test Album",
+        )
+        return album
+
+    @pytest.fixture
+    def search_panel(self, qtbot, mock_album, mock_config):
+        """Create a SearchPanel widget for testing."""
+        from src.ui.search_panel import SearchPanel
+
+        with patch("src.ui.search_panel.is_fingerprinting_available", return_value=False):
+            panel = SearchPanel(mock_album, mock_config)
+            qtbot.addWidget(panel)
+            return panel
+
+    def test_clear_results_stops_spinners_before_deletion(self, search_panel, qtbot):
+        """
+        Regression test: _clear_results() must stop active spinners before deleteLater().
+
+        Without this fix, the app crashes with:
+        QObject::killTimer: Timers cannot be stopped from another thread
+        """
+        from src.core.models import SearchResult
+        from src.ui.search_panel import CoverResultCard
+
+        # Simulate search results being displayed (cards with active spinners)
+        results = [
+            SearchResult(
+                provider="TestProvider",
+                mbid=f"test-{i}",
+                artist="AC/DC",
+                album="For those about to rock",
+                score=90 - i,
+            )
+            for i in range(3)
+        ]
+
+        # Add cards to the results grid (simulating _on_results_ready)
+        for i, result in enumerate(results):
+            card = CoverResultCard(i, result)
+            search_panel.result_cards.append(card)
+            search_panel.results_grid.addWidget(card, 0, i)
+
+        # Verify spinners are active before clearing
+        for card in search_panel.result_cards:
+            assert card.spinner.is_spinning(), "Spinner should be active before clear"
+
+        # Store references to verify spinners are stopped
+        old_cards = list(search_panel.result_cards)
+
+        # Clear results - this should stop all spinners before deleteLater()
+        search_panel._clear_results()
+
+        # Verify all spinners were stopped
+        for card in old_cards:
+            assert not card.spinner.is_spinning(), (
+                "Spinner must be stopped before widget deletion to prevent "
+                "QObject::killTimer crash from another thread"
+            )
+
+    def test_start_search_disconnects_before_clear(self, search_panel):
+        """
+        Regression test: _start_search() must disconnect old worker signals and cancel
+        thumbnail loading before clearing results, to prevent stale signal delivery
+        to already-deleted widgets.
+        """
+
+        # Track the order of operations
+        call_order = []
+
+        original_disconnect = search_panel._disconnect_workers
+        original_clear = search_panel._clear_results
+
+        def tracked_disconnect():
+            call_order.append("disconnect_workers")
+            original_disconnect()
+
+        def tracked_clear():
+            call_order.append("clear_results")
+            original_clear()
+
+        search_panel._disconnect_workers = tracked_disconnect
+        search_panel._clear_results = tracked_clear
+
+        # Set up a mock active provider
+        mock_provider = MagicMock()
+        mock_provider.name = "TestProvider"
+        search_panel._active_provider = mock_provider
+
+        # Set search fields so _start_search proceeds
+        search_panel.artist_input.setText("Test Artist")
+
+        # Mock SearchWorker to prevent actual thread creation
+        with patch("src.ui.search_panel.SearchWorker") as MockWorker:
+            mock_worker = MagicMock()
+            MockWorker.return_value = mock_worker
+
+            search_panel._start_search()
+
+        # Verify disconnect happens BEFORE clear_results
+        assert "disconnect_workers" in call_order, "disconnect_workers should be called"
+        assert "clear_results" in call_order, "clear_results should be called"
+        disconnect_idx = call_order.index("disconnect_workers")
+        clear_idx = call_order.index("clear_results")
+        assert disconnect_idx < clear_idx, (
+            "disconnect_workers must be called before clear_results to prevent "
+            "stale signals from reaching deleted widgets"
+        )

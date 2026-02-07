@@ -348,19 +348,22 @@ class TestSaveCoverToFolder:
         with pytest.raises(ValueError, match="hidden file"):
             embedder.save_cover_to_folder(jpeg_cover_data, tmp_path, filename=".hidden_cover.jpg")
 
-    def test_save_permission_denied(self, embedder, tmp_path, jpeg_cover_data):
+    def test_save_permission_denied(self, embedder, tmp_path, jpeg_cover_data, monkeypatch):
         """Test handling of permission denied errors."""
-        # Create a read-only directory
         readonly_dir = tmp_path / "readonly"
-        readonly_dir.mkdir()
-        os.chmod(readonly_dir, 0o444)
 
-        try:
-            with pytest.raises(TagWriteError):
-                embedder.save_cover_to_folder(jpeg_cover_data, readonly_dir / "subdir")
-        finally:
-            # Restore permissions for cleanup
-            os.chmod(readonly_dir, 0o755)
+        # Mock Path.mkdir to raise PermissionError (cross-platform approach)
+        original_mkdir = Path.mkdir
+
+        def mock_mkdir(self, *args, **kwargs):
+            if str(self).startswith(str(readonly_dir)):
+                raise PermissionError("Permission denied")
+            return original_mkdir(self, *args, **kwargs)
+
+        monkeypatch.setattr(Path, "mkdir", mock_mkdir)
+
+        with pytest.raises(TagWriteError):
+            embedder.save_cover_to_folder(jpeg_cover_data, readonly_dir / "subdir")
 
     def test_save_returns_path_object(self, embedder, tmp_path, jpeg_cover_data):
         """Test that result is a Path object."""
@@ -610,18 +613,26 @@ class TestEmbedCoverInFolder:
 
         assert count == 0
 
-    def test_embed_folder_handles_permission_denied(self, embedder, tmp_path, jpeg_cover_data):
+    def test_embed_folder_handles_permission_denied(
+        self, embedder, tmp_path, jpeg_cover_data, monkeypatch
+    ):
         """Test handling of permission denied when listing folder."""
         folder = tmp_path / "restricted"
         folder.mkdir()
         (folder / "track.mp3").touch()
-        os.chmod(folder, 0o000)
 
-        try:
-            count = embedder.embed_cover_in_folder(jpeg_cover_data, folder)
-            assert count == 0
-        finally:
-            os.chmod(folder, 0o755)
+        # Mock Path.iterdir to raise PermissionError (cross-platform approach)
+        original_iterdir = Path.iterdir
+
+        def mock_iterdir(self):
+            if self == folder:
+                raise PermissionError("Permission denied")
+            return original_iterdir(self)
+
+        monkeypatch.setattr(Path, "iterdir", mock_iterdir)
+
+        count = embedder.embed_cover_in_folder(jpeg_cover_data, folder)
+        assert count == 0
 
     def test_embed_folder_auto_detects_mime_type(self, embedder, tmp_path, png_cover_data):
         """Test that MIME type is auto-detected when not provided."""
@@ -1109,47 +1120,56 @@ class TestCorruptedFileHandling:
 class TestPermissionDeniedScenarios:
     """Tests for permission denied error handling."""
 
-    def test_save_to_readonly_folder(self, embedder, tmp_path, jpeg_cover_data):
+    def test_save_to_readonly_folder(self, embedder, tmp_path, jpeg_cover_data, monkeypatch):
         """Test saving to a read-only folder."""
         readonly_folder = tmp_path / "readonly"
         readonly_folder.mkdir()
-        os.chmod(readonly_folder, 0o444)
 
-        try:
-            with pytest.raises(TagWriteError):
-                embedder.save_cover_to_folder(jpeg_cover_data, readonly_folder)
-        finally:
-            os.chmod(readonly_folder, 0o755)
+        # Mock Path.open to raise PermissionError (cross-platform approach)
+        original_path_open = Path.open
+
+        def mock_path_open(self, *args, **kwargs):
+            if str(self).startswith(str(readonly_folder)):
+                raise PermissionError("Permission denied")
+            return original_path_open(self, *args, **kwargs)
+
+        monkeypatch.setattr(Path, "open", mock_path_open)
+
+        with pytest.raises(TagWriteError):
+            embedder.save_cover_to_folder(jpeg_cover_data, readonly_folder)
 
     @patch("src.core.embedder.ID3")
     def test_embed_in_readonly_file(self, mock_id3, embedder, tmp_path, jpeg_cover_data):
         """Test embedding in a read-only file."""
         mp3_file = tmp_path / "readonly.mp3"
         mp3_file.touch()
-        os.chmod(mp3_file, 0o444)
 
+        # Mock the save method to raise PermissionError (cross-platform approach)
         mock_audio = MagicMock()
         mock_audio.save.side_effect = PermissionError("Permission denied")
         mock_id3.return_value = mock_audio
 
-        try:
-            result = embedder.embed_cover_in_file(mp3_file, jpeg_cover_data, "image/jpeg")
-            assert result is False
-        finally:
-            os.chmod(mp3_file, 0o644)
+        result = embedder.embed_cover_in_file(mp3_file, jpeg_cover_data, "image/jpeg")
+        assert result is False
 
-    def test_list_inaccessible_folder(self, embedder, tmp_path, jpeg_cover_data):
+    def test_list_inaccessible_folder(self, embedder, tmp_path, jpeg_cover_data, monkeypatch):
         """Test embedding in folder with no read permissions."""
         restricted = tmp_path / "restricted"
         restricted.mkdir()
         (restricted / "track.mp3").touch()
-        os.chmod(restricted, 0o000)
 
-        try:
-            count = embedder.embed_cover_in_folder(jpeg_cover_data, restricted)
-            assert count == 0
-        finally:
-            os.chmod(restricted, 0o755)
+        # Mock Path.iterdir to raise PermissionError (cross-platform approach)
+        original_iterdir = Path.iterdir
+
+        def mock_iterdir(self):
+            if self == restricted:
+                raise PermissionError("Permission denied")
+            return original_iterdir(self)
+
+        monkeypatch.setattr(Path, "iterdir", mock_iterdir)
+
+        count = embedder.embed_cover_in_folder(jpeg_cover_data, restricted)
+        assert count == 0
 
 
 # =============================================================================
@@ -1449,7 +1469,7 @@ class TestExtractEmbeddedCoverCaching:
             mock_audio = MagicMock()
             mock_tags = MagicMock()
             # Make tags iterable (for key in tags)
-            mock_tags.__iter__ = lambda self: iter(["APIC:Cover"])
+            mock_tags.keys = lambda: ["APIC:Cover"]
             mock_tags.__getitem__ = lambda self, key: MagicMock(data=cover_data)
             mock_audio.tags = mock_tags
             mock_mutagen.return_value = mock_audio
@@ -1476,7 +1496,7 @@ class TestExtractEmbeddedCoverCaching:
             # First call - cache original cover
             mock_audio = MagicMock()
             mock_tags = MagicMock()
-            mock_tags.__iter__ = lambda self: iter(["APIC:Cover"])
+            mock_tags.keys = lambda: ["APIC:Cover"]
             mock_tags.__getitem__ = lambda self, key: MagicMock(data=original_cover)
             mock_audio.tags = mock_tags
             mock_mutagen.return_value = mock_audio
@@ -1507,7 +1527,7 @@ class TestExtractEmbeddedCoverCaching:
         with patch("src.core.embedder.MutagenFile") as mock_mutagen:
             mock_audio = MagicMock()
             mock_tags = MagicMock()
-            mock_tags.__iter__ = lambda self: iter(["APIC:Cover"])
+            mock_tags.keys = lambda: ["APIC:Cover"]
             mock_tags.__getitem__ = lambda self, key: MagicMock(data=cover_data)
             mock_audio.tags = mock_tags
             mock_mutagen.return_value = mock_audio
@@ -1533,7 +1553,7 @@ class TestExtractEmbeddedCoverCaching:
             # Return audio without cover
             mock_audio = MagicMock()
             mock_tags = MagicMock()
-            mock_tags.__iter__ = lambda self: iter(["TIT2", "TPE1"])  # No APIC
+            mock_tags.keys = lambda: ["TIT2", "TPE1"]  # No APIC
             mock_audio.tags = mock_tags
             mock_mutagen.return_value = mock_audio
 
@@ -1556,7 +1576,7 @@ class TestExtractEmbeddedCoverCaching:
         with patch("src.core.embedder.MutagenFile") as mock_mutagen:
             mock_audio = MagicMock()
             mock_tags = MagicMock()
-            mock_tags.__iter__ = lambda self: iter(["APIC:Cover"])
+            mock_tags.keys = lambda: ["APIC:Cover"]
             mock_tags.__getitem__ = lambda self, key: MagicMock(data=cover_data)
             mock_audio.tags = mock_tags
             mock_mutagen.return_value = mock_audio
@@ -1580,3 +1600,77 @@ class TestExtractEmbeddedCoverCaching:
 
         # Cache should be empty
         assert embedded_cover_cache.get(mp3_file) is None
+
+
+class TestWmaTagIterationRegression:
+    """
+    Regression tests for WMA crash: ASFTags inherits from list.
+
+    Bug: When iterating over ASFTags (WMA files) with `for key in tags`,
+    the loop yields (name, value) tuples instead of string keys, causing
+    `key.startswith("APIC")` to crash with AttributeError (tuple has no
+    startswith method).
+
+    Fix: Use explicit `tags.keys()` which returns string keys for all
+    mutagen tag types, including ASFTags.
+
+    See: src/core/embedder.py:99, src/core/scanner.py:654
+    """
+
+    def _make_asf_like_tags(self, keys: list[str], cover_data: bytes | None = None):
+        """Create a mock that simulates ASFTags behavior.
+
+        ASFTags inherits from list: direct iteration yields tuples,
+        but .keys() returns string keys.
+        """
+        tags = MagicMock()
+        # Simulate ASFTags: __iter__ yields (name, value) tuples, NOT string keys
+        tags.__iter__ = lambda self: iter([(k, MagicMock()) for k in keys])
+        # .keys() correctly returns string keys
+        tags.keys.return_value = keys
+        # Support dict-like access for cover data retrieval
+        if cover_data:
+            tags.__getitem__ = lambda self, key: MagicMock(data=cover_data)
+        return tags
+
+    def test_extract_embedded_cover_wma_with_apic(self, tmp_path):
+        """
+        Regression: extract_embedded_cover must use tags.keys() to handle WMA files.
+
+        Without .keys(), iterating ASFTags yields tuples and
+        tuple.startswith("APIC") raises AttributeError.
+        """
+        wma_file = tmp_path / "test.wma"
+        wma_file.write_bytes(b"fake wma data")
+        cover_data = b"wma_cover_data"
+
+        tags = self._make_asf_like_tags(["APIC:Cover", "WM/Title"], cover_data)
+
+        with patch("src.core.embedder.MutagenFile") as mock_mutagen:
+            mock_audio = MagicMock()
+            mock_audio.tags = tags
+            mock_audio.pictures = []
+            mock_mutagen.return_value = mock_audio
+
+            result = extract_embedded_cover(wma_file, use_cache=False)
+
+        assert result == cover_data
+        # Verify .keys() was called (not direct iteration)
+        tags.keys.assert_called()
+
+    def test_extract_embedded_cover_wma_without_apic(self, tmp_path):
+        """Regression: WMA file without APIC should return None, not crash."""
+        wma_file = tmp_path / "test.wma"
+        wma_file.write_bytes(b"fake wma data")
+
+        tags = self._make_asf_like_tags(["WM/Title", "WM/AlbumTitle"])
+
+        with patch("src.core.embedder.MutagenFile") as mock_mutagen:
+            mock_audio = MagicMock()
+            mock_audio.tags = tags
+            mock_audio.pictures = []
+            mock_mutagen.return_value = mock_audio
+
+            result = extract_embedded_cover(wma_file, use_cache=False)
+
+        assert result is None

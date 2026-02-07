@@ -7,7 +7,7 @@
 #   - Source PNG at resources/icons/app-icon-512.png
 #
 # Usage:
-#   ./packaging/generate-macos-icns.sh
+#   ./packaging/generate-macos-icons.sh
 
 set -euo pipefail
 

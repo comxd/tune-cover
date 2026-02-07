@@ -8,12 +8,24 @@ These tests verify the drag and drop handling in LibraryView including:
 - Rejection of invalid mime data
 """
 
+from pathlib import Path
+
 import pytest
 from PySide6.QtCore import QMimeData, QPoint, Qt, QUrl
 from PySide6.QtGui import QDragEnterEvent, QDragLeaveEvent, QDropEvent
 from PySide6.QtWidgets import QApplication
 
 from src.ui.library_view import LibraryView
+
+
+def normalize_path(path_str: str) -> str:
+    """Normalize a path string for cross-platform comparison.
+
+    QUrl.toLocalFile() returns forward slashes on all platforms,
+    while str(Path) returns OS-native separators. This function
+    normalizes to forward slashes for consistent comparison.
+    """
+    return str(Path(path_str).as_posix())
 
 
 @pytest.fixture
@@ -254,9 +266,11 @@ class TestDropEvent:
         library_view.dropEvent(drop_event)
 
         # Verify signal was emitted with correct paths
+        # Normalize paths for cross-platform comparison (Windows vs Unix separators)
         assert len(received_paths) == len(expected_paths)
+        received_normalized = [normalize_path(p) for p in received_paths]
         for path in expected_paths:
-            assert path in received_paths
+            assert normalize_path(path) in received_normalized
 
     def test_files_dropped_signal_with_single_file(
         self, library_view, qtbot, mime_data_with_single_file
@@ -289,7 +303,8 @@ class TestDropEvent:
         library_view.dropEvent(drop_event)
 
         assert len(received_paths) == 1
-        assert received_paths[0] == expected_paths[0]
+        # Normalize paths for cross-platform comparison
+        assert normalize_path(received_paths[0]) == normalize_path(expected_paths[0])
 
     def test_visual_feedback_removed_on_drop(self, library_view, qtbot, mime_data_with_urls):
         """Test that visual feedback is removed after drop event."""
@@ -510,7 +525,8 @@ class TestDropEventWithNonLocalUrls:
 
         # Only the local file should be in the received paths
         assert len(received_paths) == 1
-        assert received_paths[0] == str(local_file)
+        # Normalize paths for cross-platform comparison
+        assert normalize_path(received_paths[0]) == normalize_path(str(local_file))
 
 
 class TestAcceptDrops:
@@ -734,8 +750,10 @@ class TestDragDropMultipleFiles:
         library_view.dropEvent(drop_event)
 
         assert len(received_paths) == 2
-        assert str(folder) in received_paths
-        assert str(single_file) in received_paths
+        # Normalize paths for cross-platform comparison
+        received_normalized = [normalize_path(p) for p in received_paths]
+        assert normalize_path(str(folder)) in received_normalized
+        assert normalize_path(str(single_file)) in received_normalized
 
 
 class TestFilesDroppedSignal:

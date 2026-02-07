@@ -649,7 +649,9 @@ class MusicScanner:
             if hasattr(audio, "tags") and audio.tags:
                 tags = audio.tags
                 # ID3 APIC frames
-                if any(key.startswith("APIC") for key in tags):
+                # ASFTags (WMA) inherits from list: iterating directly yields tuples,
+                # not string keys. Explicit .keys() is required here.
+                if any(key.startswith("APIC") for key in tags.keys()):  # noqa: SIM118
                     return True
 
             # MP4/M4A
