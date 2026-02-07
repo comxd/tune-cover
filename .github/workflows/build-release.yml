@@ -21,57 +21,21 @@ jobs:
   # ===========================================================================
   build-linux-flatpak:
     runs-on: ubuntu-latest
+    container:
+      # Pre-built image with KDE SDK - no need to install Flathub/SDK manually.
+      # Update tag when runtime-version changes in flatpak/io.github.comxd.TuneCover.yml
+      image: ghcr.io/flathub-infra/flatpak-github-actions:kde-6.9
+      options: --privileged
     steps:
       # All actions pinned to SHA for security (supply chain protection)
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
-      - name: Install Flatpak and flatpak-builder
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y flatpak flatpak-builder
-
-      - name: Add Flathub repository
-        run: |
-          sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-
-      # Extract runtime version from Flatpak manifest (single source of truth)
-      - name: Extract KDE runtime version
-        id: runtime
-        run: |
-          VERSION=$(grep 'runtime-version:' flatpak/io.github.comxd.TuneCover.yml | head -1 | sed "s/.*runtime-version:[[:space:]]*['\"]\\?\\([^'\"]*\\)['\"]\\?/\\1/")
-          echo "kde_version=$VERSION" >> "$GITHUB_OUTPUT"
-          echo "KDE runtime version: $VERSION"
-
-      # Cache Flatpak runtimes to avoid downloading ~1.5GB each time
-      - name: Cache Flatpak runtimes
-        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+      # Action appends "-{arch}.flatpak" to bundle name, producing TuneCover-linux-x86_64.flatpak
+      - uses: flatpak/flatpak-github-actions/flatpak-builder@20eb46c470bdf05a29dc2262108f497d2d79199b # v6
         with:
-          path: ~/.local/share/flatpak
-          key: flatpak-kde-${{ steps.runtime.outputs.kde_version }}-${{ runner.os }}-${{ hashFiles('flatpak/io.github.comxd.TuneCover.yml') }}
-          restore-keys: |
-            flatpak-kde-${{ steps.runtime.outputs.kde_version }}-${{ runner.os }}-
-
-      - name: Install KDE Platform runtime
-        run: |
-          flatpak install -y --user flathub "org.kde.Platform//${KDE_VERSION}" "org.kde.Sdk//${KDE_VERSION}" || echo "::warning::KDE runtime installation failed, may already be cached"
-        env:
-          KDE_VERSION: ${{ steps.runtime.outputs.kde_version }}
-
-      - name: Build Flatpak
-        run: |
-          cd flatpak
-          flatpak-builder --force-clean --user --repo=repo build-dir io.github.comxd.TuneCover.yml
-
-      - name: Create Flatpak bundle
-        run: |
-          cd flatpak
-          flatpak build-bundle repo TuneCover-linux-x86_64.flatpak io.github.comxd.TuneCover
-
-      - name: Upload Flatpak artifact
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
-        with:
-          name: TuneCover-linux-flatpak
-          path: flatpak/TuneCover-linux-x86_64.flatpak
+          bundle: TuneCover-linux.flatpak
+          manifest-path: flatpak/io.github.comxd.TuneCover.yml
+          cache-key: flatpak-builder-${{ github.sha }}
 
   # ===========================================================================
   # Windows: PyInstaller build
@@ -131,7 +95,7 @@ jobs:
   # macOS Intel: PyInstaller build
   # ===========================================================================
   build-macos-intel:
-    runs-on: macos-13  # Intel runner (x86_64)
+    runs-on: macos-15-intel  # Intel runner (x86_64) - last free Intel option, retiring Fall 2027
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
@@ -321,6 +285,6 @@ jobs:
           prerelease: false
           generate_release_notes: true
           files: |
-            artifacts/TuneCover-linux-flatpak/TuneCover-linux-x86_64.flatpak
+            artifacts/TuneCover-linux-x86_64/TuneCover-linux-x86_64.flatpak
             artifacts/TuneCover-windows/TuneCover-windows-x86_64.zip
             artifacts/TuneCover-macos-universal/TuneCover-macos-universal.dmg
