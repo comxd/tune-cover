@@ -82,7 +82,8 @@ jobs:
         run: uv sync --frozen --all-extras
 
       - name: Run mypy
-        run: uv run mypy src/ || true
+        continue-on-error: true
+        run: uv run mypy src/
 
   # Validate packaging scripts (syntax check only - real validation happens during build)
   packaging:
