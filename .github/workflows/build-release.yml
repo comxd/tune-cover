@@ -34,18 +34,28 @@ jobs:
         run: |
           sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
+      # Extract runtime version from Flatpak manifest (single source of truth)
+      - name: Extract KDE runtime version
+        id: runtime
+        run: |
+          VERSION=$(grep 'runtime-version:' flatpak/io.github.comxd.TuneCover.yml | head -1 | sed "s/.*runtime-version:[[:space:]]*['\"]\\?\\([^'\"]*\\)['\"]\\?/\\1/")
+          echo "kde_version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "KDE runtime version: $VERSION"
+
       # Cache Flatpak runtimes to avoid downloading ~1.5GB each time
       - name: Cache Flatpak runtimes
         uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
           path: ~/.local/share/flatpak
-          key: flatpak-kde-6.8-${{ runner.os }}-${{ hashFiles('flatpak/io.github.comxd.TuneCover.yml') }}
+          key: flatpak-kde-${{ steps.runtime.outputs.kde_version }}-${{ runner.os }}-${{ hashFiles('flatpak/io.github.comxd.TuneCover.yml') }}
           restore-keys: |
-            flatpak-kde-6.8-${{ runner.os }}-
+            flatpak-kde-${{ steps.runtime.outputs.kde_version }}-${{ runner.os }}-
 
       - name: Install KDE Platform runtime
         run: |
-          flatpak install -y --user flathub org.kde.Platform//6.8 org.kde.Sdk//6.8 || echo "::warning::KDE runtime installation failed, may already be cached"
+          flatpak install -y --user flathub "org.kde.Platform//${KDE_VERSION}" "org.kde.Sdk//${KDE_VERSION}" || echo "::warning::KDE runtime installation failed, may already be cached"
+        env:
+          KDE_VERSION: ${{ steps.runtime.outputs.kde_version }}
 
       - name: Build Flatpak
         run: |
