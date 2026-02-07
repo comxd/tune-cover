@@ -122,13 +122,13 @@ class TestFindFpcalcBinary:
             # Not frozen — getattr(sys, "frozen", False) returns False
             mock_sys.frozen = False
             mock_sys.executable = str(exe_dir / "python")
-            mock_platform.system.return_value = "Linux"
+            # Use "FreeBSD" so step 5 has no common paths to check and
+            # doesn't call Path.home() (which crashes on Windows CI when
+            # os.environ is cleared).
+            mock_platform.system.return_value = "FreeBSD"
 
             result = _find_fpcalc_binary()
-            # The bundled fpcalc must NOT be returned; the bundle check is skipped.
-            # The function may still find fpcalc via common system paths (step 5),
-            # so we only assert it's not the bundled one.
-            assert result != str(bundled_fpcalc)
+            assert result is None
 
 
 class TestAudioFingerprinter:
