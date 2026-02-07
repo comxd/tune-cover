@@ -9,6 +9,7 @@ import pytest
 
 from src.core.fingerprint import (
     AudioFingerprinter,
+    _find_fpcalc_binary,
     _fuzzy_match,
     calculate_match_score,
     extract_file_metadata,
@@ -16,6 +17,118 @@ from src.core.fingerprint import (
     is_fingerprinting_available,
     rank_recordings,
 )
+
+
+class TestFindFpcalcBinary:
+    """Tests for _find_fpcalc_binary() PyInstaller bundle detection.
+
+    Bug fix: Windows builds shipped without fpcalc.exe, making audio
+    fingerprinting completely broken. These tests verify that frozen
+    builds correctly locate the bundled fpcalc binary.
+    """
+
+    def test_frozen_windows_finds_fpcalc_exe(self, tmp_path):
+        """Frozen Windows build finds fpcalc.exe next to sys.executable."""
+        exe_dir = tmp_path / "dist"
+        exe_dir.mkdir()
+        fpcalc = exe_dir / "fpcalc.exe"
+        fpcalc.write_bytes(b"fake")
+        fake_exe = str(exe_dir / "TuneCover.exe")
+
+        with (
+            patch("src.core.fingerprint._custom_fpcalc_path", None),
+            patch("src.core.fingerprint._detected_fpcalc_path", None),
+            patch.dict("os.environ", {}, clear=True),
+            patch("shutil.which", return_value=None),
+            patch("src.core.fingerprint.sys") as mock_sys,
+            patch("src.core.fingerprint.platform") as mock_platform,
+        ):
+            mock_sys.frozen = True
+            mock_sys.executable = fake_exe
+            mock_sys._MEIPASS = None
+            mock_platform.system.return_value = "Windows"
+
+            result = _find_fpcalc_binary()
+            assert result == str(fpcalc)
+
+    def test_frozen_linux_finds_fpcalc_no_extension(self, tmp_path):
+        """Frozen Linux build finds fpcalc (no .exe extension)."""
+        exe_dir = tmp_path / "dist"
+        exe_dir.mkdir()
+        fpcalc = exe_dir / "fpcalc"
+        fpcalc.write_bytes(b"fake")
+        fake_exe = str(exe_dir / "TuneCover")
+
+        with (
+            patch("src.core.fingerprint._custom_fpcalc_path", None),
+            patch("src.core.fingerprint._detected_fpcalc_path", None),
+            patch.dict("os.environ", {}, clear=True),
+            patch("shutil.which", return_value=None),
+            patch("src.core.fingerprint.sys") as mock_sys,
+            patch("src.core.fingerprint.platform") as mock_platform,
+        ):
+            mock_sys.frozen = True
+            mock_sys.executable = fake_exe
+            mock_sys._MEIPASS = None
+            mock_platform.system.return_value = "Linux"
+
+            result = _find_fpcalc_binary()
+            assert result == str(fpcalc)
+
+    def test_onefile_mode_finds_fpcalc_via_meipass(self, tmp_path):
+        """One-file mode finds fpcalc in sys._MEIPASS temp directory."""
+        meipass_dir = tmp_path / "_MEI12345"
+        meipass_dir.mkdir()
+        fpcalc = meipass_dir / "fpcalc"
+        fpcalc.write_bytes(b"fake")
+        # exe_dir intentionally does NOT have fpcalc
+        exe_dir = tmp_path / "dist"
+        exe_dir.mkdir()
+        fake_exe = str(exe_dir / "TuneCover")
+
+        with (
+            patch("src.core.fingerprint._custom_fpcalc_path", None),
+            patch("src.core.fingerprint._detected_fpcalc_path", None),
+            patch.dict("os.environ", {}, clear=True),
+            patch("shutil.which", return_value=None),
+            patch("src.core.fingerprint.sys") as mock_sys,
+            patch("src.core.fingerprint.platform") as mock_platform,
+        ):
+            mock_sys.frozen = True
+            mock_sys.executable = fake_exe
+            mock_sys._MEIPASS = str(meipass_dir)
+            mock_platform.system.return_value = "Linux"
+
+            result = _find_fpcalc_binary()
+            assert result == str(fpcalc)
+
+    def test_non_frozen_skips_bundle_check(self, tmp_path):
+        """Non-frozen (development) mode skips the PyInstaller bundle check entirely."""
+        # Place fpcalc next to a fake executable — it should NOT be found
+        # via the bundle check because we are not in a frozen build.
+        exe_dir = tmp_path / "dist"
+        exe_dir.mkdir()
+        bundled_fpcalc = exe_dir / "fpcalc"
+        bundled_fpcalc.write_bytes(b"fake")
+
+        with (
+            patch("src.core.fingerprint._custom_fpcalc_path", None),
+            patch("src.core.fingerprint._detected_fpcalc_path", None),
+            patch.dict("os.environ", {}, clear=True),
+            patch("shutil.which", return_value=None),
+            patch("src.core.fingerprint.sys") as mock_sys,
+            patch("src.core.fingerprint.platform") as mock_platform,
+        ):
+            # Not frozen — getattr(sys, "frozen", False) returns False
+            mock_sys.frozen = False
+            mock_sys.executable = str(exe_dir / "python")
+            # Use "FreeBSD" so step 5 has no common paths to check and
+            # doesn't call Path.home() (which crashes on Windows CI when
+            # os.environ is cleared).
+            mock_platform.system.return_value = "FreeBSD"
+
+            result = _find_fpcalc_binary()
+            assert result is None
 
 
 class TestAudioFingerprinter:

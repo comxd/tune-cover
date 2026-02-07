@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tunecover 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-01 18:16+0100\n"
+"POT-Creation-Date: 2026-02-07 16:51+0100\n"
 "PO-Revision-Date: 2026-01-26 22:35+0100\n"
 "Last-Translator: TuneCover Team\n"
 "Language: fr\n"
@@ -526,7 +526,7 @@ msgstr "Pas de pochette disponible"
 msgid "Download error"
 msgstr "Erreur de téléchargement"
 
-#: src/ui/album_detail.py:212 src/ui/dialogs/batch_download_dialog.py:186
+#: src/ui/album_detail.py:212 src/ui/dialogs/batch_download_dialog.py:184
 msgid "Cover applied"
 msgstr "Pochette appliquée"
 
@@ -572,10 +572,10 @@ msgstr "Traitement en cours"
 #: src/ui/album_detail.py:350 src/ui/album_detail.py:619
 #: src/ui/dialogs/acoustid_save_dialog.py:181
 #: src/ui/dialogs/batch_acoustid_dialog.py:323
-#: src/ui/dialogs/batch_download_dialog.py:411
+#: src/ui/dialogs/batch_download_dialog.py:409
 #: src/ui/dialogs/cover_comparison.py:364 src/ui/fingerprint_dialog.py:457
 #: src/ui/main_window.py:866 src/ui/main_window.py:1521
-#: src/ui/preferences.py:82 src/ui/search_panel.py:1027
+#: src/ui/preferences.py:82 src/ui/search_panel.py:1031
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -588,16 +588,16 @@ msgid "Information"
 msgstr "Informations"
 
 #: src/ui/album_detail.py:441 src/ui/dialogs/acoustid_save_dialog.py:102
-#: src/ui/search_panel.py:813
+#: src/ui/search_panel.py:817
 msgid "Artist:"
 msgstr "Artiste:"
 
 #: src/ui/album_detail.py:444 src/ui/dialogs/acoustid_save_dialog.py:107
-#: src/ui/search_panel.py:821
+#: src/ui/search_panel.py:825
 msgid "Album:"
 msgstr "Album:"
 
-#: src/ui/album_detail.py:447 src/ui/search_panel.py:829
+#: src/ui/album_detail.py:447 src/ui/search_panel.py:833
 msgid "Year:"
 msgstr "Année:"
 
@@ -643,11 +643,11 @@ msgstr "Identifier l'album via empreinte audio"
 msgid "AcoustID:"
 msgstr "AcoustID :"
 
-#: src/ui/album_detail.py:512 src/ui/search_panel.py:851
+#: src/ui/album_detail.py:512 src/ui/search_panel.py:855
 msgid "ISRC:"
 msgstr "ISRC :"
 
-#: src/ui/album_detail.py:517 src/ui/search_panel.py:860
+#: src/ui/album_detail.py:517 src/ui/search_panel.py:864
 msgid "Barcode:"
 msgstr "Code-barres :"
 
@@ -818,8 +818,8 @@ msgstr "Pochette enregistrée pour {name} ({actions})"
 #: src/ui/album_detail.py:1926 src/ui/album_detail.py:2017
 #: src/ui/dialogs/batch_acoustid_dialog.py:216 src/ui/main_window.py:1615
 #: src/ui/main_window.py:2206 src/ui/preferences.py:680
-#: src/ui/preferences.py:693 src/ui/search_panel.py:1218
-#: src/ui/search_panel.py:1827 src/ui/search_panel.py:1869
+#: src/ui/preferences.py:693 src/ui/search_panel.py:1222
+#: src/ui/search_panel.py:1840 src/ui/search_panel.py:1882
 msgid "Error"
 msgstr "Erreur"
 
@@ -1768,11 +1768,11 @@ msgstr ""
 msgid "Auto download"
 msgstr "Téléchargement automatique"
 
-#: src/ui/main_window.py:1941 src/ui/search_panel.py:1206
+#: src/ui/main_window.py:1941 src/ui/search_panel.py:1210
 msgid "Fingerprinting unavailable"
 msgstr "Identification audio indisponible"
 
-#: src/ui/main_window.py:1943 src/ui/search_panel.py:1208
+#: src/ui/main_window.py:1943 src/ui/search_panel.py:1212
 msgid ""
 "Audio fingerprinting requires chromaprint to be installed.\n"
 "\n"
@@ -1882,7 +1882,7 @@ msgid "Cache"
 msgstr "Cache"
 
 #: src/ui/dialogs/cover_comparison.py:368 src/ui/preferences.py:86
-#: src/ui/search_panel.py:1031
+#: src/ui/search_panel.py:1035
 msgid "Apply"
 msgstr "Appliquer"
 
@@ -1918,7 +1918,7 @@ msgstr "Langue de l'application (nécessite redémarrage)"
 msgid "Language:"
 msgstr "Langue:"
 
-#: src/ui/preferences.py:125 src/ui/search_panel.py:900
+#: src/ui/preferences.py:125 src/ui/search_panel.py:904
 msgid "Search"
 msgstr "Rechercher"
 
@@ -2461,7 +2461,7 @@ msgstr ""
 msgid "No matches found in AcoustID database"
 msgstr "Aucune correspondance trouvée dans la base AcoustID"
 
-#: src/ui/search_panel.py:495 src/ui/search_panel.py:1226
+#: src/ui/search_panel.py:495 src/ui/search_panel.py:1230
 msgid "Analyzing audio fingerprints..."
 msgstr "Analyse des empreintes audio..."
 
@@ -2474,16 +2474,16 @@ msgstr "[Pochette]"
 msgid "Double-click to zoom"
 msgstr "Double-clic pour zoomer"
 
-#: src/ui/search_panel.py:745
+#: src/ui/search_panel.py:749
 #, python-brace-format
 msgid "Cover search: {name}"
 msgstr "Recherche pochette: {name}"
 
-#: src/ui/search_panel.py:789
+#: src/ui/search_panel.py:793
 msgid "Force text search"
 msgstr "Forcer recherche textuelle"
 
-#: src/ui/search_panel.py:792
+#: src/ui/search_panel.py:796
 msgid ""
 "Ignore MBID and perform text-based search.\n"
 "Useful if MBID doesn't give satisfactory results."
@@ -2491,43 +2491,43 @@ msgstr ""
 "Ignorer le MBID et effectuer une recherche basée sur le texte.\n"
 "Utile si le MBID ne donne pas de résultats satisfaisants."
 
-#: src/ui/search_panel.py:808
+#: src/ui/search_panel.py:812
 msgid "Search criteria"
 msgstr "Critères de recherche"
 
-#: src/ui/search_panel.py:816
+#: src/ui/search_panel.py:820
 msgid "Artist name"
 msgstr "Nom de l'artiste"
 
-#: src/ui/search_panel.py:824
+#: src/ui/search_panel.py:828
 msgid "Album title"
 msgstr "Titre de l'album"
 
-#: src/ui/search_panel.py:832
+#: src/ui/search_panel.py:836
 msgid "(optional)"
 msgstr "(optionnel)"
 
-#: src/ui/search_panel.py:838
+#: src/ui/search_panel.py:842
 msgid "Title:"
 msgstr "Titre :"
 
-#: src/ui/search_panel.py:841
+#: src/ui/search_panel.py:845
 msgid "Track title"
 msgstr "Titre de la piste"
 
-#: src/ui/search_panel.py:854
+#: src/ui/search_panel.py:858
 msgid "ISRC"
 msgstr "ISRC"
 
-#: src/ui/search_panel.py:863
+#: src/ui/search_panel.py:867
 msgid "UPC/EAN"
 msgstr "UPC/EAN"
 
-#: src/ui/search_panel.py:876
+#: src/ui/search_panel.py:880
 msgid "AcoustID"
 msgstr "AcoustID"
 
-#: src/ui/search_panel.py:879
+#: src/ui/search_panel.py:883
 msgid ""
 "Use audio fingerprinting to identify this track.\n"
 "Fills in artist/album fields from AcoustID database."
@@ -2535,7 +2535,7 @@ msgstr ""
 "Utiliser l'empreinte audio pour identifier ce morceau.\n"
 "Remplit les champs artiste/album depuis la base AcoustID."
 
-#: src/ui/search_panel.py:893
+#: src/ui/search_panel.py:897
 msgid ""
 "Fingerprinting unavailable.\n"
 "Install chromaprint/fpcalc and pyacoustid."
@@ -2543,40 +2543,40 @@ msgstr ""
 "Identification indisponible.\n"
 "Installez chromaprint/fpcalc et pyacoustid."
 
-#: src/ui/search_panel.py:896
+#: src/ui/search_panel.py:900
 msgid "No audio file available for fingerprinting."
 msgstr "Aucun fichier audio disponible pour l'identification."
 
-#: src/ui/search_panel.py:947
+#: src/ui/search_panel.py:951
 msgid "Results"
 msgstr "Résultats"
 
-#: src/ui/search_panel.py:962
+#: src/ui/search_panel.py:966
 msgid "Stop"
 msgstr "Arrêter"
 
-#: src/ui/search_panel.py:963
+#: src/ui/search_panel.py:967
 msgid "Stop loading thumbnails"
 msgstr "Arrêter le chargement des miniatures"
 
-#: src/ui/search_panel.py:984
+#: src/ui/search_panel.py:988
 msgid "Start a search to find covers"
 msgstr "Lancez une recherche pour trouver des pochettes"
 
-#: src/ui/search_panel.py:993
+#: src/ui/search_panel.py:997
 msgid "Selection"
 msgstr "Sélection"
 
-#: src/ui/search_panel.py:1003 src/ui/search_panel.py:1599
+#: src/ui/search_panel.py:1007 src/ui/search_panel.py:1612
 msgid "No selection"
 msgstr "Aucune sélection"
 
-#: src/ui/search_panel.py:1078
+#: src/ui/search_panel.py:1082
 #, python-brace-format
 msgid "Mode: MBID Lookup ({mbid}...)"
 msgstr "Mode: Recherche MBID ({mbid}...)"
 
-#: src/ui/search_panel.py:1086
+#: src/ui/search_panel.py:1090
 #, python-brace-format
 msgid ""
 "MusicBrainz Album ID: {mbid}\n"
@@ -2589,11 +2589,11 @@ msgstr ""
 "La recherche utilise l'identifiant unique MusicBrainz.\n"
 "C'est la méthode la plus fiable (correspondance exacte)."
 
-#: src/ui/search_panel.py:1092
+#: src/ui/search_panel.py:1096
 msgid "Mode: Text search"
 msgstr "Mode: Recherche textuelle"
 
-#: src/ui/search_panel.py:1098
+#: src/ui/search_panel.py:1102
 msgid ""
 "Search uses artist/album text.\n"
 "Results depend on text matching."
@@ -2601,11 +2601,11 @@ msgstr ""
 "La recherche utilise le texte artiste/album.\n"
 "Les résultats dépendent de la correspondance textuelle."
 
-#: src/ui/search_panel.py:1218
+#: src/ui/search_panel.py:1222
 msgid "No audio files available for fingerprinting."
 msgstr "Aucun fichier audio disponible pour l'identification."
 
-#: src/ui/search_panel.py:1283
+#: src/ui/search_panel.py:1287
 #, python-brace-format, python-format
 msgid ""
 "Identified via AcoustID: {artist} - {title} ({score}%% confidence).\n"
@@ -2614,16 +2614,16 @@ msgstr ""
 "Identifié via AcoustID : {artist} - {title} ({score}%% de confiance).\n"
 "Cliquez sur 'Rechercher' pour trouver les pochettes."
 
-#: src/ui/search_panel.py:1300
+#: src/ui/search_panel.py:1304
 #, python-brace-format
 msgid "AcoustID error: {error}"
 msgstr "Erreur AcoustID : {error}"
 
-#: src/ui/search_panel.py:1305
+#: src/ui/search_panel.py:1309
 msgid "Identification error"
 msgstr "Erreur d'identification"
 
-#: src/ui/search_panel.py:1306
+#: src/ui/search_panel.py:1310
 #, python-brace-format
 msgid ""
 "Could not identify via AcoustID:\n"
@@ -2632,17 +2632,17 @@ msgstr ""
 "Impossible d'identifier via AcoustID :\n"
 "{error}"
 
-#: src/ui/search_panel.py:1312
+#: src/ui/search_panel.py:1316
 #, python-brace-format
 msgid "Analyzing track {current}/{total}: {name}"
 msgstr "Analyse de la piste {current}/{total} : {name}"
 
-#: src/ui/search_panel.py:1327
+#: src/ui/search_panel.py:1331
 #, python-brace-format
 msgid "No fingerprint matches found ({analyzed} tracks analyzed)."
 msgstr "Aucune correspondance trouvée ({analyzed} pistes analysées)."
 
-#: src/ui/search_panel.py:1376
+#: src/ui/search_panel.py:1380
 #, python-brace-format
 msgid ""
 "Selected: {artist} - {title} ({votes} tracks matched).\n"
@@ -2651,11 +2651,11 @@ msgstr ""
 "Sélectionné : {artist} - {title} ({votes} pistes correspondantes).\n"
 "Cliquez sur 'Rechercher' pour trouver les pochettes."
 
-#: src/ui/search_panel.py:1451
+#: src/ui/search_panel.py:1455
 msgid "Scan error"
 msgstr "Erreur de scan"
 
-#: src/ui/search_panel.py:1452
+#: src/ui/search_panel.py:1456
 #, python-brace-format
 msgid ""
 "Error scanning additional tracks:\n"
@@ -2664,15 +2664,15 @@ msgstr ""
 "Erreur lors du scan de pistes supplémentaires :\n"
 "{error}"
 
-#: src/ui/search_panel.py:1483
+#: src/ui/search_panel.py:1487
 msgid "No source available"
 msgstr "Aucune source disponible"
 
-#: src/ui/search_panel.py:1491 src/ui/widgets/source_selector.py:237
+#: src/ui/search_panel.py:1495 src/ui/widgets/source_selector.py:237
 msgid "Configuration required"
 msgstr "Configuration requise"
 
-#: src/ui/search_panel.py:1493
+#: src/ui/search_panel.py:1497
 #, python-brace-format
 msgid ""
 "Provider {name} requires an API key.\n"
@@ -2685,56 +2685,56 @@ msgstr ""
 "Veuillez configurer la clé API dans les préférences\n"
 "(Menu Édition -> Préférences)."
 
-#: src/ui/search_panel.py:1520
+#: src/ui/search_panel.py:1524
 msgid "Enter at least an artist or album"
 msgstr "Entrez au moins un artiste ou un album"
 
-#: src/ui/dialogs/batch_download_dialog.py:247 src/ui/search_panel.py:1539
+#: src/ui/dialogs/batch_download_dialog.py:245 src/ui/search_panel.py:1546
 #, python-brace-format
 msgid "MBID lookup on {provider}..."
 msgstr "Recherche MBID sur {provider}..."
 
-#: src/ui/search_panel.py:1546
+#: src/ui/search_panel.py:1553
 #, python-brace-format
 msgid "artist='{artist}'"
 msgstr "artiste='{artist}'"
 
-#: src/ui/search_panel.py:1548
+#: src/ui/search_panel.py:1555
 #, python-brace-format
 msgid "album='{album}'"
 msgstr "album='{album}'"
 
-#: src/ui/search_panel.py:1550
+#: src/ui/search_panel.py:1557
 #, python-brace-format
 msgid "year={year}"
 msgstr "année={year}"
 
-#: src/ui/search_panel.py:1553
+#: src/ui/search_panel.py:1560
 #, python-brace-format
 msgid "Searching on {provider}: {desc}..."
 msgstr "Recherche sur {provider} : {desc}..."
 
-#: src/ui/search_panel.py:1617
+#: src/ui/search_panel.py:1630
 #, python-brace-format
 msgid "No results found on {provider}"
 msgstr "Aucun résultat trouvé sur {provider}"
 
-#: src/ui/search_panel.py:1655
+#: src/ui/search_panel.py:1668
 msgid "Connection error. Check your internet connection."
 msgstr "Erreur de connexion au serveur. Vérifiez votre connexion internet."
 
-#: src/ui/search_panel.py:1657
+#: src/ui/search_panel.py:1670
 msgid "Invalid or expired API key. Check your credentials in preferences."
 msgstr ""
 "Clé API invalide ou expirée. Vérifiez vos identifiants dans les "
 "préférences.Clé API invalide ou expirée. Vérifiez vos identifiants dans "
 "les préférences."
 
-#: src/ui/search_panel.py:1659
+#: src/ui/search_panel.py:1672
 msgid "Too many requests. Please wait before trying again."
 msgstr "Trop de requêtes. Veuillez patienter avant de réessayer."
 
-#: src/ui/search_panel.py:1661
+#: src/ui/search_panel.py:1674
 #, python-brace-format
 msgid ""
 "API communication error:\n"
@@ -2743,25 +2743,25 @@ msgstr ""
 "Erreur de communication avec l'API:\n"
 "{error}"
 
-#: src/ui/search_panel.py:1667
+#: src/ui/search_panel.py:1680
 msgid "Search error"
 msgstr "Erreur de recherche"
 
-#: src/ui/search_panel.py:1768
+#: src/ui/search_panel.py:1781
 #, python-brace-format
 msgid "Year: {year} | Score: {score}%"
 msgstr "Année: {year} | Score: {score}%"
 
-#: src/ui/search_panel.py:1776
+#: src/ui/search_panel.py:1789
 #, python-brace-format
 msgid "Image: {info}"
 msgstr "Image: {info}"
 
-#: src/ui/search_panel.py:1827
+#: src/ui/search_panel.py:1840
 msgid "This cover is not available."
 msgstr "Cette pochette n'est pas disponible."
 
-#: src/ui/search_panel.py:1869
+#: src/ui/search_panel.py:1882
 #, python-brace-format
 msgid ""
 "Error downloading cover:\n"
@@ -2830,7 +2830,7 @@ msgid "Albums to process: {count}"
 msgstr "Albums à traiter : {count}"
 
 #: src/ui/dialogs/batch_acoustid_dialog.py:103
-#: src/ui/dialogs/batch_download_dialog.py:134
+#: src/ui/dialogs/batch_download_dialog.py:132
 msgid "Operation cancelled by user."
 msgstr "Opération annulée par l'utilisateur."
 
@@ -2843,12 +2843,12 @@ msgid "Already has AcoustID"
 msgstr "A déjà un AcoustID"
 
 #: src/ui/dialogs/batch_acoustid_dialog.py:120
-#: src/ui/dialogs/batch_download_dialog.py:152
+#: src/ui/dialogs/batch_download_dialog.py:150
 msgid "Skipped by user"
 msgstr "Ignoré par l'utilisateur"
 
 #: src/ui/dialogs/batch_acoustid_dialog.py:122
-#: src/ui/dialogs/batch_download_dialog.py:154
+#: src/ui/dialogs/batch_download_dialog.py:152
 msgid "Skipped"
 msgstr "Ignoré"
 
@@ -2881,7 +2881,7 @@ msgid "No match found in AcoustID"
 msgstr "Aucune correspondance trouvée dans AcoustID"
 
 #: src/ui/dialogs/batch_acoustid_dialog.py:156
-#: src/ui/dialogs/batch_download_dialog.py:201
+#: src/ui/dialogs/batch_download_dialog.py:199
 msgid "No match"
 msgstr "Aucune correspondance"
 
@@ -2942,7 +2942,7 @@ msgstr ""
 "depuis les résultats AcoustID"
 
 #: src/ui/dialogs/batch_acoustid_dialog.py:282
-#: src/ui/dialogs/batch_download_dialog.py:376
+#: src/ui/dialogs/batch_download_dialog.py:374
 msgid "Progress"
 msgstr "Progression"
 
@@ -2951,12 +2951,12 @@ msgid "Ready to start"
 msgstr "Prêt à démarrer"
 
 #: src/ui/dialogs/batch_acoustid_dialog.py:299
-#: src/ui/dialogs/batch_download_dialog.py:392
+#: src/ui/dialogs/batch_download_dialog.py:390
 msgid "Log"
 msgstr "Journal"
 
 #: src/ui/dialogs/batch_acoustid_dialog.py:312
-#: src/ui/dialogs/batch_download_dialog.py:406
+#: src/ui/dialogs/batch_download_dialog.py:404
 msgid "Skip"
 msgstr "Passer"
 
@@ -2970,7 +2970,7 @@ msgid "Processing {current}/{total}: {name}"
 msgstr "Traitement {current}/{total} : {name}"
 
 #: src/ui/dialogs/batch_acoustid_dialog.py:387
-#: src/ui/dialogs/batch_download_dialog.py:415
+#: src/ui/dialogs/batch_download_dialog.py:413
 #: src/ui/dialogs/cover_zoom_dialog.py:453
 #: src/ui/dialogs/statistics_dialog.py:277 src/ui/widgets/toast.py:168
 msgid "Close"
@@ -2985,117 +2985,117 @@ msgstr "Terminé"
 msgid "{count} albums identified via AcoustID"
 msgstr "{count} albums identifiés via AcoustID"
 
-#: src/ui/dialogs/batch_download_dialog.py:115
+#: src/ui/dialogs/batch_download_dialog.py:113
 msgid "No cover provider enabled."
 msgstr "Aucun fournisseur de pochettes activé."
 
-#: src/ui/dialogs/batch_download_dialog.py:127
+#: src/ui/dialogs/batch_download_dialog.py:125
 #, python-brace-format
 msgid "Enabled providers: {providers}"
 msgstr "Fournisseurs activés: {providers}"
 
-#: src/ui/dialogs/batch_download_dialog.py:129
+#: src/ui/dialogs/batch_download_dialog.py:127
 #, python-brace-format
 msgid "Minimum score: {score}%"
 msgstr "Score minimum: {score}%"
 
-#: src/ui/dialogs/batch_download_dialog.py:145
+#: src/ui/dialogs/batch_download_dialog.py:143
 msgid "Skipped (already has cover)"
 msgstr "Ignoré (a déjà une pochette)"
 
-#: src/ui/dialogs/batch_download_dialog.py:147
+#: src/ui/dialogs/batch_download_dialog.py:145
 msgid "Already has cover"
 msgstr "A déjà une pochette"
 
-#: src/ui/dialogs/batch_download_dialog.py:173
+#: src/ui/dialogs/batch_download_dialog.py:171
 msgid "Error: invalid save configuration"
 msgstr "Erreur: configuration de sauvegarde invalide"
 
-#: src/ui/dialogs/batch_download_dialog.py:182
+#: src/ui/dialogs/batch_download_dialog.py:180
 #, python-brace-format
 msgid "Cover applied ({provider}, score: {score}%)"
 msgstr "Pochette appliquée ({provider}, score: {score}%)"
 
-#: src/ui/dialogs/batch_download_dialog.py:192
+#: src/ui/dialogs/batch_download_dialog.py:190
 #, python-brace-format
 msgid "Error ({provider}): {error}"
 msgstr "Erreur ({provider}): {error}"
 
-#: src/ui/dialogs/batch_download_dialog.py:199
+#: src/ui/dialogs/batch_download_dialog.py:197
 msgid "No sufficient result found"
 msgstr "Aucun résultat suffisant trouvé"
 
-#: src/ui/dialogs/batch_download_dialog.py:205
+#: src/ui/dialogs/batch_download_dialog.py:203
 msgid "Summary:"
 msgstr "Résumé:"
 
-#: src/ui/dialogs/batch_download_dialog.py:207
-#: src/ui/dialogs/batch_download_dialog.py:487
+#: src/ui/dialogs/batch_download_dialog.py:205
+#: src/ui/dialogs/batch_download_dialog.py:485
 #, python-brace-format
 msgid "Covers downloaded: {count}"
 msgstr "Pochettes téléchargées: {count}"
 
-#: src/ui/dialogs/batch_download_dialog.py:210
+#: src/ui/dialogs/batch_download_dialog.py:208
 #, python-brace-format
 msgid "Skipped (no match): {count}"
 msgstr "Ignorés (pas de correspondance): {count}"
 
-#: src/ui/dialogs/batch_download_dialog.py:214
+#: src/ui/dialogs/batch_download_dialog.py:212
 #, python-brace-format
 msgid "Skipped (already have cover): {count}"
 msgstr "Ignorés (ont déjà une pochette): {count}"
 
-#: src/ui/dialogs/batch_download_dialog.py:219
-#: src/ui/dialogs/batch_download_dialog.py:495
+#: src/ui/dialogs/batch_download_dialog.py:217
+#: src/ui/dialogs/batch_download_dialog.py:493
 #, python-brace-format
 msgid "Errors: {count}"
 msgstr "Erreurs: {count}"
 
-#: src/ui/dialogs/batch_download_dialog.py:258
+#: src/ui/dialogs/batch_download_dialog.py:256
 #, python-brace-format
 msgid "Text search on {provider}..."
 msgstr "Recherche textuelle sur {provider}..."
 
-#: src/ui/dialogs/batch_download_dialog.py:369
+#: src/ui/dialogs/batch_download_dialog.py:367
 msgid "Automatic cover download"
 msgstr "Téléchargement automatique des pochettes"
 
-#: src/ui/dialogs/batch_download_dialog.py:379
+#: src/ui/dialogs/batch_download_dialog.py:377
 msgid "Preparing..."
 msgstr "Préparation..."
 
-#: src/ui/dialogs/batch_download_dialog.py:407
+#: src/ui/dialogs/batch_download_dialog.py:405
 msgid "Skip to next album"
 msgstr "Passer à l'album suivant"
 
-#: src/ui/dialogs/batch_download_dialog.py:442
+#: src/ui/dialogs/batch_download_dialog.py:440
 #, python-brace-format
 msgid "Album {current}/{total}: {name}"
 msgstr "Album {current}/{total} : {name}"
 
-#: src/ui/dialogs/batch_download_dialog.py:467
+#: src/ui/dialogs/batch_download_dialog.py:465
 msgid "Finished"
 msgstr "Terminé"
 
-#: src/ui/dialogs/batch_download_dialog.py:482
+#: src/ui/dialogs/batch_download_dialog.py:480
 msgid "Cancelling..."
 msgstr "Annulation..."
 
-#: src/ui/dialogs/batch_download_dialog.py:488
+#: src/ui/dialogs/batch_download_dialog.py:486
 #, python-brace-format
 msgid "Albums skipped (no match): {count}"
 msgstr "Albums ignorés (pas de correspondance): {count}"
 
-#: src/ui/dialogs/batch_download_dialog.py:489
+#: src/ui/dialogs/batch_download_dialog.py:487
 #, python-brace-format
 msgid "Albums skipped (already have cover): {count}"
 msgstr "Albums ignorés (ont déjà une pochette): {count}"
 
-#: src/ui/dialogs/batch_download_dialog.py:530
+#: src/ui/dialogs/batch_download_dialog.py:528
 msgid "Cancel download"
 msgstr "Annuler le téléchargement"
 
-#: src/ui/dialogs/batch_download_dialog.py:531
+#: src/ui/dialogs/batch_download_dialog.py:529
 msgid "A download is in progress. Do you want to cancel it?"
 msgstr "Un téléchargement est en cours. Voulez-vous l'annuler?"
 

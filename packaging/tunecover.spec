@@ -8,7 +8,8 @@ Build command:
 Output:
     dist/TuneCover/  (folder with executable and dependencies)
 
-Note: On Windows, you need chromaprint.dll in the system PATH or bundled.
+Note: On Windows, fpcalc.exe must be placed in the packaging/ directory
+      (or project root) before building. CI downloads it automatically.
       Download from: https://acoustid.org/chromaprint
 """
 
@@ -59,25 +60,25 @@ hiddenimports = [
     'audioread.maddec',
 ]
 
-# Platform-specific chromaprint binaries
-# Users must ensure chromaprint is installed or bundled
+# Bundle fpcalc binary on Windows so audio fingerprinting works out-of-the-box.
+# CI downloads fpcalc.exe into packaging/ before running PyInstaller.
 binaries = []
 
-# On Windows, look for chromaprint.dll in common locations
 if sys.platform == 'win32':
-    chromaprint_paths = [
-        os.path.join(os.environ.get('PROGRAMFILES', ''), 'Chromaprint', 'chromaprint.dll'),
-        os.path.join(os.environ.get('LOCALAPPDATA', ''), 'Chromaprint', 'chromaprint.dll'),
-        'chromaprint.dll',  # Current directory or PATH
+    fpcalc_search_paths = [
+        os.path.join(SPECPATH, 'fpcalc.exe'),          # CI places it here
+        os.path.join(SPECPATH, '..', 'fpcalc.exe'),    # Project root
+        'fpcalc.exe',                                    # Current directory
     ]
-    chromaprint_found = False
-    for path in chromaprint_paths:
+    fpcalc_found = False
+    for path in fpcalc_search_paths:
         if os.path.exists(path):
             binaries.append((path, '.'))
-            chromaprint_found = True
+            fpcalc_found = True
+            print(f"INFO: Bundling fpcalc.exe from {os.path.abspath(path)}")
             break
-    if not chromaprint_found:
-        print("WARNING: chromaprint.dll not found. Audio fingerprinting will not work.")
+    if not fpcalc_found:
+        print("WARNING: fpcalc.exe not found. Audio fingerprinting will not work.")
         print("  Download from: https://acoustid.org/chromaprint")
 
 a = Analysis(
@@ -182,7 +183,8 @@ exe = EXE(
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
-    upx=True,
+    # UPX disabled: compressing Qt DLLs causes runtime crashes on Windows.
+    upx=False,
     console=False,  # GUI application, no console window
     disable_windowed_traceback=False,
     argv_emulation=False,
@@ -199,7 +201,8 @@ coll = COLLECT(
     a.zipfiles,
     a.datas,
     strip=False,
-    upx=True,
+    # UPX disabled: compressing Qt DLLs causes runtime crashes on Windows.
+    upx=False,
     upx_exclude=[],
     name='TuneCover',
 )

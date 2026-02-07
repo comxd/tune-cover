@@ -10,6 +10,7 @@ import os
 import platform
 import shutil
 import subprocess
+import sys
 import threading
 from difflib import SequenceMatcher
 from pathlib import Path
@@ -57,7 +58,8 @@ def _find_fpcalc_binary() -> str | None:
     1. Custom path set via set_fpcalc_path()
     2. FPCALC_COMMAND environment variable
     3. System PATH (via shutil.which)
-    4. Common installation paths for each platform
+    4. PyInstaller bundle (frozen builds only)
+    5. Common installation paths for each platform
 
     Returns:
         Path to fpcalc binary if found, None otherwise
@@ -86,7 +88,29 @@ def _find_fpcalc_binary() -> str | None:
         _detected_fpcalc_path = which_path
         return which_path
 
-    # 4. Check platform-specific common locations
+    # 4. Check PyInstaller bundle (frozen builds only)
+    # In one-folder mode, fpcalc sits next to the executable.
+    # In one-file mode, it is extracted to sys._MEIPASS at runtime.
+    if getattr(sys, "frozen", False):
+        fpcalc_name = "fpcalc.exe" if platform.system() == "Windows" else "fpcalc"
+        # One-folder mode: next to the executable
+        candidate = Path(sys.executable).parent / fpcalc_name
+        if candidate.is_file():
+            path_str = str(candidate)
+            logger.info(f"Found bundled fpcalc (one-folder): {path_str}")
+            _detected_fpcalc_path = path_str
+            return path_str
+        # One-file mode: extracted to temporary _MEIPASS directory
+        meipass = getattr(sys, "_MEIPASS", None)
+        if meipass:
+            candidate = Path(meipass) / fpcalc_name
+            if candidate.is_file():
+                path_str = str(candidate)
+                logger.info(f"Found bundled fpcalc (one-file): {path_str}")
+                _detected_fpcalc_path = path_str
+                return path_str
+
+    # 5. Check platform-specific common locations
     system = platform.system()
     common_paths: list[str] = []
 
