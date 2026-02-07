@@ -147,6 +147,8 @@ jobs:
   build-macos-universal:
     needs: [build-macos]
     runs-on: macos-latest
+    permissions:
+      actions: write  # Required to delete intermediate artifacts
     steps:
       - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
 
@@ -209,6 +211,20 @@ jobs:
         with:
           name: TuneCover-macos-universal
           path: TuneCover-macos-universal.dmg
+
+      # Clean up intermediate arch-specific artifacts (only the universal DMG is distributed)
+      - name: Delete intermediate macOS artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          for name in TuneCover-macos-intel-app TuneCover-macos-arm-app; do
+            artifact_id=$(gh api "repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts" \
+              --jq ".artifacts[] | select(.name == \"${name}\") | .id")
+            if [[ -n "$artifact_id" ]]; then
+              gh api -X DELETE "repos/${{ github.repository }}/actions/artifacts/${artifact_id}"
+              echo "Deleted artifact: ${name} (id: ${artifact_id})"
+            fi
+          done
 
   # ===========================================================================
   # Create GitHub Release (on tag push)
