@@ -32,12 +32,12 @@
   <screenshots>
     <screenshot type="default">
       <caption>Main window showing album library</caption>
-      <image>https://raw.githubusercontent.com/comxd/tunecover/main/screenshots/main.png</image>
+      <image>https://raw.githubusercontent.com/comxd/tune-cover/main/screenshots/main.png</image>
     </screenshot>
   </screenshots>
 
-  <url type="homepage">https://github.com/comxd/tunecover</url>
-  <url type="bugtracker">https://github.com/comxd/tunecover/issues</url>
+  <url type="homepage">https://github.com/comxd/tune-cover</url>
+  <url type="bugtracker">https://github.com/comxd/tune-cover/issues</url>
 
   <provides>
     <binary>tunecover</binary>

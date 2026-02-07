@@ -56,9 +56,9 @@ tunecover = "src.main:main"
 tunecover-gui = "src.main:main"
 
 [project.urls]
-Homepage = "https://github.com/comxd/tunecover"
-Repository = "https://github.com/comxd/tunecover"
-Issues = "https://github.com/comxd/tunecover/issues"
+Homepage = "https://github.com/comxd/tune-cover"
+Repository = "https://github.com/comxd/tune-cover"
+Issues = "https://github.com/comxd/tune-cover/issues"
 
 [tool.setuptools.packages.find]
 where = ["."]

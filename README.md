@@ -239,8 +239,8 @@ Configurable via **Edit > Preferences > Cache**:
 
 ```bash
 # Clone and install
-git clone https://github.com/comxd/tunecover.git
-cd tunecover
+git clone https://github.com/comxd/tune-cover.git
+cd tune-cover
 uv venv && source .venv/bin/activate
 uv pip install -e ".[dev]"
 pre-commit install
@@ -286,7 +286,7 @@ Note: `.po` files keep their own `Project-Id-Version` to track when translations
 
 ### Pre-built Releases
 
-Download ready-to-use packages from [GitHub Releases](https://github.com/comxd/tunecover/releases):
+Download ready-to-use packages from [GitHub Releases](https://github.com/comxd/tune-cover/releases):
 
 | Platform | Format | Notes |
 |----------|--------|-------|
