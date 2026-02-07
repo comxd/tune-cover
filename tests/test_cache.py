@@ -1166,11 +1166,15 @@ class TestImageCacheLRUEviction:
         cache = ImageCache(cache_dir=tmp_path, max_size_bytes=500)
 
         # Add 2 items
+        # Sleeps ensure distinct time.time() values on Windows (~15.6ms resolution)
         cache.set("url1", b"x" * 200)
+        time.sleep(0.05)
         cache.set("url2", b"y" * 200)
+        time.sleep(0.05)
 
         # Access url1 to make it recently used
         cache.get("url1")
+        time.sleep(0.05)
 
         # Add item that exceeds limit - should evict url2 (oldest accessed)
         cache.set("url3", b"z" * 200)
